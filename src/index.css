@@ -292,6 +292,31 @@ h6 {
   transform: translateY(-1px);
 }
 
+.drawer-ovr-btn {
+  background: linear-gradient(135deg, rgba(198, 40, 40, 0.15), rgba(198, 40, 40, 0.05)) !important;
+  border: 1px solid rgba(198, 40, 40, 0.25);
+}
+
+.drawer-ovr-btn:hover {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark)) !important;
+  color: white !important;
+  box-shadow: 0 10px 25px rgba(198, 40, 40, 0.4);
+}
+
+.ovr-external-badge {
+  position: absolute;
+  right: 1.25rem;
+  font-size: 0.85rem;
+  opacity: 0.5;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.drawer-ovr-btn:hover .ovr-external-badge {
+  opacity: 1;
+  transform: translate(2px, -2px);
+}
+
 /* ============================================
    HERO SECTION
    ============================================ */

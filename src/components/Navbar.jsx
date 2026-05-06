@@ -58,17 +58,29 @@ const NavbarComponent = () => {
           </div>
         </Navbar.Brand>
 
-        <button 
-          onClick={handleShow}
-          className="drawer-toggle-btn"
-          aria-label="Toggle navigation"
-        >
-          <div className="hamburger-inner">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </button>
+        <div className="d-flex align-items-center gap-3">
+          <a
+            href="https://capaslgu.com/login"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="admin-nav-btn d-none d-lg-flex align-items-center gap-2 text-decoration-none"
+          >
+            <FaShieldAlt size={14} />
+            <span>OVR Tracking</span>
+          </a>
+
+          <button 
+            onClick={handleShow}
+            className="drawer-toggle-btn"
+            aria-label="Toggle navigation"
+          >
+            <div className="hamburger-inner">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </button>
+        </div>
 
         {/* Global Modern Drawer */}
         <Offcanvas
@@ -110,6 +122,22 @@ const NavbarComponent = () => {
                   {location.pathname === link.path && <div className="active-dot"></div>}
                 </Link>
               ))}
+
+              <div className="px-4 py-3">
+                <span className="drawer-label">System</span>
+              </div>
+              <a
+                href="https://capaslgu.com/login"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="drawer-nav-item drawer-ovr-btn"
+                onClick={handleClose}
+                style={{ transitionDelay: `${links.length * 50}ms` }}
+              >
+                <span className="nav-icon"><FaShieldAlt /></span>
+                <span className="nav-text">OVR Tracking</span>
+                <div className="ovr-external-badge">↗</div>
+              </a>
             </div>
 
             <div className="drawer-footer">

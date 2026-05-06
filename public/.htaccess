@@ -1,0 +1,14 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  
+  # Don't rewrite files or directories that exist
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  
+  # Don't rewrite requests to /ovr (separate app)
+  RewriteCond %{REQUEST_URI} !^/ovr
+  
+  # Rewrite everything else to index.html for SPA routing
+  RewriteRule ^ index.html [QSA,L]
+</IfModule>
