@@ -1,0 +1,49 @@
+import React from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import NavbarComponent from './components/Navbar'
+import Footer from './components/Footer'
+
+// Public Pages
+import Home from './pages/Home'
+import UnderDevelopment from './pages/UnderDevelopment'
+
+// Admin Pages
+import Login from './pages/admin/Login'
+import Dashboard from './pages/admin/Dashboard'
+import ManageNews from './pages/admin/ManageNews'
+
+function App() {
+  return (
+    <Router>
+      <div className="d-flex flex-column min-vh-100">
+        <Routes>
+          {/* Home Route - fully built */}
+          <Route path="/" element={
+            <>
+              <NavbarComponent />
+              <main className="flex-grow-1">
+                <Home />
+              </main>
+              <Footer />
+            </>
+          } />
+
+          {/* Under Development Routes - full screen with background */}
+          <Route path="/about" element={<><NavbarComponent /><UnderDevelopment /></>} />
+          <Route path="/government" element={<><NavbarComponent /><UnderDevelopment /></>} />
+          <Route path="/services" element={<><NavbarComponent /><UnderDevelopment /></>} />
+          <Route path="/news" element={<><NavbarComponent /><UnderDevelopment /></>} />
+          <Route path="/contact" element={<><NavbarComponent /><UnderDevelopment /></>} />
+
+          {/* Admin Routes */}
+          <Route path="/admin/login" element={<Login />} />
+          <Route path="/admin/dashboard" element={<Dashboard />} />
+          <Route path="/admin/news" element={<ManageNews />} />
+        </Routes>
+      </div>
+    </Router>
+  )
+}
+
+export default App
+
