@@ -112,7 +112,7 @@ const Home = () => {
                 src={img} 
                 alt={`Capas Showcase ${idx + 1}`}
                 className="w-100"
-                style={{ height: '600px', objectFit: 'cover' }}
+                style={{ height: '600px', objectFit: 'contain', backgroundColor: 'var(--blue-logo-dark)' }}
               />
             </Carousel.Item>
           ))}
@@ -289,7 +289,7 @@ const Home = () => {
                   className="d-block w-100 h-100"
                   src={item.src}
                   alt={item.title}
-                  style={{ objectFit: 'cover' }}
+                  style={{ objectFit: 'contain', backgroundColor: 'var(--blue-logo-dark)' }}
                 />
                 <div className="carousel-caption-custom">
                   <Container>

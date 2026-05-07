@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Navbar, Nav, Container, Offcanvas } from 'react-bootstrap'
 import { Link, useLocation } from 'react-router-dom'
-import { FaShieldAlt, FaTimes, FaHome, FaInfoCircle, FaGavel, FaCogs, FaNewspaper, FaEnvelope, FaFacebook, FaTwitter, FaGlobe } from 'react-icons/fa'
+import { FaTimes, FaHome, FaInfoCircle, FaGavel, FaCogs, FaNewspaper, FaEnvelope, FaFacebook, FaTwitter, FaGlobe } from 'react-icons/fa'
 
 import logo from '../assets/images/capas.logo.jpg'
 
@@ -59,15 +59,6 @@ const NavbarComponent = () => {
         </Navbar.Brand>
 
         <div className="d-flex align-items-center gap-3">
-          <a
-            href="https://capaslgu.com/login"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="admin-nav-btn d-none d-lg-flex align-items-center gap-2 text-decoration-none"
-          >
-            <FaShieldAlt size={14} />
-            <span>OVR Tracking</span>
-          </a>
 
           <button 
             onClick={handleShow}
@@ -123,21 +114,6 @@ const NavbarComponent = () => {
                 </Link>
               ))}
 
-              <div className="px-4 py-3">
-                <span className="drawer-label">System</span>
-              </div>
-              <a
-                href="https://capaslgu.com/login"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="drawer-nav-item drawer-ovr-btn"
-                onClick={handleClose}
-                style={{ transitionDelay: `${links.length * 50}ms` }}
-              >
-                <span className="nav-icon"><FaShieldAlt /></span>
-                <span className="nav-text">OVR Tracking</span>
-                <div className="ovr-external-badge">↗</div>
-              </a>
             </div>
 
             <div className="drawer-footer">
