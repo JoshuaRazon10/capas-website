@@ -5,7 +5,7 @@ import logo from '../assets/images/capas.logo.jpg'
 
 const Footer = () => {
   return (
-    <footer className="footer-baguio-style" style={{ backgroundColor: '#C62828', color: 'white', padding: '60px 0 20px 0' }}>
+    <footer className="footer-baguio-style" style={{ backgroundColor: 'var(--primary)', color: 'white', padding: '60px 0 20px 0' }}>
       <Container>
         <Row className="gy-4">
           {/* Column 1: Philippine Seal */}

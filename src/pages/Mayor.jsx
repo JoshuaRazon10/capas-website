@@ -1,14 +1,14 @@
 import React from 'react'
 import { Container, Row, Col, Card } from 'react-bootstrap'
 import { FaFacebook, FaTwitter, FaInstagram, FaQuoteLeft } from 'react-icons/fa'
-import bootsImg from '../assets/images/mayors/boots.png'
+import bootsImg from '../assets/images/mayors/boots.webp'
 
 const Mayor = () => {
   return (
     <div className="mayor-profile-page">
       {/* Hero Section */}
       <section className="mayor-hero bg-dark text-white py-5 position-relative overflow-hidden" style={{
-        backgroundImage: 'linear-gradient(135deg, rgba(13,13,13,0.9), rgba(198,40,40,0.8))',
+        backgroundImage: 'linear-gradient(135deg, rgba(13,13,13,0.9), rgba(20,24,61,0.8))',
         minHeight: '400px',
         display: 'flex',
         alignItems: 'center'
@@ -27,11 +27,11 @@ const Mayor = () => {
               </div>
             </Col>
             <Col lg={8} className="text-center text-lg-start">
-              <span className="badge bg-primary px-3 py-2 mb-3 text-uppercase tracking-wider">The Municipal Mayor</span>
+              <span className="badge px-3 py-2 mb-3 text-uppercase tracking-wider" style={{ background: 'var(--blue-logo)', color: 'white' }}>The Municipal Mayor</span>
               <h1 className="display-3 fw-bold mb-2">Hon. Roseller "Boots" Rodriguez</h1>
               <p className="lead mb-4 opacity-75">Providing leadership with heart and action for the citizens of Capas.</p>
               <div className="d-flex justify-content-center justify-content-lg-start gap-3">
-                <a href="https://www.facebook.com/BootsRodriguezOfficial" target="_blank" rel="noopener noreferrer" className="btn btn-outline-light rounded-circle p-2 d-flex align-items-center justify-content-center" style={{ width: '45px', height: '45px' }}>
+                <a href="https://www.facebook.com/BootsRodriguez518" target="_blank" rel="noopener noreferrer" className="btn btn-outline-light rounded-circle p-2 d-flex align-items-center justify-content-center" style={{ width: '45px', height: '45px' }}>
                   <FaFacebook size={20} />
                 </a>
                 {/* Add more social links if available */}
@@ -41,31 +41,7 @@ const Mayor = () => {
         </Container>
       </section>
 
-      {/* Mayor's Message */}
-      <section className="py-5 bg-white">
-        <Container className="py-5">
-          <Row className="justify-content-center">
-            <Col lg={10}>
-              <div className="message-card p-5 rounded-4 shadow-sm border-start border-primary border-5" style={{ background: 'var(--gray-100)' }}>
-                <FaQuoteLeft size={40} className="text-primary mb-4 opacity-50" />
-                <h2 className="fw-bold mb-4">A Message to the People of Capas</h2>
-                <div className="message-content text-muted lead" style={{ lineHeight: '1.8' }}>
-                  <p className="mb-4">
-                    "My commitment to the people of Capas is rooted in the belief that true progress is achieved when every citizen is empowered and every community is heard. Our administration is dedicated to transparency, efficiency, and compassionate service."
-                  </p>
-                  <p className="mb-4">
-                    "We are building a Capas that is resilient, inclusive, and progressive—a place where the youth have opportunities, the elderly are cared for, and businesses can thrive. Let us continue to work together for the brighter future of our beloved municipality."
-                  </p>
-                </div>
-                <div className="mt-5 pt-3 border-top">
-                  <h5 className="fw-bold text-dark mb-0">Hon. Roseller "Boots" B. Rodriguez</h5>
-                  <p className="text-primary small fw-bold text-uppercase">Municipal Mayor</p>
-                </div>
-              </div>
-            </Col>
-          </Row>
-        </Container>
-      </section>
+
 
       {/* Profile Details */}
       <section className="py-5 bg-light">

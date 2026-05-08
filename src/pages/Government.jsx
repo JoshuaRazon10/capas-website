@@ -2,10 +2,12 @@ import React from 'react'
 import { Container, Row, Col, Card } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { FaUser, FaPhone, FaEnvelope } from 'react-icons/fa'
+import bootsImg from '../assets/images/mayors/boots.webp'
+import vmAlexImg from '../assets/images/vm.alex.jpg'
 
 const officials = [
-  { name: 'Hon. Mayor', position: 'Municipal Mayor', office: 'Office of the Mayor' },
-  { name: 'Hon. Vice Mayor', position: 'Municipal Vice Mayor', office: 'Office of the Vice Mayor' },
+  { name: 'Hon. Roseller "Boots" Rodriguez', position: 'Municipal Mayor', office: 'Office of the Mayor', image: bootsImg },
+  { name: 'Hon. Alex C. Espinosa', position: 'Municipal Vice Mayor', office: 'Office of the Vice Mayor', image: vmAlexImg },
 ]
 
 const departments = [
@@ -61,10 +63,15 @@ const Government = () => {
                   }}>
                     <div style={{
                       width: '100px', height: '100px', borderRadius: '50%',
-                      background: 'rgba(255,255,255,0.15)', border: '3px solid rgba(255,255,255,0.3)',
+                      background: 'white', border: '3px solid rgba(255,255,255,0.3)',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      overflow: 'hidden'
                     }}>
-                      <FaUser size={40} style={{ color: 'white', opacity: 0.8 }} />
+                      {official.image ? (
+                        <img src={official.image} alt={official.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      ) : (
+                        <FaUser size={40} style={{ color: 'var(--primary)', opacity: 0.8 }} />
+                      )}
                     </div>
                   </div>
                   <Card.Body className="p-4">

@@ -14,10 +14,17 @@ import BidsAwards from './pages/BidsAwards'
 import BarangayOfficials from './pages/BarangayOfficials'
 import Map from './pages/Map'
 import Mayor from './pages/Mayor'
+import ViceMayor from './pages/ViceMayor'
 import News from './pages/News'
 import Government from './pages/Government'
 import Services from './pages/Services'
 import UnderDevelopment from './pages/UnderDevelopment'
+import Assessors from './pages/Assessors'
+import BusinessPermit from './pages/BusinessPermit'
+import Engineering from './pages/Engineering'
+import Agrarian from './pages/Agrarian'
+import Cooperative from './pages/Cooperative'
+import Veterinary from './pages/Veterinary'
 
 // Admin Pages
 import Login from './pages/admin/Login'
@@ -46,9 +53,18 @@ function App() {
           <Route path="/history" element={<><NavbarComponent /><main className="flex-grow-1"><History /></main><Footer /></>} />
           <Route path="/mayors" element={<><NavbarComponent /><main className="flex-grow-1"><Mayors /></main><Footer /></>} />
           <Route path="/mayor" element={<><NavbarComponent /><main className="flex-grow-1"><Mayor /></main><Footer /></>} />
+          <Route path="/vice-mayor" element={<><NavbarComponent /><main className="flex-grow-1"><ViceMayor /></main><Footer /></>} />
           <Route path="/geography" element={<><NavbarComponent /><main className="flex-grow-1"><Geography /></main><Footer /></>} />
           <Route path="/government" element={<><NavbarComponent /><main className="flex-grow-1"><Government /></main><Footer /></>} />
-          <Route path="/services" element={<><NavbarComponent /><UnderDevelopment /></>} />
+          <Route path="/services" element={<><NavbarComponent /><main className="flex-grow-1"><Services /></main><Footer /></>} />
+          <Route path="/assessors" element={<><NavbarComponent /><main className="flex-grow-1"><Assessors /></main><Footer /></>} />
+          <Route path="/business-permit" element={<><NavbarComponent /><main className="flex-grow-1"><BusinessPermit /></main><Footer /></>} />
+          <Route path="/licensing" element={<><NavbarComponent /><main className="flex-grow-1"><BusinessPermit /></main><Footer /></>} />
+          <Route path="/agrarian" element={<><NavbarComponent /><main className="flex-grow-1"><Agrarian /></main><Footer /></>} />
+          <Route path="/engineering" element={<><NavbarComponent /><main className="flex-grow-1"><Engineering /></main><Footer /></>} />
+          <Route path="/zoning-engineering" element={<><NavbarComponent /><main className="flex-grow-1"><Engineering /></main><Footer /></>} />
+          <Route path="/cooperative" element={<><NavbarComponent /><main className="flex-grow-1"><Cooperative /></main><Footer /></>} />
+          <Route path="/veterinary" element={<><NavbarComponent /><main className="flex-grow-1"><Veterinary /></main><Footer /></>} />
           <Route path="/news" element={<><NavbarComponent /><main className="flex-grow-1"><News /></main><Footer /></>} />
           <Route path="/contact" element={<><NavbarComponent /><UnderDevelopment /></>} />
           <Route path="/bids-awards" element={<><NavbarComponent /><main className="flex-grow-1"><BidsAwards /></main><Footer /></>} />
