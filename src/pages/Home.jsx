@@ -129,9 +129,7 @@ const Home = () => {
               The Tourism Capital of Tarlac — rich in history, culture, and committed to excellence in public service.
             </p>
             <div className="d-flex gap-3 justify-content-center flex-wrap">
-              <Button as={Link} to="/services" className="hero-btn hero-btn-primary">
-                Explore Services <FaArrowRight className="ms-2" size={14} />
-              </Button>
+
               <Button as="a" href="https://www.facebook.com/CapasInformationOfficeOfficial" target="_blank" rel="noopener noreferrer" className="hero-btn hero-btn-outline">
                 Latest News
               </Button>
