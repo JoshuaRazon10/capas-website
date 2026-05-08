@@ -1,0 +1,17 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  
+  # Redirect everything to the dist folder
+  RewriteRule ^$ dist/index.html [L]
+  
+  # Check if the requested file exists in dist
+  RewriteCond %{DOCUMENT_ROOT}/dist%{REQUEST_URI} -f
+  RewriteRule ^(.*)$ dist/$1 [L]
+  
+  # Handle SPA routing by sending non-file requests to dist/index.html
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} !^/dist/
+  RewriteCond %{REQUEST_URI} !^/ovr
+  RewriteRule ^(.*)$ dist/index.html [L]
+</IfModule>
