@@ -1,5 +1,6 @@
 import React from 'react'
 import { Container } from 'react-bootstrap'
+import backgroundImage from '../assets/images/capas.background.png'
 
 const History = () => {
   return (
@@ -7,6 +8,14 @@ const History = () => {
       {/* Header Section */}
       <Container className="text-center mb-5">
         <h1 className="fw-bold text-dark mb-4" style={{ fontSize: '3rem', letterSpacing: '2px' }}>HISTORY OF CAPAS</h1>
+        
+        <div className="mb-5 shadow-lg rounded overflow-hidden mx-auto" style={{ maxWidth: '1000px' }}>
+          <img 
+            src={backgroundImage} 
+            alt="Municipality of Capas" 
+            style={{ width: '100%', height: 'auto', display: 'block' }} 
+          />
+        </div>
       </Container>
 
       {/* Content Section */}

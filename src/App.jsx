@@ -10,6 +10,7 @@ import OfficialSeal from './pages/OfficialSeal'
 import History from './pages/History'
 import Mayors from './pages/Mayors'
 import Geography from './pages/Geography'
+import BidsAwards from './pages/BidsAwards'
 import UnderDevelopment from './pages/UnderDevelopment'
 
 // Admin Pages
@@ -43,6 +44,7 @@ function App() {
           <Route path="/services" element={<><NavbarComponent /><UnderDevelopment /></>} />
           <Route path="/news" element={<><NavbarComponent /><UnderDevelopment /></>} />
           <Route path="/contact" element={<><NavbarComponent /><UnderDevelopment /></>} />
+          <Route path="/bids-awards" element={<><NavbarComponent /><main className="flex-grow-1"><BidsAwards /></main><Footer /></>} />
           <Route path="/socio-economic" element={<><NavbarComponent /><main className="flex-grow-1"><Profile /></main><Footer /></>} />
 
           {/* Admin Routes */}
