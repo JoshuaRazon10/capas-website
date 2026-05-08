@@ -22,35 +22,8 @@ const NavbarComponent = () => {
   ]
 
   return (
-    <div className="appbar-wrapper sticky-top">
-      {/* 1. Brand Header Section - NOW AT TOP */}
-      <div className="brand-header-section">
-        <Container>
-          <div className="brand-main">
-            <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <img src={logo} alt="Capas Logo" className="brand-logo-img" />
-              <div className="brand-text-content">
-                <h1>CAPAS CITY</h1>
-                <p>www.capas.gov.ph</p>
-              </div>
-            </Link>
-          </div>
-
-          <div className="seals-container d-none d-md-flex">
-            <div className="seal-item">
-              <img src="https://www.foi.gov.ph/assets/images/foi-logo.png" alt="FOI" className="seal-img" />
-            </div>
-            <div className="seal-item">
-              <img src="https://gov.ph/images/transparency-seal.png" alt="Transparency Seal" className="seal-img" />
-            </div>
-            <div className="seal-item">
-              <img src="https://privacy.gov.ph/wp-content/uploads/2018/12/DPO-Seal-of-Registration.png" alt="DPO Seal" className="seal-img" />
-            </div>
-          </div>
-        </Container>
-      </div>
-
-      {/* 2. Navigation Menu with Mobile Drawer */}
+    <div className="appbar-wrapper">
+      {/* 1. Navigation Menu with Mobile Drawer - NOW AT TOP */}
       <Navbar expand="lg" className="middle-nav-menu p-0">
         <Container>
           <Navbar.Toggle aria-controls="offcanvasNavbar-expand-lg" className="ms-auto border-0 shadow-none">
@@ -85,6 +58,33 @@ const NavbarComponent = () => {
           </Navbar.Offcanvas>
         </Container>
       </Navbar>
+
+      {/* 2. Brand Header Section - NOW BELOW NAV */}
+      <div className="brand-header-section">
+        <Container>
+          <div className="brand-main">
+            <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <img src={logo} alt="Capas Logo" className="brand-logo-img" />
+              <div className="brand-text-content">
+                <h1>CAPAS CITY</h1>
+                <p>www.capas.gov.ph</p>
+              </div>
+            </Link>
+          </div>
+
+          <div className="seals-container d-none d-md-flex">
+            <div className="seal-item">
+              <img src="https://www.foi.gov.ph/assets/images/foi-logo.png" alt="FOI" className="seal-img" />
+            </div>
+            <div className="seal-item">
+              <img src="https://gov.ph/images/transparency-seal.png" alt="Transparency Seal" className="seal-img" />
+            </div>
+            <div className="seal-item">
+              <img src="https://privacy.gov.ph/wp-content/uploads/2018/12/DPO-Seal-of-Registration.png" alt="DPO Seal" className="seal-img" />
+            </div>
+          </div>
+        </Container>
+      </div>
     </div>
   )
 }
