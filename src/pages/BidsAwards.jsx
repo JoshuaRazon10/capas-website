@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
-import { Container, Table, Badge, Form, InputGroup, Row, Col, Card } from 'react-bootstrap'
-import { FaSearch, FaFilePdf, FaTrophy, FaExternalLinkAlt } from 'react-icons/fa'
+import { Container, Table, Badge, Form, InputGroup, Row, Col, Card, Pagination } from 'react-bootstrap'
+import { FaSearch, FaFilePdf, FaTrophy, FaExternalLinkAlt, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import capasAward from '../assets/images/capas.award.jpg'
 
 const BidsAwards = () => {
   const [searchTerm, setSearchTerm] = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 20
 
   const bidsData = [
     { id: 1, title: 'Contract Agreement – Procurement of Reconditioned Tractor Head (10-Wheeler)', type: 'Contract', file: '/bidding-award/Contract-Agreement-Procurement-of-Reconditioned-tractor-Head-10-Wheeler.pdf' },
@@ -59,9 +61,21 @@ const BidsAwards = () => {
     { id: 50, title: 'Contract Agreement – Procurement of Drugs and Medicines for MDRRMO', type: 'Contract', file: '/bidding-award/Contract-Agreement-–-Procurement-of-Drugs-and-Medicines-for-MDRRMO.pdf' },
   ]
 
+  // Filtering
   const filteredBids = bidsData.filter(bid => 
     bid.title.toLowerCase().includes(searchTerm.toLowerCase())
   )
+
+  // Pagination Logic
+  const indexOfLastItem = currentPage * itemsPerPage
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  const currentItems = filteredBids.slice(indexOfFirstItem, indexOfLastItem)
+  const totalPages = Math.ceil(filteredBids.length / itemsPerPage)
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber)
+    window.scrollTo({ top: 400, behavior: 'smooth' })
+  }
 
   return (
     <div className="bids-awards-page py-5 bg-light min-vh-100">
@@ -112,7 +126,9 @@ const BidsAwards = () => {
           <div className="d-md-flex justify-content-between align-items-center mb-4 border-bottom pb-4">
             <div>
               <h3 className="fw-bold text-dark mb-1">Bidding Opportunities & Notices</h3>
-              <p className="text-muted small mb-0">Official PDF documents for public review.</p>
+              <p className="text-muted small mb-0">
+                Showing {indexOfFirstItem + 1}-{Math.min(indexOfLastItem, filteredBids.length)} of {filteredBids.length} records
+              </p>
             </div>
             <div style={{ width: '300px' }} className="mt-3 mt-md-0">
               <InputGroup>
@@ -123,14 +139,17 @@ const BidsAwards = () => {
                   className="bg-light border-start-0 shadow-none"
                   placeholder="Search project titles..."
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={(e) => {
+                    setSearchTerm(e.target.value)
+                    setCurrentPage(1) // Reset to first page on search
+                  }}
                 />
               </InputGroup>
             </div>
           </div>
 
           <div className="table-responsive">
-            <Table hover className="align-middle border-0">
+            <Table hover className="align-middle border-0 mb-4">
               <thead className="bg-light">
                 <tr>
                   <th className="py-3 border-0 text-muted" style={{ width: '60px' }}>#</th>
@@ -139,7 +158,7 @@ const BidsAwards = () => {
                 </tr>
               </thead>
               <tbody className="border-0">
-                {filteredBids.map((bid) => (
+                {currentItems.map((bid) => (
                   <tr key={bid.id} className="border-bottom">
                     <td className="text-muted fw-bold">{bid.id}</td>
                     <td className="py-3">
@@ -171,6 +190,36 @@ const BidsAwards = () => {
             </Table>
           </div>
 
+          {filteredBids.length > itemsPerPage && (
+            <div className="d-flex justify-content-center mt-4">
+              <Pagination className="custom-pagination">
+                <Pagination.Prev 
+                  onClick={() => paginate(currentPage - 1)} 
+                  disabled={currentPage === 1}
+                >
+                  <FaChevronLeft className="me-1" /> Previous
+                </Pagination.Prev>
+                
+                {[...Array(totalPages)].map((_, index) => (
+                  <Pagination.Item 
+                    key={index + 1} 
+                    active={index + 1 === currentPage}
+                    onClick={() => paginate(index + 1)}
+                  >
+                    {index + 1}
+                  </Pagination.Item>
+                ))}
+
+                <Pagination.Next 
+                  onClick={() => paginate(currentPage + 1)} 
+                  disabled={currentPage === totalPages}
+                >
+                  Next <FaChevronRight className="ms-1" />
+                </Pagination.Next>
+              </Pagination>
+            </div>
+          )}
+
           {filteredBids.length === 0 && (
             <div className="text-center py-5">
               <FaSearch className="text-muted mb-3" size={48} />
@@ -179,6 +228,25 @@ const BidsAwards = () => {
           )}
         </section>
       </Container>
+      
+      <style>{`
+        .custom-pagination .page-link {
+          color: #dc3545;
+          border-radius: 50px;
+          margin: 0 4px;
+          padding: 8px 16px;
+          font-weight: 600;
+          border: 1px solid #dee2e6;
+        }
+        .custom-pagination .page-item.active .page-link {
+          background-color: #dc3545;
+          border-color: #dc3545;
+          color: white;
+        }
+        .custom-pagination .page-item.disabled .page-link {
+          color: #6c757d;
+        }
+      `}</style>
     </div>
   )
 }
