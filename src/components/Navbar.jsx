@@ -37,7 +37,7 @@ const NavbarComponent = () => {
           >
             <Offcanvas.Header closeButton>
               <Offcanvas.Title id="offcanvasNavbarLabel-expand-lg">
-                CAPAS CITY
+                MUNICIPALITY OF CAPAS
               </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
@@ -66,8 +66,8 @@ const NavbarComponent = () => {
             <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '1rem' }}>
               <img src={logo} alt="Capas Logo" className="brand-logo-img" />
               <div className="brand-text-content">
-                <h1>CAPAS CITY</h1>
-                <p>www.capas.gov.ph</p>
+                <h1>MUNICIPALITY OF CAPAS</h1>
+                <p>PROVINCE OF TARLAC</p>
               </div>
             </Link>
           </div>

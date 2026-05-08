@@ -646,29 +646,6 @@ const Home = () => {
         </Container>
       </section>
 
-      {/* ======== CTA SECTION ======== */}
-      <section style={{
-        background: 'linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%)',
-        padding: '5rem 0',
-        position: 'relative',
-        overflow: 'hidden',
-      }}>
-        <div style={{ position: 'absolute', top: '-50%', right: '-10%', width: '400px', height: '400px', borderRadius: '50%', background: 'rgba(255,255,255,0.04)' }}></div>
-        <Container className="text-center text-white" style={{ position: 'relative', zIndex: 2 }}>
-          <h2 className="fw-bold mb-3" style={{ fontSize: '2.2rem', color: 'white' }}>Need Assistance?</h2>
-          <p className="mb-4" style={{ opacity: 0.85, fontSize: '1.1rem', maxWidth: '500px', margin: '0 auto 2rem' }}>
-            Our municipal hall is ready to serve you. Reach out to us for any inquiries or concerns.
-          </p>
-          <div className="d-flex gap-3 justify-content-center flex-wrap">
-            <Button as={Link} to="/contact" className="hero-btn hero-btn-primary">
-              <FaPhone className="me-2" size={14} /> Contact Us
-            </Button>
-            <Button as={Link} to="/services" className="hero-btn hero-btn-outline">
-              <FaHandsHelping className="me-2" size={14} /> View Services
-            </Button>
-          </div>
-        </Container>
-      </section>
     </div>
   )
 }

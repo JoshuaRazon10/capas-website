@@ -6,93 +6,52 @@ import logo from '../assets/images/capas.logo.jpg'
 
 const Footer = () => {
   return (
-    <footer className="footer">
-      <Container>
-        <Row className="gy-4">
-          {/* Brand */}
-          <Col lg={4} md={6}>
-            <div className="d-flex align-items-center gap-3 mb-3">
+    <footer className="footer" style={{ paddingTop: 0 }}>
+      {/* Standard Philippine Government Footer */}
+      <div className="standard-gov-footer">
+        <Container>
+          <Row className="gy-4 align-items-start">
+            <Col lg={4} md={12} className="d-flex align-items-start gap-3">
               <img 
-                src={logo} 
-                alt="Capas Logo" 
-                style={{ 
-                  width: '50px', 
-                  height: '50px', 
-                  borderRadius: '50%',
-                  border: '2px solid rgba(255,255,255,0.2)'
-                }} 
+                src="https://www.gov.ph/images/govph-seal-mono-light.png" 
+                alt="GovPH Seal" 
+                className="gov-footer-seal"
               />
-              <div>
-                <div style={{ fontWeight: 800, color: 'white', fontSize: '1.05rem', lineHeight: '1.2' }}>Municipality of Capas</div>
-                <div style={{ fontSize: '0.75rem', opacity: 0.5 }}>Province of Tarlac</div>
+              <div className="gov-footer-text">
+                <h6>REPUBLIC OF THE PHILIPPINES</h6>
+                <p>All content is in the public domain unless otherwise stated.</p>
               </div>
-            </div>
-            <p style={{ fontSize: '0.9rem', lineHeight: '1.8', opacity: 0.6 }}>
-              Serving the people of Capas with integrity, transparency, and excellence.
-              Together, we build a better future for our community.
-            </p>
-            <div className="d-flex gap-2 mt-3">
-              {[FaFacebookF, FaTwitter, FaInstagram].map((Icon, i) => (
-                <a key={i} href="#" className="footer-social-icon"><Icon /></a>
-              ))}
-            </div>
-          </Col>
-
-          {/* Quick Links */}
-          <Col lg={2} md={6}>
-            <h5>Quick Links</h5>
-            <ul className="list-unstyled">
-              {[
-                { to: '/about', label: 'About Us' },
-                { to: '/government', label: 'Government' },
-                { to: '/news', label: 'Latest News' },
-                { to: '/services', label: 'Services' },
-                { to: '/contact', label: 'Contact' },
-              ].map((link, i) => (
-                <li key={i} className="mb-2">
-                  <Link to={link.to}><FaChevronRight size={10} className="me-2" />{link.label}</Link>
-                </li>
-              ))}
-            </ul>
-          </Col>
-
-          {/* Services */}
-          <Col lg={3} md={6}>
-            <h5>Services</h5>
-            <ul className="list-unstyled">
-              {['Business Permits', 'Civil Registry', 'Health Services', 'Social Welfare', 'Real Property Tax'].map((s, i) => (
-                <li key={i} className="mb-2">
-                  <a href="#"><FaChevronRight size={10} className="me-2" />{s}</a>
-                </li>
-              ))}
-            </ul>
-          </Col>
-
-          {/* Contact */}
-          <Col lg={3} md={6}>
-            <h5>Contact Info</h5>
-            <div className="d-flex align-items-start gap-3 mb-3">
-              <FaMapMarkerAlt style={{ color: '#EF5350', marginTop: '4px', flexShrink: 0 }} />
-              <span style={{ fontSize: '0.9rem' }}>Municipal Hall, McArthur Hwy,<br />Capas, Tarlac 2315</span>
-            </div>
-            <div className="d-flex align-items-center gap-3 mb-3">
-              <FaPhone style={{ color: '#EF5350', flexShrink: 0 }} />
-              <span style={{ fontSize: '0.9rem' }}>(045) 925-0154</span>
-            </div>
-            <div className="d-flex align-items-center gap-3 mb-3">
-              <FaEnvelope style={{ color: '#EF5350', flexShrink: 0 }} />
-              <span style={{ fontSize: '0.9rem' }}>info@capas.gov.ph</span>
-            </div>
-          </Col>
-        </Row>
-
-        {/* Bottom */}
-        <div className="footer-bottom text-center">
-          <p className="mb-0" style={{ fontSize: '0.85rem', opacity: 0.5 }}>
-            &copy; {new Date().getFullYear()} Municipality of Capas, Tarlac. All Rights Reserved.
-          </p>
-        </div>
-      </Container>
+            </Col>
+            
+            <Col lg={4} md={6}>
+              <div className="gov-footer-text">
+                <h6>ABOUT GOVPH</h6>
+                <p>Learn more about the Philippine government, its structure, how government works and the people behind it.</p>
+                <ul className="list-unstyled gov-links">
+                  <li><a href="https://www.gov.ph/">GOV.PH</a></li>
+                  <li><a href="https://data.gov.ph/">Open Data Portal</a></li>
+                  <li><a href="https://www.officialgazette.gov.ph/">Official Gazette</a></li>
+                </ul>
+              </div>
+            </Col>
+            
+            <Col lg={4} md={6}>
+              <div className="gov-footer-text">
+                <h6>GOVERNMENT LINKS</h6>
+                <ul className="list-unstyled gov-links">
+                  <li><a href="https://op-proper.gov.ph/">Office of the President</a></li>
+                  <li><a href="https://ovp.gov.ph/">Office of the Vice President</a></li>
+                  <li><a href="https://legacy.senate.gov.ph/">Senate of the Philippines</a></li>
+                  <li><a href="https://www.congress.gov.ph/">House of Representatives</a></li>
+                  <li><a href="https://sc.judiciary.gov.ph/">Supreme Court</a></li>
+                  <li><a href="https://ca.judiciary.gov.ph/">Court of Appeals</a></li>
+                  <li><a href="https://sb.judiciary.gov.ph/">Sandiganbayan</a></li>
+                </ul>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      </div>
     </footer>
   )
 }

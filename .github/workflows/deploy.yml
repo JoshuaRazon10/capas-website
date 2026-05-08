@@ -1,4 +1,4 @@
-name: Build and Deploy to Hostinger
+name: Build and Deploy to DICT
 
 on:
   push:
@@ -24,15 +24,11 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Deploy to Hostinger via SSH
-        uses: appleboy/scp-action@v0.1.7
+      - name: Deploy to DICT via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          host: 45.130.228.128
-          username: u283360644
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 65002
-          source: "dist/*"
-          target: "/home/u283360644/public_html"
-          strip_components: 1
-          overwrite: true
-          rm: false
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/
+          server-dir: ./public_html/
