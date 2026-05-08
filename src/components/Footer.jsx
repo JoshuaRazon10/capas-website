@@ -1,57 +1,96 @@
 import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
-import { FaFacebookF, FaTwitter, FaInstagram, FaEnvelope, FaPhone, FaMapMarkerAlt, FaChevronRight } from 'react-icons/fa'
+import { FaEnvelope, FaViber } from 'react-icons/fa'
 import logo from '../assets/images/capas.logo.jpg'
 
 const Footer = () => {
   return (
-    <footer className="footer" style={{ paddingTop: 0 }}>
-      {/* Standard Philippine Government Footer */}
-      <div className="standard-gov-footer">
-        <Container>
-          <Row className="gy-4 align-items-start">
-            <Col lg={4} md={12} className="d-flex align-items-start gap-3">
+    <footer className="footer-baguio-style" style={{ backgroundColor: '#C62828', color: 'white', padding: '60px 0 20px 0' }}>
+      <Container>
+        <Row className="gy-4">
+          {/* Column 1: Philippine Seal */}
+          <Col lg={3} md={6}>
+            <div className="d-flex align-items-start gap-3">
               <img 
                 src="https://www.gov.ph/images/govph-seal-mono-light.png" 
-                alt="GovPH Seal" 
-                className="gov-footer-seal"
+                alt="Republic of the Philippines Seal" 
+                style={{ width: '80px', height: 'auto' }}
               />
-              <div className="gov-footer-text">
-                <h6>REPUBLIC OF THE PHILIPPINES</h6>
-                <p>All content is in the public domain unless otherwise stated.</p>
+              <div style={{ fontSize: '0.85rem' }}>
+                <h6 className="fw-bold mb-2" style={{ fontSize: '0.9rem', letterSpacing: '1px' }}>REPUBLIC OF THE PHILIPPINES</h6>
+                <p className="mb-3 opacity-75">All content is in the public domain unless otherwise stated.</p>
+                <p className="mb-0 opacity-75">© 2026. All rights reserved.</p>
               </div>
-            </Col>
-            
-            <Col lg={4} md={6}>
-              <div className="gov-footer-text">
-                <h6>ABOUT GOVPH</h6>
-                <p>Learn more about the Philippine government, its structure, how government works and the people behind it.</p>
-                <ul className="list-unstyled gov-links">
-                  <li><a href="https://www.gov.ph/">GOV.PH</a></li>
-                  <li><a href="https://data.gov.ph/">Open Data Portal</a></li>
-                  <li><a href="https://www.officialgazette.gov.ph/">Official Gazette</a></li>
-                </ul>
+            </div>
+          </Col>
+
+          {/* Column 2: About GovPH */}
+          <Col lg={3} md={6}>
+            <h6 className="fw-bold mb-3" style={{ fontSize: '0.9rem', letterSpacing: '1px' }}>ABOUT GOVPH</h6>
+            <p className="mb-4 opacity-75" style={{ fontSize: '0.85rem' }}>
+              Learn more about the Philippine government, its structure, how government works and the people behind it.
+            </p>
+            <ul className="list-unstyled" style={{ fontSize: '0.85rem' }}>
+              <li className="mb-2"><a href="https://www.gov.ph/" className="text-white text-decoration-none opacity-75 hover-opacity-100">GOV.PH</a></li>
+              <li className="mb-2"><a href="https://data.gov.ph/" className="text-white text-decoration-none opacity-75 hover-opacity-100">Open Data Portal</a></li>
+              <li className="mb-0"><a href="https://www.officialgazette.gov.ph/" className="text-white text-decoration-none opacity-75 hover-opacity-100">Official Gazette</a></li>
+            </ul>
+          </Col>
+
+          {/* Column 3: Government Links */}
+          <Col lg={3} md={6}>
+            <h6 className="fw-bold mb-3" style={{ fontSize: '0.9rem', letterSpacing: '1px' }}>GOVERNMENT LINKS</h6>
+            <ul className="list-unstyled" style={{ fontSize: '0.85rem' }}>
+              <li className="mb-2"><a href="https://op-proper.gov.ph/" className="text-white text-decoration-none opacity-75 hover-opacity-100">Office of the President</a></li>
+              <li className="mb-2"><a href="https://ovp.gov.ph/" className="text-white text-decoration-none opacity-75 hover-opacity-100">Office of the Vice President</a></li>
+              <li className="mb-2"><a href="https://legacy.senate.gov.ph/" className="text-white text-decoration-none opacity-75 hover-opacity-100">Senate of the Philippines</a></li>
+              <li className="mb-2"><a href="https://www.congress.gov.ph/" className="text-white text-decoration-none opacity-75 hover-opacity-100">House of Representatives</a></li>
+              <li className="mb-2"><a href="https://sc.judiciary.gov.ph/" className="text-white text-decoration-none opacity-75 hover-opacity-100">Supreme Court</a></li>
+              <li className="mb-2"><a href="https://ca.judiciary.gov.ph/" className="text-white text-decoration-none opacity-75 hover-opacity-100">Court of Appeals</a></li>
+              <li className="mb-0"><a href="https://sb.judiciary.gov.ph/" className="text-white text-decoration-none opacity-75 hover-opacity-100">Sandiganbayan</a></li>
+            </ul>
+          </Col>
+
+          {/* Column 4: Contact Us & Capas Logo */}
+          <Col lg={3} md={6} className="d-flex flex-column align-items-lg-end">
+            <div className="text-lg-end mb-4">
+              <h6 className="fw-bold mb-3" style={{ fontSize: '0.9rem', letterSpacing: '1px' }}>CONTACT US</h6>
+              <div className="d-flex align-items-center justify-content-lg-end gap-2 mb-2 opacity-75" style={{ fontSize: '0.85rem' }}>
+                <FaEnvelope size={14} />
+                <span>Email: info@capas.gov.ph</span>
               </div>
-            </Col>
-            
-            <Col lg={4} md={6}>
-              <div className="gov-footer-text">
-                <h6>GOVERNMENT LINKS</h6>
-                <ul className="list-unstyled gov-links">
-                  <li><a href="https://op-proper.gov.ph/">Office of the President</a></li>
-                  <li><a href="https://ovp.gov.ph/">Office of the Vice President</a></li>
-                  <li><a href="https://legacy.senate.gov.ph/">Senate of the Philippines</a></li>
-                  <li><a href="https://www.congress.gov.ph/">House of Representatives</a></li>
-                  <li><a href="https://sc.judiciary.gov.ph/">Supreme Court</a></li>
-                  <li><a href="https://ca.judiciary.gov.ph/">Court of Appeals</a></li>
-                  <li><a href="https://sb.judiciary.gov.ph/">Sandiganbayan</a></li>
-                </ul>
+              <div className="d-flex align-items-center justify-content-lg-end gap-2 opacity-75" style={{ fontSize: '0.85rem' }}>
+                <FaViber size={14} />
+                <span>Viber: +63 925 015 4000</span>
               </div>
-            </Col>
-          </Row>
-        </Container>
-      </div>
+            </div>
+            <div className="mt-auto">
+              <img 
+                src={logo} 
+                alt="Municipality of Capas Logo" 
+                style={{ width: '100px', height: '100px', borderRadius: '50%', border: '2px solid rgba(255,255,255,0.2)', padding: '5px', background: 'white' }}
+              />
+            </div>
+          </Col>
+        </Row>
+
+        {/* Bottom Bar */}
+        <div className="mt-5 pt-4 border-top border-secondary text-center">
+          <p className="mb-0 opacity-50" style={{ fontSize: '0.75rem' }}>
+            Powered by: Municipal Information Technology Office - Management in Information and Technology Division
+          </p>
+        </div>
+      </Container>
+
+      <style>{`
+        .hover-opacity-100:hover {
+          opacity: 1 !important;
+          color: #EF5350 !important;
+        }
+        .footer-baguio-style {
+          background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+        }
+      `}</style>
     </footer>
   )
 }
