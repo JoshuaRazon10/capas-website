@@ -13,6 +13,7 @@ import Geography from './pages/Geography'
 import BidsAwards from './pages/BidsAwards'
 import BarangayOfficials from './pages/BarangayOfficials'
 import Map from './pages/Map'
+import Mayor from './pages/Mayor'
 import News from './pages/News'
 import Government from './pages/Government'
 import Services from './pages/Services'
@@ -44,6 +45,7 @@ function App() {
           <Route path="/seal" element={<><NavbarComponent /><main className="flex-grow-1"><OfficialSeal /></main><Footer /></>} />
           <Route path="/history" element={<><NavbarComponent /><main className="flex-grow-1"><History /></main><Footer /></>} />
           <Route path="/mayors" element={<><NavbarComponent /><main className="flex-grow-1"><Mayors /></main><Footer /></>} />
+          <Route path="/mayor" element={<><NavbarComponent /><main className="flex-grow-1"><Mayor /></main><Footer /></>} />
           <Route path="/geography" element={<><NavbarComponent /><main className="flex-grow-1"><Geography /></main><Footer /></>} />
           <Route path="/government" element={<><NavbarComponent /><main className="flex-grow-1"><Government /></main><Footer /></>} />
           <Route path="/services" element={<><NavbarComponent /><UnderDevelopment /></>} />
