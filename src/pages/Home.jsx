@@ -207,11 +207,7 @@ const Home = () => {
                   {[
                     { date: 'May 04, 2026', title: 'Calling all Batch 2026 Latin Honor Graduates!', link: 'https://www.facebook.com/photo/?fbid=948956067946377', img: news1Img },
                     { date: 'May 02, 2026', title: 'Extension of Search for College President — Lyceum of Capas (LUC)', link: 'https://www.facebook.com/CapasInformationOfficeOfficial', img: news2Img },
-                    { date: 'April 29, 2026', title: 'IN CELEBRATION OF THE 124TH LABOR DAY: PROVINCIAL JOB FAIR', link: 'https://www.facebook.com/CapasInformationOfficeOfficial', img: news3Img },
-                    { date: 'April 25, 2026', title: 'Advisory: Scheduled Power Interruption for Maintenance', link: 'https://www.facebook.com/CapasInformationOfficeOfficial', img: hotline1 },
-                    { date: 'April 20, 2026', title: 'Capas Tourism: New Guidelines for Mt. Pinatubo Trekkers', link: 'https://www.facebook.com/CapasInformationOfficeOfficial', img: pinatuboImg },
-                    { date: 'April 15, 2026', title: 'Livelihood Program: Free Skills Training for Capas Residents', link: 'https://www.facebook.com/CapasInformationOfficeOfficial', img: hotline2 },
-                    { date: 'April 10, 2026', title: 'Health Alert: Vaccination Drive in Brgy. Aranguren', link: 'https://www.facebook.com/CapasInformationOfficeOfficial', img: hotline3 }
+                    { date: 'April 29, 2026', title: 'IN CELEBRATION OF THE 124TH LABOR DAY: PROVINCIAL JOB FAIR', link: 'https://www.facebook.com/CapasInformationOfficeOfficial', img: news3Img }
                   ].map((ann, i) => (
                     <div key={i} className="announcement-item pb-3 mb-3 border-bottom d-flex gap-3 align-items-start">
                       <div className="announcement-img-thumb shadow-sm rounded-3 overflow-hidden flex-shrink-0" style={{ width: '90px', height: '90px', border: '1px solid var(--gray-300)' }}>
