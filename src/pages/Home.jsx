@@ -212,67 +212,69 @@ const Home = () => {
 
       {/* ======== ABOUT PREVIEW ======== */}
       <section className="py-5" style={{ background: 'white' }}>
-        <Container className="py-4">
-          <Row className="align-items-center g-5">
-            <Col lg={6} className="scroll-animate scroll-left">
+        <Container className="py-5">
+          <Row className="align-items-start g-5">
+            <Col lg={5} className="scroll-animate scroll-left">
               <div style={{
-                height: '450px',
+                height: '600px',
                 borderRadius: 'var(--radius)',
-                background: 'linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                position: 'relative', overflow: 'hidden',
+                overflow: 'hidden',
+                boxShadow: 'var(--shadow-lg)',
               }}>
-                <div style={{ position: 'absolute', top: '20%', left: '10%', width: '120px', height: '120px', borderRadius: '50%', background: 'rgba(255,255,255,0.08)' }}></div>
-                <div style={{ position: 'absolute', bottom: '15%', right: '15%', width: '80px', height: '80px', borderRadius: '50%', background: 'rgba(255,255,255,0.06)' }}></div>
-                <div className="text-center text-white" style={{ position: 'relative', zIndex: 2 }}>
-                  <img 
-                    src={capasLogo} 
-                    alt="Capas Municipal Logo" 
-                    style={{ 
-                      width: '160px', 
-                      height: '160px', 
-                      objectFit: 'contain',
-                      borderRadius: '50%',
-                      background: 'white',
-                      padding: '8px',
-                      border: '3px solid rgba(255,255,255,0.3)',
-                      marginBottom: '1rem',
-                      boxShadow: '0 8px 30px rgba(0,0,0,0.2)'
-                    }} 
-                  />
-                  <h3 className="fw-bold" style={{ color: 'white' }}>Since 1712</h3>
-                  <p style={{ opacity: 0.8 }}>Over 300 years of heritage</p>
-                </div>
+                <img 
+                  src={shrineImg} 
+                  alt="Capas National Shrine" 
+                  style={{ 
+                    width: '100%', 
+                    height: '100%', 
+                    objectFit: 'cover' 
+                  }} 
+                />
               </div>
             </Col>
-            <Col lg={6} className="scroll-animate scroll-right">
-              <span className="news-date-badge mb-3 d-inline-block">About Our Town</span>
-              <h2 className="fw-bold mb-4" style={{ fontSize: '2.3rem', lineHeight: '1.2' }}>
-                Capas — The Tourism<br />Capital of Tarlac
-              </h2>
-              <p className="text-muted mb-3" style={{ fontSize: '1.05rem', lineHeight: '1.8' }}>
-                From the historic Capas National Shrine to the breathtaking Mount Pinatubo, our municipality
-                offers a unique blend of historical significance and natural beauty.
-              </p>
-              <p className="text-muted mb-4" style={{ lineHeight: '1.8' }}>
-                We are committed to sustainable growth and providing excellent public service to all our constituents.
-                Our local government works tirelessly to create a prosperous and harmonious community.
-              </p>
-              <div className="d-flex gap-4 mb-4">
-                {[
-                  { num: '20+', label: 'Barangays' },
-                  { num: '150K+', label: 'Population' },
-                  { num: '300+', label: 'Years of History' },
-                ].map((stat, i) => (
-                  <div key={i}>
-                    <div className="fw-bold" style={{ fontSize: '1.5rem', color: 'var(--primary)' }}>{stat.num}</div>
-                    <div className="text-muted small">{stat.label}</div>
-                  </div>
-                ))}
+            <Col lg={7} className="scroll-animate scroll-right">
+              <div className="ps-lg-4">
+                <h6 className="text-uppercase fw-bold ls-2 small mb-2" style={{ color: 'var(--primary)', letterSpacing: '0.1em' }}>
+                  WELCOME TO CAPAS OFFICIAL PAGE
+                </h6>
+                <h2 className="fw-bold mb-4" style={{ fontSize: '2.5rem', color: 'var(--gray-900)' }}>
+                  About Capas
+                </h2>
+                
+                <div className="about-text-content" style={{ fontSize: '1.05rem', lineHeight: '1.8', color: 'var(--gray-700)' }}>
+                  <p className="mb-4">
+                    Capas is a first-class municipality in the province of Tarlac, Philippines. Known as the "Tourism Capital of Tarlac," 
+                    it is home to several historical and natural landmarks that draw visitors from all over the world.
+                  </p>
+                  <p className="mb-4">
+                    The municipality is most famous for the Capas National Shrine, a solemn monument dedicated to the Filipino and 
+                    American soldiers who suffered during the Bataan Death March in World War II. It also serves as the gateway 
+                    to the world-famous Mount Pinatubo, offering thrill-seekers a rugged 4x4 adventure and a scenic trek to the turquoise crater lake.
+                  </p>
+                  <p className="mb-4">
+                    Officially established in 1712, Capas has grown from a small settlement into a bustling center of commerce and innovation. 
+                    Today, it is part of the ambitious New Clark City development, a smart and sustainable metropolis designed to be the 
+                    future administrative and economic hub of the Philippines.
+                  </p>
+                </div>
+
+                <div className="d-flex gap-4 mt-5 mb-4">
+                  {[
+                    { num: '20+', label: 'Barangays' },
+                    { num: '150K+', label: 'Population' },
+                    { num: '300+', label: 'Years of History' },
+                  ].map((stat, i) => (
+                    <div key={i} className="text-center">
+                      <div className="fw-bold" style={{ fontSize: '1.5rem', color: 'var(--primary)' }}>{stat.num}</div>
+                      <div className="text-muted small fw-bold text-uppercase">{stat.label}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <Button as={Link} to="/about" className="btn-primary-red py-3 px-5 mt-2">
+                  Discover More <FaArrowRight className="ms-2" size={12} />
+                </Button>
               </div>
-              <Button as={Link} to="/about" className="btn-primary-red">
-                Discover More <FaArrowRight className="ms-2" size={12} />
-              </Button>
             </Col>
           </Row>
         </Container>
