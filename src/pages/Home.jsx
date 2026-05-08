@@ -205,11 +205,9 @@ const Home = () => {
                 </h3>
                 <div className="announcement-list">
                   {[
-                    { date: 'May 06, 2026', title: 'Calling all Batch 2026 Latin Honor Graduates!', link: 'https://www.facebook.com/photo/?fbid=948956067946377' },
-                    { date: 'May 23, 2026', title: 'Extension of Search for College President — Lyceum of Capas (LUC)', link: 'https://www.facebook.com/CapasInformationOfficeOfficial' },
-                    { date: 'May 15, 2026', title: 'Capas Job Fair 2026', link: 'https://www.facebook.com/CapasInformationOfficeOfficial' },
-                    { date: 'June 01, 2026', title: 'Upcoming Town Hall Meeting: Infrastructure & Future Growth', link: 'https://www.facebook.com/CapasInformationOfficeOfficial' },
-                    { date: 'June 10, 2026', title: 'Solid Waste Management Program: New Collection Schedule', link: 'https://www.facebook.com/CapasInformationOfficeOfficial' }
+                    { date: 'May 04, 2026', title: 'Calling all Batch 2026 Latin Honor Graduates!', link: 'https://www.facebook.com/photo/?fbid=948956067946377' },
+                    { date: 'May 02, 2026', title: 'Extension of Search for College President — Lyceum of Capas (LUC)', link: 'https://www.facebook.com/CapasInformationOfficeOfficial' },
+                    { date: 'April 29, 2026', title: 'IN CELEBRATION OF THE 124TH LABOR DAY: PROVINCIAL JOB FAIR', link: 'https://www.facebook.com/CapasInformationOfficeOfficial' }
                   ].map((ann, i) => (
                     <div key={i} className="announcement-item pb-3 mb-3 border-bottom">
                       <div className="small text-muted mb-1 fw-bold">{ann.date}</div>
