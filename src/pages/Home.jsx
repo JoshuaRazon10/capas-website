@@ -204,7 +204,7 @@ const Home = () => {
                     </div>
                     <h5 className="fw-bold mb-3" style={{ fontSize: '1.05rem', lineHeight: '1.4' }}>{item.title}</h5>
                     <p className="text-muted small mb-3">{item.desc || 'Stay informed with the latest developments and announcements from the municipality of Capas...'}</p>
-                    <a href="#" className="text-decoration-none fw-bold" style={{ color: 'var(--primary)', fontSize: '0.85rem' }}>
+                    <a href="https://www.facebook.com/photo/?fbid=948956067946377&set=a.170055352503123" target="_blank" rel="noopener noreferrer" className="text-decoration-none fw-bold" style={{ color: 'var(--primary)', fontSize: '0.85rem' }}>
                       Read More <FaArrowRight className="ms-1" size={10} />
                     </a>
                   </Card.Body>
@@ -406,8 +406,8 @@ const Home = () => {
                       <span><strong>Tourism Pillar:</strong> One of the most visited historical landmarks in Tarlac.</span>
                     </li>
                   </ul>
-                  <Button as={Link} to="/about" className="btn-primary-red py-3 px-5">
-                    Learn More About Our History
+                  <Button as="a" href="https://www.scribd.com/presentation/388411446/Capas-National-Shrine-Philippine-History" target="_blank" rel="noopener noreferrer" className="btn-primary-red py-3 px-5">
+                    Discover More
                   </Button>
                 </div>
               </div>

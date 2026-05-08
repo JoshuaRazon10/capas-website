@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { FaNewspaper, FaArrowRight, FaCalendar } from 'react-icons/fa'
 
 const sampleNews = [
-  { id: 1, title: 'Municipal Infrastructure Development Update for 2026', date: 'May 5, 2026', cat: 'Development', excerpt: 'Major road improvements and drainage systems are underway across multiple barangays as part of the annual infrastructure program.' },
+  { id: 1, title: 'Calling all Batch 2026 Latin Honor Graduates!', date: 'May 6, 2026', cat: 'Announcement', excerpt: 'Please submit your Full Name, High-Quality Photo, Course & School, and Latin Honor Received via Direct Message. Huge congrats to Batch 2026!', link: 'https://www.facebook.com/photo/?fbid=948956067946377&set=a.170055352503123' },
   { id: 2, title: 'COVID-19 Vaccination Booster Drive Extended', date: 'May 3, 2026', cat: 'Health', excerpt: 'The Municipal Health Office announces the extension of the free booster vaccination program for all residents.' },
   { id: 3, title: 'Clean & Green Campaign Launches This June', date: 'May 1, 2026', cat: 'Environment', excerpt: 'Join the municipality-wide tree planting and coastal cleanup initiative starting June 2026.' },
   { id: 4, title: 'Scholarship Applications Now Open for AY 2026–2027', date: 'Apr 28, 2026', cat: 'Education', excerpt: 'The Municipal Scholarship Program is accepting applications from qualified college students.' },
@@ -55,7 +55,7 @@ const News = () => {
                     <p className="text-muted small mb-3 flex-grow-1" style={{ lineHeight: '1.7' }}>
                       {item.excerpt}
                     </p>
-                    <a href="#" className="text-decoration-none fw-bold mt-auto" style={{ color: 'var(--blue-logo)', fontSize: '0.85rem' }}>
+                    <a href={item.link || '#'} target={item.link ? "_blank" : "_self"} rel="noopener noreferrer" className="text-decoration-none fw-bold mt-auto" style={{ color: 'var(--blue-logo)', fontSize: '0.85rem' }}>
                       Read Full Article <FaArrowRight className="ms-1" size={10} />
                     </a>
                   </Card.Body>

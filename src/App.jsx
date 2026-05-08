@@ -44,7 +44,7 @@ function App() {
           <Route path="/geography" element={<><NavbarComponent /><main className="flex-grow-1"><Geography /></main><Footer /></>} />
           <Route path="/government" element={<><NavbarComponent /><UnderDevelopment /></>} />
           <Route path="/services" element={<><NavbarComponent /><UnderDevelopment /></>} />
-          <Route path="/news" element={<><NavbarComponent /><UnderDevelopment /></>} />
+          <Route path="/news" element={<><NavbarComponent /><main className="flex-grow-1"><News /></main><Footer /></>} />
           <Route path="/contact" element={<><NavbarComponent /><UnderDevelopment /></>} />
           <Route path="/bids-awards" element={<><NavbarComponent /><main className="flex-grow-1"><BidsAwards /></main><Footer /></>} />
           <Route path="/barangays" element={<><NavbarComponent /><main className="flex-grow-1"><BarangayOfficials /></main><Footer /></>} />
