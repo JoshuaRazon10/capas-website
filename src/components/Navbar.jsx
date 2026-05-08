@@ -57,7 +57,7 @@ const NavbarComponent = () => {
       <div className="brand-header-section">
         <Container>
           <div className="brand-main">
-            <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '1.2rem' }}>
+            <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '1rem' }}>
               <img src={logo} alt="Capas Logo" className="brand-logo-img" />
               <div className="brand-text-content">
                 <h1>CAPAS CITY</h1>
@@ -67,15 +67,14 @@ const NavbarComponent = () => {
           </div>
 
           <div className="seals-container">
-            {/* These simulate the seals seen in the reference image */}
             <div className="seal-item">
-              <img src="https://www.foi.gov.ph/assets/images/foi-logo.png" alt="FOI" style={{ height: '70px' }} />
+              <img src="https://www.foi.gov.ph/assets/images/foi-logo.png" alt="FOI" className="seal-img" />
             </div>
             <div className="seal-item">
-              <img src="https://gov.ph/images/transparency-seal.png" alt="Transparency Seal" style={{ height: '70px' }} />
+              <img src="https://gov.ph/images/transparency-seal.png" alt="Transparency Seal" className="seal-img" />
             </div>
             <div className="seal-item">
-              <img src="https://privacy.gov.ph/wp-content/uploads/2018/12/DPO-Seal-of-Registration.png" alt="DPO Seal" style={{ height: '70px' }} />
+              <img src="https://privacy.gov.ph/wp-content/uploads/2018/12/DPO-Seal-of-Registration.png" alt="DPO Seal" className="seal-img" />
             </div>
           </div>
         </Container>
