@@ -132,7 +132,7 @@ const Home = () => {
               <Button as={Link} to="/services" className="hero-btn hero-btn-primary">
                 Explore Services <FaArrowRight className="ms-2" size={14} />
               </Button>
-              <Button as={Link} to="/news" className="hero-btn hero-btn-outline">
+              <Button as="a" href="https://www.facebook.com/CapasInformationOfficeOfficial" target="_blank" rel="noopener noreferrer" className="hero-btn hero-btn-outline">
                 Latest News
               </Button>
             </div>
@@ -177,9 +177,9 @@ const Home = () => {
               <h2 className="fw-bold mb-1" style={{ color: 'var(--gray-900)' }}>Latest News</h2>
               <div className="section-divider" style={{ margin: '0' }}></div>
             </div>
-            <Link to="/news" className="text-decoration-none fw-bold" style={{ color: 'var(--primary)' }}>
+            <a href="https://www.facebook.com/CapasInformationOfficeOfficial" target="_blank" rel="noopener noreferrer" className="text-decoration-none fw-bold" style={{ color: 'var(--primary)' }}>
               View All News <FaArrowRight className="ms-1" size={12} />
-            </Link>
+            </a>
           </div>
           <Row className="gy-4">
             {[
