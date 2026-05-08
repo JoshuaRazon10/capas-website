@@ -92,12 +92,173 @@ h6 {
 /* ============================================
    MODERN DRAWER & NAVBAR
    ============================================ */
-.navbar-custom {
-  background: var(--blue-logo);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+/* ============================================
+   MODERN MULTI-LAYERED APPBAR (ANGELES STYLE)
+   ============================================ */
+.appbar-wrapper {
+  width: 100%;
   z-index: 1050;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(10px);
+  background: white;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+/* Top Red Strip */
+.top-red-strip {
+  background: var(--primary);
+  color: white;
+  padding: 8px 0;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.top-red-strip .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.social-links-top {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.social-links-top a {
+  color: white;
+  opacity: 0.9;
+  transition: opacity 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.social-links-top a:hover {
+  opacity: 1;
+}
+
+/* Middle Navigation Menu */
+.middle-nav-menu {
+  background: white;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  padding: 15px 0;
+}
+
+.middle-nav-menu ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 2.5rem;
+}
+
+.middle-nav-menu li a {
+  color: #444;
+  text-decoration: none !important;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.middle-nav-menu li a:hover {
+  color: var(--primary);
+}
+
+.nav-dropdown-icon {
+  font-size: 0.7rem;
+  opacity: 0.5;
+}
+
+/* Brand Header Section */
+.brand-header-section {
+  padding: 20px 0;
+  background: white;
+}
+
+.brand-header-section .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand-main {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.brand-logo-img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.brand-text-content h1 {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--primary);
+  margin: 0;
+  line-height: 1;
+}
+
+.brand-text-content p {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 5px 0 0;
+  font-weight: 500;
+}
+
+.seals-container {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.seal-img {
+  height: 60px;
+  width: auto;
+  opacity: 0.9;
+}
+
+/* Mobile Toggle - Hidden on Desktop */
+.mobile-menu-toggle {
+  display: none;
+}
+
+@media (max-width: 991px) {
+  .middle-nav-menu {
+    display: none;
+  }
+  
+  .seals-container {
+    display: none;
+  }
+  
+  .brand-header-section {
+    padding: 15px 0;
+  }
+  
+  .brand-logo-img {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .brand-text-content h1 {
+    font-size: 1.5rem;
+  }
+  
+  .mobile-menu-toggle {
+    display: flex;
+    align-items: center;
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
 }
 
 .drawer-toggle-btn {
