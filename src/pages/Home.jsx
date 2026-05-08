@@ -108,12 +108,29 @@ const Home = () => {
         >
           {[capasAward, bootsImg, lyceumImg, palengImg, lguImg].map((img, idx) => (
             <Carousel.Item key={idx}>
-              <img 
-                src={img} 
-                alt={`Capas Showcase ${idx + 1}`}
-                className="w-100"
-                style={{ height: '600px', objectFit: 'contain', backgroundColor: 'var(--blue-logo-dark)' }}
-              />
+              <div style={{ height: '600px', position: 'relative', overflow: 'hidden', backgroundColor: '#000' }}>
+                <img 
+                  src={img} 
+                  alt=""
+                  style={{ 
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    filter: 'blur(15px) brightness(0.6)',
+                    transform: 'scale(1.1)',
+                    zIndex: 1
+                  }}
+                />
+                <img 
+                  src={img} 
+                  alt={`Capas Showcase ${idx + 1}`}
+                  className="w-100 h-100"
+                  style={{ objectFit: 'contain', position: 'relative', zIndex: 2 }}
+                />
+              </div>
             </Carousel.Item>
           ))}
         </Carousel>
@@ -284,13 +301,29 @@ const Home = () => {
             { src: flag5, title: 'Capas Pride', cat: 'Culture' },
           ].map((item, idx) => (
             <Carousel.Item key={idx}>
-              <div className="carousel-img-wrapper" style={{ height: '70vh', minHeight: '500px', position: 'relative' }}>
-                <img
-                  className="d-block w-100 h-100"
-                  src={item.src}
-                  alt={item.title}
-                  style={{ objectFit: 'contain', backgroundColor: 'var(--blue-logo-dark)' }}
-                />
+                  <div className="carousel-img-wrapper" style={{ height: '70vh', minHeight: '500px', position: 'relative', overflow: 'hidden', backgroundColor: '#000' }}>
+                    {/* Blurred background for a premium look */}
+                    <img
+                      src={item.src}
+                      alt=""
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        filter: 'blur(15px) brightness(0.6)',
+                        transform: 'scale(1.1)',
+                        zIndex: 1
+                      }}
+                    />
+                    <img
+                      className="d-block w-100 h-100"
+                      src={item.src}
+                      alt={item.title}
+                      style={{ objectFit: 'contain', position: 'relative', zIndex: 2 }}
+                    />
                 <div className="carousel-caption-custom">
                   <Container>
                     <div className="caption-content animate-fadeInUp">
