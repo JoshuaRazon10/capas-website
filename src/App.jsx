@@ -13,6 +13,9 @@ import Geography from './pages/Geography'
 import BidsAwards from './pages/BidsAwards'
 import BarangayOfficials from './pages/BarangayOfficials'
 import Map from './pages/Map'
+import News from './pages/News'
+import Government from './pages/Government'
+import Services from './pages/Services'
 import UnderDevelopment from './pages/UnderDevelopment'
 
 // Admin Pages
