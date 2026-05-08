@@ -88,7 +88,7 @@ const Footer = () => {
           color: #EF5350 !important;
         }
         .footer-baguio-style {
-          background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+          /* Plain red background as requested */
         }
       `}</style>
     </footer>
