@@ -42,8 +42,8 @@ function App() {
           <Route path="/history" element={<><NavbarComponent /><main className="flex-grow-1"><History /></main><Footer /></>} />
           <Route path="/mayors" element={<><NavbarComponent /><main className="flex-grow-1"><Mayors /></main><Footer /></>} />
           <Route path="/geography" element={<><NavbarComponent /><main className="flex-grow-1"><Geography /></main><Footer /></>} />
-          <Route path="/government" element={<><NavbarComponent /><UnderDevelopment /></>} />
-          <Route path="/services" element={<><NavbarComponent /><UnderDevelopment /></>} />
+          <Route path="/government" element={<><NavbarComponent /><main className="flex-grow-1"><Government /></main><Footer /></>} />
+          <Route path="/services" element={<><NavbarComponent /><main className="flex-grow-1"><Services /></main><Footer /></>} />
           <Route path="/news" element={<><NavbarComponent /><main className="flex-grow-1"><News /></main><Footer /></>} />
           <Route path="/contact" element={<><NavbarComponent /><UnderDevelopment /></>} />
           <Route path="/bids-awards" element={<><NavbarComponent /><main className="flex-grow-1"><BidsAwards /></main><Footer /></>} />
