@@ -69,7 +69,7 @@ const NavbarComponent = () => {
         { path: '/mayor', label: 'The Mayor' },
         { path: '/vice-mayor', label: 'The Vice Mayor' },
         { path: '/council', label: 'Municipal Council' },
-        { path: '/barangay-officials', label: 'Barangay Officials' },
+        { path: '/barangays', label: 'Barangay Officials' },
         { isDivider: true },
         { path: '/directory', label: 'Directory' },
       ]

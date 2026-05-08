@@ -475,8 +475,8 @@ const Home = () => {
                       <span><strong>Eco-Tourism:</strong> A world-class destination for hikers and nature lovers.</span>
                     </li>
                   </ul>
-                  <Button as={Link} to="/services" className="btn-primary-red py-3 px-5">
-                    Book Your Adventure
+                  <Button as="a" href="https://mtpinatubo.com/" target="_blank" rel="noopener noreferrer" className="btn-primary-red py-3 px-5">
+                    Discover More
                   </Button>
                 </div>
               </div>
@@ -544,8 +544,8 @@ const Home = () => {
                       <span><strong>Economic Hub:</strong> A rising center for innovation, government, and global business.</span>
                     </li>
                   </ul>
-                  <Button as={Link} to="/government" className="btn-primary-red py-3 px-5">
-                    Explore the Future
+                  <Button as="a" href="https://newclark.ph/" target="_blank" rel="noopener noreferrer" className="btn-primary-red py-3 px-5">
+                    Discover More
                   </Button>
                 </div>
               </div>
