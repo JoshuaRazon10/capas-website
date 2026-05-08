@@ -1484,3 +1484,17 @@ textarea.custom-input {
     margin-bottom: 2rem;
   }
 }
+
+/* Announcement Section Styling */
+.announcement-link:hover {
+  color: var(--primary) !important;
+  text-decoration: underline !important;
+}
+
+.announcement-item {
+  transition: transform 0.2s ease;
+}
+
+.announcement-item:hover {
+  transform: translateX(5px);
+}

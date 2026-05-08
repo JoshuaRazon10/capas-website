@@ -179,21 +179,54 @@ const Home = () => {
               View All News <FaArrowRight className="ms-1" size={12} />
             </a>
           </div>
-          <div className="d-flex justify-content-center scroll-animate">
-            <div className="facebook-feed-wrapper shadow-lg rounded-4 overflow-hidden bg-white p-1" style={{ width: '100%', maxWidth: '500px', border: '1px solid #ddd' }}>
-              <iframe 
-                src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FCapasInformationOfficeOfficial&tabs=timeline&width=500&height=700&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" 
-                width="100%" 
-                height="700" 
-                style={{ border: 'none', overflow: 'hidden' }} 
-                scrolling="no" 
-                frameBorder="0" 
-                allowFullScreen={true} 
-                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                title="Capas Facebook Feed"
-              ></iframe>
-            </div>
-          </div>
+          <Row className="g-4">
+            {/* Left Column: Facebook Feed */}
+            <Col lg={6} className="scroll-animate scroll-left">
+              <div className="facebook-feed-wrapper shadow-lg rounded-4 overflow-hidden bg-white p-1" style={{ width: '100%', border: '1px solid #ddd' }}>
+                <iframe 
+                  src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FCapasInformationOfficeOfficial&tabs=timeline&width=500&height=700&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" 
+                  width="100%" 
+                  height="700" 
+                  style={{ border: 'none', overflow: 'hidden' }} 
+                  scrolling="no" 
+                  frameBorder="0" 
+                  allowFullScreen={true} 
+                  allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                  title="Capas Facebook Feed"
+                ></iframe>
+              </div>
+            </Col>
+
+            {/* Right Column: Announcements */}
+            <Col lg={6} className="scroll-animate scroll-right">
+              <div className="announcements-wrapper h-100 bg-white p-4 p-md-5 shadow-lg rounded-4 border-top border-4" style={{ borderColor: 'var(--primary)' }}>
+                <h3 className="fw-bold mb-4 d-flex align-items-center gap-2">
+                  <FaVolumeUp className="text-primary-red" /> Official Announcements
+                </h3>
+                <div className="announcement-list">
+                  {[
+                    { date: 'May 06, 2026', title: 'Calling all Batch 2026 Latin Honor Graduates!', link: 'https://www.facebook.com/photo/?fbid=948956067946377' },
+                    { date: 'May 23, 2026', title: 'Extension of Search for College President — Lyceum of Capas (LUC)', link: 'https://www.facebook.com/CapasInformationOfficeOfficial' },
+                    { date: 'May 15, 2026', title: 'Capas Job Fair 2026', link: 'https://www.facebook.com/CapasInformationOfficeOfficial' },
+                    { date: 'June 01, 2026', title: 'Upcoming Town Hall Meeting: Infrastructure & Future Growth', link: 'https://www.facebook.com/CapasInformationOfficeOfficial' },
+                    { date: 'June 10, 2026', title: 'Solid Waste Management Program: New Collection Schedule', link: 'https://www.facebook.com/CapasInformationOfficeOfficial' }
+                  ].map((ann, i) => (
+                    <div key={i} className="announcement-item pb-3 mb-3 border-bottom">
+                      <div className="small text-muted mb-1 fw-bold">{ann.date}</div>
+                      <a href={ann.link} target="_blank" rel="noopener noreferrer" className="text-decoration-none text-dark announcement-link fw-bold" style={{ fontSize: '1.05rem', transition: 'color 0.2s ease' }}>
+                        {ann.title}
+                      </a>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4">
+                  <Button as="a" href="https://www.facebook.com/CapasInformationOfficeOfficial" target="_blank" rel="noopener noreferrer" className="btn-primary-red w-100 py-3">
+                    See All Announcements
+                  </Button>
+                </div>
+              </div>
+            </Col>
+          </Row>
         </Container>
       </section>
 
