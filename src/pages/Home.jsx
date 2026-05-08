@@ -13,6 +13,7 @@ import flag4 from '../assets/images/flagrites4.jpg'
 import flag5 from '../assets/images/flagrites5.jpg'
 import shrineImg from '../assets/images/shrine.png'
 import shrine1 from '../assets/images/shrine1.jfif'
+import shrine1png from '../assets/images/shrine1.png'
 import shrineHD from '../assets/images/shrine_hd.png'
 import pinatuboImg from '../assets/images/pinatubo.webp'
 import clarkImg from '../assets/images/clark.jpg'
@@ -224,7 +225,7 @@ const Home = () => {
                 boxShadow: 'var(--shadow-lg)',
               }}>
                 <img 
-                  src={shrineHD} 
+                  src={shrine1png} 
                   alt="Capas National Shrine" 
                   style={{ 
                     width: '100%', 
