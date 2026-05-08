@@ -5,6 +5,11 @@ import Footer from './components/Footer'
 
 // Public Pages
 import Home from './pages/Home'
+import Profile from './pages/Profile'
+import OfficialSeal from './pages/OfficialSeal'
+import History from './pages/History'
+import Mayors from './pages/Mayors'
+import Geography from './pages/Geography'
 import UnderDevelopment from './pages/UnderDevelopment'
 
 // Admin Pages
@@ -30,10 +35,15 @@ function App() {
 
           {/* Under Development Routes - full screen with background */}
           <Route path="/about" element={<><NavbarComponent /><UnderDevelopment /></>} />
+          <Route path="/seal" element={<><NavbarComponent /><main className="flex-grow-1"><OfficialSeal /></main><Footer /></>} />
+          <Route path="/history" element={<><NavbarComponent /><main className="flex-grow-1"><History /></main><Footer /></>} />
+          <Route path="/mayors" element={<><NavbarComponent /><main className="flex-grow-1"><Mayors /></main><Footer /></>} />
+          <Route path="/geography" element={<><NavbarComponent /><main className="flex-grow-1"><Geography /></main><Footer /></>} />
           <Route path="/government" element={<><NavbarComponent /><UnderDevelopment /></>} />
           <Route path="/services" element={<><NavbarComponent /><UnderDevelopment /></>} />
           <Route path="/news" element={<><NavbarComponent /><UnderDevelopment /></>} />
           <Route path="/contact" element={<><NavbarComponent /><UnderDevelopment /></>} />
+          <Route path="/socio-economic" element={<><NavbarComponent /><main className="flex-grow-1"><Profile /></main><Footer /></>} />
 
           {/* Admin Routes */}
           <Route path="/admin/login" element={<Login />} />

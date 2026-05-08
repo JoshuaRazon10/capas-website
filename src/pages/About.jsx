@@ -68,13 +68,13 @@ const About = () => {
               {
                 icon: <FaEye size={32} />,
                 title: 'Our Vision',
-                desc: 'A progressive, peaceful, and resilient municipality that promotes sustainable development, good governance, and empowers its citizens towards a better quality of life.',
+                desc: 'CAPAS TO BE THE TOURISM AND AGRO-INDUSTRIAL CAPITAL OF TARLAC WITH EMPOWERED AND HEALTHY CITIZENRY IN A SOCIALLY JUST AND SAFE COMMUNITY WHO LIVES IN A SUSTAINABLE AND ECOLOGICALLY-BALANCED ENVIRONMENT WITH ACCESIBLE AND WELL-PLANNED INFRASTRUCTURE UNDER AN INVESTMENT FRIENDLY, PROGRESSIVE AND DIVERSE ECONOMY, GOVERNED BY GOD-FEARING AND RESPONSIVE LEADERSHIP.',
                 color: '#C62828',
               },
               {
                 icon: <FaBullseye size={32} />,
                 title: 'Our Mission',
-                desc: 'To deliver efficient and effective public services, foster economic growth, preserve cultural heritage, and ensure environmental sustainability for the present and future generations.',
+                desc: 'IN THE PROMOTION OF THE GENERAL WELL-BEING OF OUR PEOPLE, CAPAS SHALL BE CONSISTENT IN PROVIDING EFFICIENT AND EFFECTIVE SERVICES, THROUGH THE IMPLEMENTATION OF THE PROGRAM, PROJECT AND ACTIVITIES WHERE THE GREATEST NUMBER OF OUR PEOPLE GAINFULLY EMPLOYED.',
                 color: '#8E0000',
               },
               {

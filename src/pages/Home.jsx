@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Container, Row, Col, Card, Button, Carousel } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { FaArrowRight, FaGlobe, FaFileAlt, FaUsers, FaNewspaper, FaHandsHelping, FaBuilding, FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock, FaPaperPlane } from 'react-icons/fa'
+import { FaArrowRight, FaGlobe, FaFileAlt, FaUsers, FaNewspaper, FaHandsHelping, FaBuilding, FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock, FaPaperPlane, FaVolumeMute, FaVolumeUp } from 'react-icons/fa'
 import backgroundImage from '../assets/images/capas.background.png'
 import capasLogo from '../assets/images/capas.logo.jpg'
 
@@ -24,13 +24,14 @@ import news1Img from '../assets/images/news1.jpg'
 import news2Img from '../assets/images/news2.jpg'
 import news3Img from '../assets/images/news3.jpg'
 import capasAward from '../assets/images/capas.award.jpg'
-import bootsImg from '../assets/images/boots.png'
+import bootsImg from '../assets/images/mayors/boots.png'
 import lyceumImg from '../assets/images/lyceum.jpg'
 import palengImg from '../assets/images/paleng.jpg'
 import lguImg from '../assets/images/lgu.jpg'
 
 const Home = () => {
   const pageRef = useRef(null)
+  const [isMuted, setIsMuted] = useState(true)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -51,24 +52,63 @@ const Home = () => {
     return () => observer.disconnect()
   }, [])
 
-  const services = [
-    { title: 'Online Permits', icon: <FaGlobe size={28} />, desc: 'Apply for business and construction permits conveniently online.' },
-    { title: 'Public Records', icon: <FaFileAlt size={28} />, desc: 'Access official documents, ordinances, and public records.' },
-    { title: 'Community Programs', icon: <FaUsers size={28} />, desc: 'Explore barangay programs and community development initiatives.' },
-    { title: 'News & Alerts', icon: <FaNewspaper size={28} />, desc: 'Stay updated with the latest municipal news and emergency alerts.' },
-  ]
 
   return (
     <div ref={pageRef}>
       {/* ======== HERO ======== */}
       <section
-        className="hero-section"
-        style={{
-          background: `linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.7)), url(${backgroundImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
+        className="hero-section position-relative"
+        style={{ overflow: 'hidden', minHeight: '600px', display: 'flex', alignItems: 'center' }}
       >
+        {/* Cinematic MP4 Video Background */}
+        <div 
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            zIndex: 0,
+            overflow: 'hidden'
+          }}
+        >
+          <video
+            autoPlay
+            muted={isMuted}
+            loop
+            playsInline
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover'
+            }}
+          >
+            <source src="/video.capas.mp4" type="video/mp4" />
+          </video>
+        </div>
+
+        {/* Audio Toggle Button */}
+        <div style={{ position: 'absolute', bottom: '20px', right: '20px', zIndex: 10 }}>
+          <Button 
+            variant="outline-light" 
+            className="rounded-circle d-flex align-items-center justify-content-center"
+            style={{ width: '45px', height: '45px', background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.3)' }}
+            onClick={() => setIsMuted(!isMuted)}
+          >
+            {isMuted ? <FaVolumeMute size={18} /> : <FaVolumeUp size={18} />}
+          </Button>
+        </div>
+
+        {/* Dark Overlay for Text Readability */}
+        <div 
+          style={{
+            position: 'absolute',
+            top: 0, left: 0, right: 0, bottom: 0,
+            background: 'linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.7))',
+            zIndex: 1
+          }}
+        ></div>
+
         <Container style={{ position: 'relative', zIndex: 2 }}>
           <div className="animate-fadeInUp text-center">
             <div className="mb-3">
@@ -100,72 +140,34 @@ const Home = () => {
         </Container>
       </section>
 
-      {/* ======== AUTO-SWIPING PHOTO SHOWCASE ======== */}
-      <section className="full-width-showcase">
-        <Carousel 
-          fade 
-          interval={3000} 
-          controls={false} 
-          indicators={false}
-          pause={false}
-        >
-          {[capasAward, bootsImg, lyceumImg, palengImg, lguImg].map((img, idx) => (
-            <Carousel.Item key={idx}>
-              <div style={{ height: '600px', position: 'relative', overflow: 'hidden', backgroundColor: '#000' }}>
-                <img 
-                  src={img} 
-                  alt=""
-                  style={{ 
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    filter: 'blur(15px) brightness(0.6)',
-                    transform: 'scale(1.1)',
-                    zIndex: 1
-                  }}
-                />
-                <img 
-                  src={img} 
-                  alt={`Capas Showcase ${idx + 1}`}
-                  className="w-100 h-100"
-                  style={{ objectFit: 'contain', position: 'relative', zIndex: 2 }}
-                />
+      {/* ======== MISSION & VISION SECTION ======== */}
+      <section className="py-5" style={{ background: '#f8f9fa' }}>
+        <Container className="py-4">
+          <Row className="gy-5 align-items-stretch">
+            <Col lg={6} className="scroll-animate scroll-left">
+              <div className="h-100 p-4 p-md-5 bg-white rounded-4 shadow-sm border-start border-4" style={{ borderColor: 'var(--primary)' }}>
+                <div className="mb-4">
+                  <h2 className="fw-bold m-0" style={{ fontSize: '1.8rem' }}>Our Mission</h2>
+                </div>
+                <p className="text-muted" style={{ fontSize: '1.05rem', lineHeight: '1.8', textAlign: 'justify' }}>
+                  IN THE PROMOTION OF THE GENERAL WELL-BEING OF OUR PEOPLE, CAPAS SHALL BE CONSISTENT IN PROVIDING EFFICIENT AND EFFECTIVE SERVICES, THROUGH THE IMPLEMENTATION OF THE PROGRAM, PROJECT AND ACTIVITIES WHERE THE GREATEST NUMBER OF OUR PEOPLE GAINFULLY EMPLOYED.
+                </p>
               </div>
-            </Carousel.Item>
-          ))}
-        </Carousel>
-      </section>
-
-      <section className="py-5" style={{ background: 'white' }}>
-        <Container className="py-3">
-          <div className="section-header scroll-animate">
-            <h2>Quick Services</h2>
-            <div className="section-divider"></div>
-            <p className="section-subtitle">Access essential municipal services quickly and efficiently.</p>
-          </div>
-          <Row className="gy-4">
-            {services.map((item, idx) => (
-              <Col key={idx} lg={3} md={6}>
-                <Card className={`modern-card h-100 text-center p-4 border-0 scroll-animate delay-${idx + 1}`}>
-                  <Card.Body className="d-flex flex-column">
-                    <div className="service-icon-wrapper mx-auto" style={{ color: 'var(--primary)' }}>
-                      {item.icon}
-                    </div>
-                    <h5 className="fw-bold mb-2" style={{ color: 'var(--gray-900)' }}>{item.title}</h5>
-                    <p className="text-muted small mb-3 flex-grow-1">{item.desc}</p>
-                    <a href="#" className="text-decoration-none fw-bold" style={{ color: 'var(--primary)', fontSize: '0.9rem' }}>
-                      Learn More <FaArrowRight className="ms-1" size={11} />
-                    </a>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
+            </Col>
+            <Col lg={6} className="scroll-animate scroll-right">
+              <div className="h-100 p-4 p-md-5 bg-white rounded-4 shadow-sm border-start border-4" style={{ borderColor: 'var(--blue-logo)' }}>
+                <div className="mb-4">
+                  <h2 className="fw-bold m-0" style={{ fontSize: '1.8rem' }}>Our Vision</h2>
+                </div>
+                <p className="text-muted" style={{ fontSize: '1.05rem', lineHeight: '1.8', textAlign: 'justify' }}>
+                  CAPAS TO BE THE TOURISM AND AGRO-INDUSTRIAL CAPITAL OF TARLAC WITH EMPOWERED AND HEALTHY CITIZENRY IN A SOCIALLY JUST AND SAFE COMMUNITY WHO LIVES IN A SUSTAINABLE AND ECOLOGICALLY-BALANCED ENVIRONMENT WITH ACCESIBLE AND WELL-PLANNED INFRASTRUCTURE UNDER AN INVESTMENT FRIENDLY, PROGRESSIVE AND DIVERSE ECONOMY, GOVERNED BY GOD-FEARING AND RESPONSIVE LEADERSHIP.
+                </p>
+              </div>
+            </Col>
           </Row>
         </Container>
       </section>
+
 
       {/* ======== LATEST NEWS PREVIEW ======== */}
       <section className="py-5" style={{ background: 'var(--gray-100)' }}>
@@ -263,7 +265,7 @@ const Home = () => {
 
                 <div className="d-flex gap-4 mt-5 mb-4">
                   {[
-                    { num: '20+', label: 'Barangays' },
+                    { num: '20', label: 'Barangays' },
                     { num: '150K+', label: 'Population' },
                     { num: '300+', label: 'Years of History' },
                   ].map((stat, i) => (
