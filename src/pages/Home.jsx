@@ -205,15 +205,20 @@ const Home = () => {
                 </h3>
                 <div className="announcement-list">
                   {[
-                    { date: 'May 04, 2026', title: 'Calling all Batch 2026 Latin Honor Graduates!', link: 'https://www.facebook.com/photo/?fbid=948956067946377' },
-                    { date: 'May 02, 2026', title: 'Extension of Search for College President — Lyceum of Capas (LUC)', link: 'https://www.facebook.com/CapasInformationOfficeOfficial' },
-                    { date: 'April 29, 2026', title: 'IN CELEBRATION OF THE 124TH LABOR DAY: PROVINCIAL JOB FAIR', link: 'https://www.facebook.com/CapasInformationOfficeOfficial' }
+                    { date: 'May 04, 2026', title: 'Calling all Batch 2026 Latin Honor Graduates!', link: 'https://www.facebook.com/photo/?fbid=948956067946377', img: news1Img },
+                    { date: 'May 02, 2026', title: 'Extension of Search for College President — Lyceum of Capas (LUC)', link: 'https://www.facebook.com/CapasInformationOfficeOfficial', img: news2Img },
+                    { date: 'April 29, 2026', title: 'IN CELEBRATION OF THE 124TH LABOR DAY: PROVINCIAL JOB FAIR', link: 'https://www.facebook.com/CapasInformationOfficeOfficial', img: news3Img }
                   ].map((ann, i) => (
-                    <div key={i} className="announcement-item pb-3 mb-3 border-bottom">
-                      <div className="small text-muted mb-1 fw-bold">{ann.date}</div>
-                      <a href={ann.link} target="_blank" rel="noopener noreferrer" className="text-decoration-none text-dark announcement-link fw-bold" style={{ fontSize: '1.05rem', transition: 'color 0.2s ease' }}>
-                        {ann.title}
-                      </a>
+                    <div key={i} className="announcement-item pb-3 mb-3 border-bottom d-flex gap-3 align-items-start">
+                      <div className="announcement-img-thumb shadow-sm rounded-3 overflow-hidden flex-shrink-0" style={{ width: '90px', height: '90px', border: '1px solid var(--gray-300)' }}>
+                        <img src={ann.img} alt={ann.title} className="w-100 h-100" style={{ objectFit: 'cover' }} />
+                      </div>
+                      <div className="flex-grow-1">
+                        <div className="small text-muted mb-1 fw-bold">{ann.date}</div>
+                        <a href={ann.link} target="_blank" rel="noopener noreferrer" className="text-decoration-none text-dark announcement-link fw-bold" style={{ fontSize: '1rem', transition: 'color 0.2s ease', display: 'block', lineHeight: '1.4' }}>
+                          {ann.title}
+                        </a>
+                      </div>
                     </div>
                   ))}
                 </div>
