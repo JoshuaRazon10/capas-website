@@ -184,11 +184,11 @@ const Home = () => {
             <Col lg={6} className="scroll-animate scroll-left">
               <div className="facebook-feed-wrapper shadow-lg rounded-4 overflow-hidden bg-white p-1" style={{ width: '100%', border: '1px solid #ddd' }}>
                 <iframe 
-                  src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FCapasInformationOfficeOfficial&tabs=timeline&width=500&height=1200&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" 
+                  src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FCapasInformationOfficeOfficial&tabs=timeline&width=500&height=900&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" 
                   width="100%" 
-                  height="1200" 
-                  style={{ border: 'none', overflow: 'hidden' }} 
-                  scrolling="no" 
+                  height="900" 
+                  style={{ border: 'none', overflow: 'auto' }} 
+                  scrolling="yes" 
                   frameBorder="0" 
                   allowFullScreen={true} 
                   allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
@@ -199,7 +199,7 @@ const Home = () => {
 
             {/* Right Column: Announcements */}
             <Col lg={6} className="scroll-animate scroll-right">
-              <div className="announcements-wrapper h-100 bg-white p-4 p-md-5 shadow-lg rounded-4 border-top border-4" style={{ borderColor: 'var(--primary)', maxHeight: '1200px', overflowY: 'auto' }}>
+              <div className="announcements-wrapper h-100 bg-white p-4 p-md-5 shadow-lg rounded-4 border-top border-4" style={{ borderColor: 'var(--primary)', maxHeight: '900px', overflowY: 'auto' }}>
                 <h3 className="fw-bold mb-4 d-flex align-items-center gap-2">
                   <FaVolumeUp className="text-primary-red" /> Official Announcements
                 </h3>
