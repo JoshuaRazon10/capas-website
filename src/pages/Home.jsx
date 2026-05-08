@@ -179,37 +179,21 @@ const Home = () => {
               View All News <FaArrowRight className="ms-1" size={12} />
             </a>
           </div>
-          <Row className="gy-4">
-            {[
-              { title: 'Calling all Batch 2026 Latin Honor Graduates!', date: 'May 6, 2026', cat: 'Announcement', img: news1Img, desc: 'Please submit your Full Name, High-Quality Photo, Course & School, and Latin Honor Received via Direct Message by May 6, 2026. Huge congrats to Batch 2026!' },
-              { title: 'Extension of Search for College President — Lyceum of Capas (LUC)', date: 'May 23, 2026', cat: 'Public Announcement', img: news2Img, desc: 'The LGU of Capas and the Board of Trustees of the Lyceum of Capas have extended the search for a dynamic College President. Submit documentary requirements on or before May 23, 2026, 5:00 PM (PST).' },
-              { title: 'Capas Job Fair 2026', date: 'May 2026', cat: 'Employment', img: news3Img, desc: 'The Municipality of Capas invites all job seekers to attend the upcoming Job Fair. Explore career opportunities from various local and national employers. Bring your resume and dress to impress!' },
-            ].map((item, idx) => (
-              <Col key={idx} lg={4} md={6}>
-                <Card className={`modern-card h-100 border-0 scroll-animate delay-${idx + 1}`}>
-                  <div className="news-card-img-wrapper">
-                    <img 
-                      src={item.img} 
-                      alt={item.title} 
-                      className="news-card-img w-100" 
-                      style={{ height: '220px', objectFit: 'cover' }}
-                    />
-                  </div>
-                  <Card.Body className="p-4">
-                    <div className="d-flex align-items-center gap-2 mb-3">
-                      <span className="news-date-badge">{item.cat}</span>
-                      <span className="text-muted" style={{ fontSize: '0.8rem' }}>{item.date}</span>
-                    </div>
-                    <h5 className="fw-bold mb-3" style={{ fontSize: '1.05rem', lineHeight: '1.4' }}>{item.title}</h5>
-                    <p className="text-muted small mb-3">{item.desc || 'Stay informed with the latest developments and announcements from the municipality of Capas...'}</p>
-                    <a href="https://www.facebook.com/photo/?fbid=948956067946377&set=a.170055352503123" target="_blank" rel="noopener noreferrer" className="text-decoration-none fw-bold" style={{ color: 'var(--primary)', fontSize: '0.85rem' }}>
-                      Read More <FaArrowRight className="ms-1" size={10} />
-                    </a>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-          </Row>
+          <div className="d-flex justify-content-center scroll-animate">
+            <div className="facebook-feed-wrapper shadow-lg rounded-4 overflow-hidden bg-white p-1" style={{ width: '100%', maxWidth: '500px', border: '1px solid #ddd' }}>
+              <iframe 
+                src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FCapasInformationOfficeOfficial&tabs=timeline&width=500&height=700&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" 
+                width="100%" 
+                height="700" 
+                style={{ border: 'none', overflow: 'hidden' }} 
+                scrolling="no" 
+                frameBorder="0" 
+                allowFullScreen={true} 
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                title="Capas Facebook Feed"
+              ></iframe>
+            </div>
+          </div>
         </Container>
       </section>
 
