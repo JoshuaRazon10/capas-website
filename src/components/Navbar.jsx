@@ -13,6 +13,7 @@ const NavbarComponent = () => {
   const location = useLocation()
   
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0, opacity: 0 })
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
   const navRef = useRef(null)
 
   const updateIndicatorToActive = () => {
@@ -28,6 +29,14 @@ const NavbarComponent = () => {
       setIndicatorStyle(prev => ({ ...prev, opacity: 0 }))
     }
   }
+
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape') setIsSearchOpen(false)
+    }
+    window.addEventListener('keydown', handleEsc)
+    return () => window.removeEventListener('keydown', handleEsc)
+  }, [])
 
   useEffect(() => {
     setTimeout(updateIndicatorToActive, 100)
@@ -152,6 +161,31 @@ const NavbarComponent = () => {
 
   return (
     <div className="modern-nav-wrapper">
+      {/* Search Overlay */}
+      {isSearchOpen && (
+        <div className="search-overlay d-flex align-items-center justify-content-center">
+          <button 
+            className="search-close-btn"
+            onClick={() => setIsSearchOpen(false)}
+          >
+            &times;
+          </button>
+          <Container className="text-center">
+            <h2 className="text-white mb-4 fw-bold">Search Capas LGU</h2>
+            <div className="search-input-group mx-auto" style={{ maxWidth: '700px' }}>
+              <input 
+                type="text" 
+                className="form-control form-control-lg rounded-pill shadow-lg px-4" 
+                placeholder="What are you looking for?" 
+                autoFocus
+              />
+              <FaSearch className="search-icon-inside" />
+            </div>
+            <p className="text-white-50 mt-3">Press ESC to close</p>
+          </Container>
+        </div>
+      )}
+
       {/* 1. TOP OFFICIAL BAR */}
       <div className="top-official-bar d-none d-lg-block">
         <Container className="d-flex justify-content-between align-items-center h-100">
@@ -279,6 +313,7 @@ const NavbarComponent = () => {
                 <button 
                   className="btn btn-link nav-search-btn text-dark p-0 border-0 text-decoration-none"
                   style={{ fontSize: '1.1rem' }}
+                  onClick={() => setIsSearchOpen(true)}
                 >
                   <FaSearch />
                 </button>
