@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@600;700;800&display=swap');
 
 :root {
-  --primary: #d60000;
-  --primary-dark: #b30000;
-  --primary-light: #ff1a1a;
-  --primary-glow: rgba(214, 0, 0, 0.15);
+  --primary: #800000;
+  --primary-dark: #600000;
+  --primary-light: #a00000;
+  --primary-glow: rgba(128, 0, 0, 0.15);
   --blue-logo: #14183d;
   --blue-logo-dark: #0a0c1f;
   --blue-logo-light: #1f255c;

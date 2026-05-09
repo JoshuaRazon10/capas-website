@@ -2,6 +2,7 @@ import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { FaEnvelope, FaViber } from 'react-icons/fa'
 import logo from '../assets/images/capas.logo.jpg'
+import phSeal from '../assets/images/ph.seal.jfif'
 
 const Footer = () => {
   return (
@@ -12,9 +13,9 @@ const Footer = () => {
           <Col lg={3} md={6}>
             <div className="d-flex align-items-start gap-3">
               <img 
-                src="https://www.gov.ph/images/govph-seal-mono-light.png" 
+                src={phSeal} 
                 alt="Republic of the Philippines Seal" 
-                style={{ width: '80px', height: 'auto' }}
+                style={{ width: '100px', height: 'auto', objectFit: 'contain' }}
               />
               <div style={{ fontSize: '0.85rem' }}>
                 <h6 className="fw-bold mb-2" style={{ fontSize: '0.9rem', letterSpacing: '1px' }}>REPUBLIC OF THE PHILIPPINES</h6>
@@ -68,18 +69,13 @@ const Footer = () => {
               <img 
                 src={logo} 
                 alt="Municipality of Capas Logo" 
-                style={{ width: '100px', height: '100px', borderRadius: '50%', border: '2px solid rgba(255,255,255,0.2)', padding: '5px', background: 'white' }}
+                style={{ width: '100px', height: '100px', borderRadius: '50%', border: '2px solid rgba(255,255,255,0.3)', objectFit: 'cover', background: 'transparent' }}
               />
             </div>
           </Col>
         </Row>
 
-        {/* Bottom Bar */}
-        <div className="mt-5 pt-4 border-top border-secondary text-center">
-          <p className="mb-0 opacity-50" style={{ fontSize: '0.75rem' }}>
-            Powered by: Municipal Information Technology Office - Management in Information and Technology Division
-          </p>
-        </div>
+
       </Container>
 
       <style>{`
