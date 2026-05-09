@@ -27,6 +27,7 @@ import Cooperative from './pages/Cooperative'
 import Veterinary from './pages/Veterinary'
 import CitizensCharter from './pages/CitizensCharter'
 import Resolutions from './pages/Resolutions'
+import GAD from './pages/GAD'
 
 // Admin Pages
 import Login from './pages/admin/Login'
@@ -72,6 +73,7 @@ function App() {
           <Route path="/bids-awards" element={<><NavbarComponent /><main className="flex-grow-1"><BidsAwards /></main><Footer /></>} />
           <Route path="/citizens-charter" element={<><NavbarComponent /><main className="flex-grow-1"><CitizensCharter /></main><Footer /></>} />
           <Route path="/resolutions" element={<><NavbarComponent /><main className="flex-grow-1"><Resolutions /></main><Footer /></>} />
+          <Route path="/gad" element={<><NavbarComponent /><main className="flex-grow-1"><GAD /></main><Footer /></>} />
           <Route path="/barangays" element={<><NavbarComponent /><main className="flex-grow-1"><BarangayOfficials /></main><Footer /></>} />
           <Route path="/map" element={<><NavbarComponent /><main className="flex-grow-1"><Map /></main><Footer /></>} />
           <Route path="/socio-economic" element={<><NavbarComponent /><main className="flex-grow-1"><Profile /></main><Footer /></>} />

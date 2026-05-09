@@ -194,6 +194,16 @@ h6 {
   color: var(--primary) !important;
 }
 
+.nav-search-btn {
+  transition: var(--transition);
+  color: #444 !important;
+}
+
+.nav-search-btn:hover {
+  color: var(--primary) !important;
+  transform: scale(1.1);
+}
+
 /* Dropdown Custom Styling */
 .dropdown-header-custom {
   padding: 0.7rem 1.2rem;

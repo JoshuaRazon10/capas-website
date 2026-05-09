@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap'
 import { Link, useLocation } from 'react-router-dom'
 import {
-  FaFacebookF, FaTwitter, FaInstagram, FaBars
+  FaFacebookF, FaTwitter, FaInstagram, FaBars, FaSearch
 } from 'react-icons/fa'
 
 import logo from '../assets/images/capas.logo.jpg'
@@ -116,6 +116,7 @@ const NavbarComponent = () => {
         { path: '/executive-orders', label: 'Executive Orders' },
         { path: '/bids-awards', label: 'Bids & Awards' },
         { path: '/citizens-charter', label: 'Citizen\'s Charter' },
+        { path: '/gad', label: 'GAD (Gender and Development)' },
         { path: '/transparency-seal', label: 'Transparency Seal' },
         { path: '/bayanihan-grant', label: 'Bayanihan Grant to Cities and Municipalities' },
         { path: '/fund-utilization', label: 'Report on Fund Utilization and Status of Program or Project Implementation' },
@@ -272,6 +273,16 @@ const NavbarComponent = () => {
                   </Nav.Link>
                 )
               })}
+              
+              {/* Search Button */}
+              <div className="modern-nav-item d-flex align-items-center ms-lg-3 px-0">
+                <button 
+                  className="btn btn-link nav-search-btn text-dark p-0 border-0 text-decoration-none"
+                  style={{ fontSize: '1.1rem' }}
+                >
+                  <FaSearch />
+                </button>
+              </div>
             </Nav>
           </Navbar.Collapse>
         </Container>
