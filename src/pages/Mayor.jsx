@@ -20,7 +20,7 @@ const Mayor = () => {
               <div className="mayor-image-wrapper p-2 bg-white rounded-4 shadow-xl d-inline-block">
                 <img 
                   src={bootsImg} 
-                  alt="Hon. Roseller 'Boots' Rodriguez" 
+                  alt="Hon. Atty. Roseller 'Boots' Rodriguez" 
                   className="rounded-3"
                   style={{ width: '100%', maxWidth: '320px', height: '420px', objectFit: 'cover' }}
                 />
@@ -28,7 +28,7 @@ const Mayor = () => {
             </Col>
             <Col lg={8} className="text-center text-lg-start">
               <span className="badge px-3 py-2 mb-3 text-uppercase tracking-wider" style={{ background: 'var(--blue-logo)', color: 'white' }}>The Municipal Mayor</span>
-              <h1 className="display-3 fw-bold mb-2">Hon. Roseller "Boots" Rodriguez</h1>
+              <h1 className="display-3 fw-bold mb-2">Hon. Atty. Roseller "Boots" Rodriguez</h1>
               <p className="lead mb-4 opacity-75">Providing leadership with heart and action for the citizens of Capas.</p>
               <div className="d-flex justify-content-center justify-content-lg-start gap-3">
                 <a href="https://www.facebook.com/BootsRodriguez518" target="_blank" rel="noopener noreferrer" className="btn btn-outline-light rounded-circle p-2 d-flex align-items-center justify-content-center" style={{ width: '45px', height: '45px' }}>

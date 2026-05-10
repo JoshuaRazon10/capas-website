@@ -67,7 +67,7 @@ const Gallery = () => {
     { src: lyceum, title: 'Lyceum of Capas', cat: 'education' },
     { src: paleng, title: 'Public Market', cat: 'economy' },
     { src: award, title: 'Recognition Day', cat: 'events' },
-    { src: bootsImg, title: 'Hon. Roseller "Boots" Rodriguez', cat: 'leadership' },
+    { src: bootsImg, title: 'Hon. Atty. Roseller "Boots" Rodriguez', cat: 'leadership' },
     { src: vmalex, title: 'Vice Mayor Alex Pascual', cat: 'leadership' },
     { src: engrBey, title: 'Engr. Baby Lyn Robles', cat: 'leadership' },
     { src: lgbt1, title: 'LGBTQIA+ Event', cat: 'gad' },
