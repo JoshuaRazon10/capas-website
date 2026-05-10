@@ -52,7 +52,7 @@ const MunicipalCouncil = () => {
           <Row className="align-items-center position-relative">
             <Col lg={7}>
               <span className="badge mb-3 px-3 py-2 text-uppercase letter-spacing-1" style={{ backgroundColor: '#14183d', color: 'white', borderRadius: '4px' }}>Legislative Branch</span>
-              <h1 className="fw-bold text-dark mb-3" style={{ fontSize: '3rem' }}>Sangguniang Bayan</h1>
+              <h1 className="fw-bold text-dark mb-3" style={{ fontSize: '3rem' }}>Municipal Council</h1>
               <p className="text-muted lead mb-4">
                 The legislative heart of Capas, enacting laws and policies that empower our community 
                 and ensure sustainable progress for all.
