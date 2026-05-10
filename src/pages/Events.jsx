@@ -125,23 +125,31 @@ const Events = () => {
                 <Col key={idx} lg={idx === 0 ? 8 : 4} md={6}>
                   <Card className="h-100 border-0 shadow-sm rounded-4 overflow-hidden hover-lift transition-all bg-white">
                     <div style={{ 
-                      height: idx === 0 ? '300px' : '200px', 
-                      background: `linear-gradient(135deg, var(--primary), var(--blue-logo))`,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
+                      height: idx === 0 ? '450px' : '350px', 
+                      overflow: 'hidden',
+                      backgroundColor: '#f0f2f5',
                       position: 'relative'
                     }}>
-                      <FaCalendarDay size={idx === 0 ? 80 : 50} style={{ opacity: 0.2, color: 'white' }} />
-                      <Badge bg="light" className="text-dark position-absolute top-0 end-0 m-3 rounded-pill px-3 py-2 shadow-sm fw-bold">
-                        Event Spotlight
+                      <iframe 
+                        src={`https://www.facebook.com/plugins/post.php?href=${encodeURIComponent(item.link)}&show_text=true&width=500`}
+                        width="100%" 
+                        height="100%" 
+                        style={{ border: 'none', overflow: 'hidden' }} 
+                        scrolling="no" 
+                        frameBorder="0" 
+                        allowFullScreen={true} 
+                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                        title={`Facebook Event ${idx}`}
+                      ></iframe>
+                      <Badge bg="primary" className="position-absolute top-0 end-0 m-2 rounded-pill shadow-sm">
+                        Live Event Update
                       </Badge>
                     </div>
-                    <Card.Body className="p-4">
+                    <Card.Body className="p-4 bg-white border-top">
                       <div className="d-flex align-items-center gap-2 mb-2 text-muted small fw-bold">
                         <FaCalendarDay size={12} /> {item.date}
                       </div>
-                      <h5 className="fw-bold mb-3" style={{ lineHeight: '1.4' }}>{item.title}</h5>
+                      <h6 className="fw-bold mb-3 text-truncate-2" style={{ lineHeight: '1.4', height: '2.8em', overflow: 'hidden' }}>{item.title}</h6>
                       <Button 
                         as="a" 
                         href={item.link} 
@@ -149,7 +157,7 @@ const Events = () => {
                         variant="link" 
                         className="p-0 text-primary fw-bold text-decoration-none d-flex align-items-center gap-2 mt-auto"
                       >
-                        View Event Details <FaExternalLinkAlt size={12} />
+                        View on Facebook <FaExternalLinkAlt size={12} />
                       </Button>
                     </Card.Body>
                   </Card>
