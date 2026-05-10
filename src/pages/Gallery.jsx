@@ -18,6 +18,7 @@ import paleng from '../assets/images/paleng.jpg'
 import award from '../assets/images/capas.award.jpg'
 import vmalex from '../assets/images/vm.alex.jpg'
 import engrBey from '../assets/images/Engr. Bey.png'
+import bootsImg from '../assets/images/mayors/boots.webp'
 
 // Frontpage Awards
 import award1 from '../assets/images/frontpage/1.png'
@@ -66,6 +67,7 @@ const Gallery = () => {
     { src: lyceum, title: 'Lyceum of Capas', cat: 'education' },
     { src: paleng, title: 'Public Market', cat: 'economy' },
     { src: award, title: 'Recognition Day', cat: 'events' },
+    { src: bootsImg, title: 'Hon. Roseller "Boots" Rodriguez', cat: 'leadership' },
     { src: vmalex, title: 'Vice Mayor Alex Pascual', cat: 'leadership' },
     { src: engrBey, title: 'Engr. Baby Lyn Robles', cat: 'leadership' },
     { src: lgbt1, title: 'LGBTQIA+ Event', cat: 'gad' },
@@ -106,7 +108,8 @@ const Gallery = () => {
     <div className="gallery-page py-5 bg-white min-vh-100">
       {/* Header */}
       <section className="gallery-header py-5 mb-5" style={{
-        background: 'linear-gradient(rgba(20,24,61,0.85), rgba(20,24,61,0.85)), url("/assets/images/capas.background.png")',
+        backgroundColor: 'var(--blue-logo)',
+        backgroundImage: 'linear-gradient(rgba(20,24,61,0.9), rgba(20,24,61,0.9)), url("/assets/images/capas.background.png")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         color: 'white',
