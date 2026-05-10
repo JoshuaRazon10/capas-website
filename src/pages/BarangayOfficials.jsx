@@ -45,7 +45,7 @@ const BarangayOfficials = () => {
                     <FaMapMarkerAlt className="text-danger" size={24} />
                   </div>
                   <h5 className="fw-bold text-dark mb-2">{brgy.name.toUpperCase()}</h5>
-                  <Badge bg="primary" className="mb-3 px-3 py-2">PUNONG BARANGAY</Badge>
+                  <Badge className="mb-3 px-3 py-2" style={{ backgroundColor: 'var(--blue-logo)', border: 'none', color: 'white' }}>PUNONG BARANGAY</Badge>
                   
                   <div className="official-info mt-2">
                     <div className="d-flex align-items-center justify-content-center gap-2 mb-2">

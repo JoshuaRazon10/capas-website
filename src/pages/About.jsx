@@ -9,9 +9,6 @@ const About = () => {
       {/* Page Header */}
       <div className="page-header">
         <Container>
-          <div className="breadcrumb-custom">
-            <Link to="/">Home</Link> / <span>About Capas</span>
-          </div>
           <h1>About Capas</h1>
           <p>Discover the rich history and vibrant culture of our municipality.</p>
         </Container>

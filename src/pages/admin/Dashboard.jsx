@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { Container, Row, Col, Card, Nav, Button } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
-import { FaNewspaper, FaPlus, FaSignOutAlt, FaTachometerAlt, FaListAlt, FaChartLine, FaUsers, FaEye } from 'react-icons/fa'
+import { FaNewspaper, FaPlus, FaSignOutAlt, FaTachometerAlt, FaListAlt, FaChartLine, FaUsers, FaEye, FaFolderOpen, FaCog, FaImage } from 'react-icons/fa'
+import capasLogo from '../../assets/images/capas.logo.jpg'
 
 const Dashboard = () => {
   const navigate = useNavigate()
@@ -33,46 +34,7 @@ const Dashboard = () => {
   ]
 
   return (
-    <div className="d-flex" style={{ minHeight: '100vh' }}>
-      {/* Sidebar */}
-      <div className="admin-sidebar d-none d-lg-block" style={{ width: '260px', flexShrink: 0 }}>
-        <div className="px-4 mb-4">
-          <div className="d-flex align-items-center gap-2">
-            <div style={{
-              width: '38px', height: '38px', borderRadius: '10px',
-              background: 'linear-gradient(135deg, #C62828, #8E0000)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontWeight: 900, color: 'white', fontSize: '0.95rem',
-            }}>C</div>
-            <div>
-              <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>Capas Admin</div>
-              <div style={{ fontSize: '0.7rem', opacity: 0.5 }}>Management Panel</div>
-            </div>
-          </div>
-        </div>
-
-        <Nav className="flex-column">
-          <Nav.Link as={Link} to="/admin/dashboard" className="active d-flex align-items-center gap-3">
-            <FaTachometerAlt size={16} /> Dashboard
-          </Nav.Link>
-          <Nav.Link as={Link} to="/admin/news" className="d-flex align-items-center gap-3">
-            <FaListAlt size={16} /> Manage News
-          </Nav.Link>
-        </Nav>
-
-        <div className="px-3 mt-auto" style={{ position: 'absolute', bottom: '2rem', left: 0, right: 0 }}>
-          <hr style={{ borderColor: 'rgba(255,255,255,0.1)' }} />
-          <Nav.Link onClick={handleLogout} className="d-flex align-items-center gap-3 text-danger" style={{ cursor: 'pointer', color: '#EF5350 !important' }}>
-            <FaSignOutAlt size={16} /> Sign Out
-          </Nav.Link>
-          <a href="/" className="d-flex align-items-center gap-3 nav-link" style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85rem', marginTop: '0.5rem' }}>
-            &larr; Back to Website
-          </a>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="flex-grow-1" style={{ background: 'var(--gray-100)' }}>
+    <>
         {/* Top Bar */}
         <div className="bg-white px-4 py-3 d-flex justify-content-between align-items-center" style={{ boxShadow: 'var(--shadow-sm)' }}>
           <div>
@@ -101,6 +63,39 @@ const Dashboard = () => {
               </Col>
             ))}
           </Row>
+
+          {/* Quick Actions */}
+          <Card className="modern-card border-0 mb-4" style={{ boxShadow: 'var(--shadow)' }}>
+            <Card.Body className="p-4">
+              <h6 className="fw-bold mb-3">Quick Actions</h6>
+              <Row className="g-3">
+                <Col md={3}>
+                  <Button as={Link} to="/admin/news" className="btn-light w-100 py-3 border d-flex flex-column align-items-center gap-2" style={{ borderRadius: '15px' }}>
+                    <FaPlus className="text-primary" />
+                    <span className="small fw-bold">Post News</span>
+                  </Button>
+                </Col>
+                <Col md={3}>
+                  <Button as={Link} to="/admin/files" className="btn-light w-100 py-3 border d-flex flex-column align-items-center gap-2" style={{ borderRadius: '15px' }}>
+                    <FaFolderOpen className="text-success" />
+                    <span className="small fw-bold">Upload Document</span>
+                  </Button>
+                </Col>
+                <Col md={3}>
+                  <Button as={Link} to="/admin/gallery" className="btn-light w-100 py-3 border d-flex flex-column align-items-center gap-2" style={{ borderRadius: '15px' }}>
+                    <FaImage className="text-warning" />
+                    <span className="small fw-bold">Add Photo</span>
+                  </Button>
+                </Col>
+                <Col md={3}>
+                  <Button as={Link} to="/admin/settings" className="btn-light w-100 py-3 border d-flex flex-column align-items-center gap-2" style={{ borderRadius: '15px' }}>
+                    <FaCog className="text-secondary" />
+                    <span className="small fw-bold">Security Settings</span>
+                  </Button>
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card>
 
           {/* Recent News */}
           <Card className="modern-card border-0" style={{ boxShadow: 'var(--shadow)' }}>
@@ -140,8 +135,7 @@ const Dashboard = () => {
             </Card.Body>
           </Card>
         </Container>
-      </div>
-    </div>
+    </>
   )
 }
 

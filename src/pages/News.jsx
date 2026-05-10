@@ -18,9 +18,6 @@ const News = () => {
       {/* Page Header */}
       <div className="page-header">
         <Container>
-          <div className="breadcrumb-custom">
-            <Link to="/">Home</Link> / <span>News</span>
-          </div>
           <h1>News & Announcements</h1>
           <p>Stay updated with the latest happenings in Capas, Tarlac.</p>
         </Container>

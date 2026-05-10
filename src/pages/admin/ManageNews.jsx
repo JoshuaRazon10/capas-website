@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Container, Row, Col, Card, Nav, Button, Modal, Form, Alert } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
-import { FaPlus, FaEdit, FaTrash, FaSignOutAlt, FaTachometerAlt, FaListAlt, FaNewspaper, FaTimes } from 'react-icons/fa'
+import { FaPlus, FaEdit, FaTrash, FaSignOutAlt, FaTachometerAlt, FaListAlt, FaNewspaper, FaTimes, FaFolderOpen, FaCog, FaImage } from 'react-icons/fa'
+import capasLogo from '../../assets/images/capas.logo.jpg'
 
 const ManageNews = () => {
   const navigate = useNavigate()
@@ -78,45 +79,7 @@ const ManageNews = () => {
   }
 
   return (
-    <div className="d-flex" style={{ minHeight: '100vh' }}>
-      {/* Sidebar */}
-      <div className="admin-sidebar d-none d-lg-block" style={{ width: '260px', flexShrink: 0 }}>
-        <div className="px-4 mb-4">
-          <div className="d-flex align-items-center gap-2">
-            <div style={{
-              width: '38px', height: '38px', borderRadius: '10px',
-              background: 'linear-gradient(135deg, #C62828, #8E0000)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontWeight: 900, color: 'white', fontSize: '0.95rem',
-            }}>C</div>
-            <div>
-              <div style={{ fontWeight: 700, fontSize: '0.95rem' }}>Capas Admin</div>
-              <div style={{ fontSize: '0.7rem', opacity: 0.5 }}>Management Panel</div>
-            </div>
-          </div>
-        </div>
-
-        <Nav className="flex-column">
-          <Nav.Link as={Link} to="/admin/dashboard" className="d-flex align-items-center gap-3">
-            <FaTachometerAlt size={16} /> Dashboard
-          </Nav.Link>
-          <Nav.Link as={Link} to="/admin/news" className="active d-flex align-items-center gap-3">
-            <FaListAlt size={16} /> Manage News
-          </Nav.Link>
-        </Nav>
-
-        <div className="px-3" style={{ position: 'absolute', bottom: '2rem', left: 0, right: 0 }}>
-          <hr style={{ borderColor: 'rgba(255,255,255,0.1)' }} />
-          <Nav.Link onClick={handleLogout} className="d-flex align-items-center gap-3 text-danger" style={{ cursor: 'pointer' }}>
-            <FaSignOutAlt size={16} /> Sign Out
-          </Nav.Link>
-          <a href="/" className="d-flex align-items-center gap-3 nav-link" style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85rem', marginTop: '0.5rem' }}>
-            &larr; Back to Website
-          </a>
-        </div>
-      </div>
-
-      {/* Main Content */}
+    <>
       <div className="flex-grow-1" style={{ background: 'var(--gray-100)' }}>
         {/* Top Bar */}
         <div className="bg-white px-4 py-3 d-flex justify-content-between align-items-center" style={{ boxShadow: 'var(--shadow-sm)' }}>
@@ -241,7 +204,7 @@ const ManageNews = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </div>
+    </>
   )
 }
 

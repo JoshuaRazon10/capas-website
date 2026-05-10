@@ -86,7 +86,7 @@ const DownloadableForms = () => {
 
   const getFileIcon = (type) => {
     if (type === 'PDF') return <FaFilePdf className="text-danger" />
-    if (type.includes('DOC')) return <FaFileWord className="text-primary" />
+    if (type.includes('DOC')) return <FaFileWord style={{ color: 'var(--blue-logo)' }} />
     return <FaFileAlt className="text-secondary" />
   }
 
@@ -101,9 +101,6 @@ const DownloadableForms = () => {
         position: 'relative'
       }}>
         <Container className="py-4 position-relative z-index-1">
-          <div className="breadcrumb-custom mb-3 opacity-75">
-            <Link to="/" className="text-white text-decoration-none">Home</Link> / <span className="text-primary-light">Forms</span>
-          </div>
           <h1 className="display-4 fw-bold">Downloadable Forms</h1>
           <p className="lead opacity-75">Access and download official municipal application forms and documents.</p>
         </Container>
@@ -116,11 +113,11 @@ const DownloadableForms = () => {
             <Col lg={7}>
               <InputGroup className="shadow-sm rounded-3 overflow-hidden border">
                 <InputGroup.Text className="bg-white border-0 ps-3">
-                  <FaSearch className="text-muted" />
+                  <FaSearch style={{ color: 'var(--blue-logo)' }} />
                 </InputGroup.Text>
                 <Form.Control
                   placeholder="Search for forms (e.g. Building, Business...)"
-                  className="border-0 py-3 shadow-none"
+                  className="border-0 bg-transparent py-3 shadow-none"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
@@ -131,9 +128,13 @@ const DownloadableForms = () => {
                 {categories.map((cat, idx) => (
                   <Button
                     key={idx}
-                    variant={filter === cat ? 'primary' : 'outline-secondary'}
                     className={`rounded-pill px-4 text-nowrap fw-bold ${filter === cat ? 'shadow' : 'border-0 bg-white shadow-sm'}`}
-                    style={filter === cat ? { backgroundColor: 'var(--primary)', borderColor: 'var(--primary)' } : { color: '#666' }}
+                    style={{ 
+                      backgroundColor: filter === cat ? 'var(--blue-logo)' : 'white', 
+                      borderColor: filter === cat ? 'var(--blue-logo)' : '#ddd',
+                      color: filter === cat ? 'white' : '#666',
+                      border: filter === cat ? 'none' : '1px solid #ddd'
+                    }}
                     onClick={() => setFilter(cat)}
                   >
                     {cat}
@@ -155,7 +156,7 @@ const DownloadableForms = () => {
                       <div className="file-icon-wrapper p-3 rounded-4 bg-light">
                         {getFileIcon(form.isGroup ? 'PDF' : form.type)}
                       </div>
-                      <Badge bg="light" className="text-muted text-uppercase fw-bold p-2" style={{ fontSize: '0.7rem', letterSpacing: '1px' }}>
+                      <Badge className="text-uppercase fw-bold p-2" style={{ fontSize: '0.7rem', letterSpacing: '1px', backgroundColor: 'var(--blue-logo)', color: 'white' }}>
                         {form.type}
                       </Badge>
                     </div>
@@ -170,11 +171,12 @@ const DownloadableForms = () => {
                             <div className="d-flex gap-3">
                               <button 
                                 onClick={() => handlePreview(file)}
-                                className="btn btn-link p-0 text-primary text-decoration-none small fw-bold d-flex align-items-center gap-1"
+                                className="btn btn-link p-0 text-decoration-none small fw-bold d-flex align-items-center gap-1"
+                                style={{ color: 'var(--blue-logo)' }}
                               >
                                 <FaEye size={12} /> View
                               </button>
-                              <a href={`/forms/${file.file}`} download className="text-primary text-decoration-none small fw-bold">
+                              <a href={`/forms/${file.file}`} download className="text-decoration-none small fw-bold" style={{ color: 'var(--primary)' }}>
                                 <FaDownload size={12} className="me-1" /> {file.type}
                               </a>
                             </div>
@@ -183,7 +185,7 @@ const DownloadableForms = () => {
                       </div>
                     ) : (
                       <p className="text-muted small mb-4 mt-auto">
-                        <FaFilter className="me-2" size={10} />
+                        <FaFilter className="me-2" size={10} style={{ color: 'var(--blue-logo)' }} />
                         {form.category}
                       </p>
                     )}
@@ -191,9 +193,8 @@ const DownloadableForms = () => {
                     {!form.isGroup && (
                       <div className="d-flex gap-2">
                         <Button 
-                          variant="outline-primary"
                           className="border-2 py-2 w-50 fw-bold d-flex align-items-center justify-content-center gap-2"
-                          style={{ color: 'var(--primary)', borderColor: 'var(--primary)' }}
+                          style={{ color: 'var(--blue-logo)', borderColor: 'var(--blue-logo)', background: 'transparent' }}
                           onClick={() => handlePreview(form)}
                         >
                           <FaEye size={14} /> View
@@ -215,7 +216,7 @@ const DownloadableForms = () => {
             ))
           ) : (
             <Col xs={12} className="text-center py-5">
-              <div className="mb-4 opacity-25">
+              <div className="mb-4 opacity-25" style={{ color: 'var(--blue-logo)' }}>
                 <FaFileAlt size={80} />
               </div>
               <h4 className="text-muted fw-bold">No forms found matching your search.</h4>
@@ -227,7 +228,7 @@ const DownloadableForms = () => {
         {/* Preview Modal */}
         <Modal show={showPreview} onHide={() => setShowPreview(false)} size="lg" centered className="form-preview-modal">
           <Modal.Header closeButton className="border-0">
-            <Modal.Title className="fw-bold">{previewFile?.name}</Modal.Title>
+            <Modal.Title className="fw-bold" style={{ color: 'var(--blue-logo)' }}>{previewFile?.name}</Modal.Title>
           </Modal.Header>
           <Modal.Body className="p-0 bg-light">
             {previewFile?.type === 'PDF' ? (
@@ -240,7 +241,7 @@ const DownloadableForms = () => {
               ></iframe>
             ) : (
               <div className="text-center py-5 px-4">
-                <div className="mb-4 text-primary opacity-50">
+                <div className="mb-4 opacity-50" style={{ color: 'var(--blue-logo)' }}>
                   <FaFileWord size={80} />
                 </div>
                 <h4 className="fw-bold mb-3">Preview not available for Word documents</h4>

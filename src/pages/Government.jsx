@@ -37,9 +37,6 @@ const Government = () => {
       {/* Page Header */}
       <div className="page-header">
         <Container>
-          <div className="breadcrumb-custom">
-            <Link to="/">Home</Link> / <span>Government</span>
-          </div>
           <h1>Local Government</h1>
           <p>Meet the dedicated officials serving the Municipality of Capas.</p>
         </Container>

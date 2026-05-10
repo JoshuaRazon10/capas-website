@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Container, Row, Col, Card, Button, Carousel } from 'react-bootstrap'
+import { Container, Row, Col, Card, Button, Carousel, Badge } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { FaArrowRight, FaGlobe, FaFileAlt, FaUsers, FaNewspaper, FaHandsHelping, FaBuilding, FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock, FaPaperPlane, FaVolumeMute, FaVolumeUp } from 'react-icons/fa'
 import backgroundImage from '../assets/images/capas.background.png'
@@ -49,8 +49,26 @@ import award11 from '../assets/images/frontpage/11.png'
 const Home = () => {
   const pageRef = useRef(null)
   const [isMuted, setIsMuted] = useState(true)
+  const [fbWidth, setFbWidth] = useState(500)
 
   useEffect(() => {
+    // Calculate dynamic width for Facebook iframe
+    const updateFbWidth = () => {
+      const width = window.innerWidth
+      if (width < 576) {
+        // Mobile phones: full width minus padding
+        setFbWidth(Math.max(180, width - 45))
+      } else if (width < 992) {
+        // Tablets
+        setFbWidth(500)
+      } else {
+        // Desktop
+        setFbWidth(500)
+      }
+    }
+    
+    updateFbWidth()
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -66,7 +84,9 @@ const Home = () => {
     const elements = pageRef.current?.querySelectorAll('.scroll-animate')
     elements?.forEach((el) => observer.observe(el))
 
-    return () => observer.disconnect()
+    return () => {
+      observer.disconnect()
+    }
   }, [])
 
 
@@ -199,13 +219,13 @@ const Home = () => {
           <Row className="g-4">
             {/* Left Column: Facebook Feed */}
             <Col lg={6} className="scroll-animate scroll-left">
-              <div className="facebook-feed-wrapper shadow-lg rounded-4 overflow-hidden bg-white p-1" style={{ width: '100%', border: '1px solid #ddd' }}>
+              <div className="facebook-feed-wrapper shadow-lg rounded-4 overflow-hidden bg-white p-1 d-flex justify-content-center" style={{ width: '100%', border: '1px solid #ddd' }}>
                 <iframe 
-                  src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FCapasInformationOfficeOfficial&tabs=timeline&width=500&height=900&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" 
-                  width="100%" 
+                  src={`https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FCapasInformationOfficeOfficial&tabs=timeline&width=${fbWidth}&height=900&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId`}
+                  width={fbWidth} 
                   height="900" 
-                  style={{ border: 'none', overflow: 'auto' }} 
-                  scrolling="yes" 
+                  style={{ border: 'none', overflow: 'hidden', maxWidth: '100%' }} 
+                  scrolling="no" 
                   frameBorder="0" 
                   allowFullScreen={true} 
                   allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
@@ -375,7 +395,7 @@ const Home = () => {
                 <div className="carousel-caption-custom">
                   <Container>
                     <div className="caption-content animate-fadeInUp">
-                      <span className="badge bg-primary mb-2" style={{ background: 'var(--primary) !important' }}>{item.cat}</span>
+                      <Badge className="mb-2" style={{ backgroundColor: 'var(--primary)', color: 'white', border: 'none' }}>{item.cat}</Badge>
                       <h2 className="display-4 fw-bold text-white mb-0">{item.title}</h2>
                     </div>
                   </Container>

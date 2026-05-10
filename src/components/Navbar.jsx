@@ -264,7 +264,7 @@ const NavbarComponent = () => {
                       <NavDropdown 
                         title={link.label} 
                         id={`nav-dropdown-${index}`} 
-                        className="w-100 h-100 d-flex align-items-center justify-content-center border-0 p-0"
+                        className="w-100 h-100 border-0 p-0 custom-dropdown-wrapper"
                       >
                         {link.dropdownItems.map((item, idx) => {
                           if (item.isDivider) return <NavDropdown.Divider key={idx} />

@@ -28,10 +28,37 @@
   --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Global Color Theme Overrides for Bootstrap */
+.text-primary { color: var(--blue-logo) !important; }
+.bg-primary { background-color: var(--blue-logo) !important; }
+.btn-primary { 
+  background-color: var(--blue-logo) !important; 
+  border-color: var(--blue-logo) !important;
+  color: white !important;
+}
+.btn-outline-primary {
+  border-color: var(--blue-logo) !important;
+  color: var(--blue-logo) !important;
+}
+.btn-outline-primary:hover {
+  background-color: var(--blue-logo) !important;
+  color: white !important;
+}
+.badge.bg-primary {
+  background-color: var(--blue-logo) !important;
+  color: white !important;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
 }
 
 body {
@@ -41,7 +68,6 @@ body {
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
 }
 
 h1,
@@ -186,7 +212,6 @@ h6 {
   display: flex;
   align-items: center;
   justify-content: center;
-  white-space: nowrap; /* Keep text on one line */
   cursor: pointer;
 }
 
@@ -325,8 +350,24 @@ a.dropdown-subheader-custom:hover {
   display: none; /* Hide default arrow to keep it clean */
 }
 
+/* Fix dropdown toggle centering on desktop after removing d-flex */
+.custom-dropdown-wrapper > a.dropdown-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
 /* Mobile Adjustments */
 @media (max-width: 991px) {
+  .modern-nav-item .dropdown-toggle::after {
+    display: inline-block;
+    margin-left: auto;
+    vertical-align: middle;
+  }
+  
   .main-navbar-modern {
     padding: 0.5rem 0;
   }
@@ -334,13 +375,63 @@ a.dropdown-subheader-custom:hover {
   .nav-links-modern {
     padding: 1rem 0;
   }
+
+  .nav-links-modern .modern-nav-item {
+    justify-content: flex-start !important;
+    padding: 0 !important;
+    border-bottom: 1px solid #eee;
+    flex-direction: column;
+    align-items: flex-start;
+    white-space: normal !important;
+    word-wrap: break-word;
+  }
   
-  .modern-nav-item.active::after {
-    left: 0;
-    width: 4px;
-    height: 100%;
-    top: 0;
-    bottom: 0;
+  .modern-nav-item > a, .custom-dropdown-wrapper > a.dropdown-toggle {
+    padding: 1rem 0 !important;
+    justify-content: flex-start !important;
+    width: 100%;
+    text-align: left;
+  }
+  
+  .modern-nav-item.active {
+    border-left: 4px solid var(--primary);
+    padding-left: 10px !important;
+  }
+
+  .sliding-indicator {
+    display: none !important;
+  }
+
+  .dropdown-menu {
+    width: 100% !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: #f8f9fa !important;
+    padding-left: 1rem !important;
+    margin: 0 !important;
+    position: static !important;
+    transform: none !important;
+  }
+
+  .brand-text-modern .municipality-name {
+    font-size: 0.9rem;
+  }
+
+  .logo-bp, .logo-capas {
+    height: 35px;
+    width: auto;
+  }
+  .logo-capas {
+    width: 35px;
+  }
+}
+
+@media (max-width: 400px) {
+  .brand-text-modern .municipality-name {
+    font-size: 0.8rem;
+  }
+  .brand-text-modern .province-name {
+    font-size: 0.6rem;
   }
 }
 

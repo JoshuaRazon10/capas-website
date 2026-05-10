@@ -9,9 +9,6 @@ const Contact = () => {
       {/* Page Header */}
       <div className="page-header">
         <Container>
-          <div className="breadcrumb-custom">
-            <Link to="/">Home</Link> / <span>Contact</span>
-          </div>
           <h1>Contact Us</h1>
           <p>We'd love to hear from you. Get in touch with us today.</p>
         </Container>

@@ -7,7 +7,7 @@ const offices = [
   {
     title: "MUNICIPAL ASSESSOR'S OFFICE",
     icon: <FaFileAlt size={32} />,
-    color: '#0d6efd',
+    color: 'var(--blue-logo)',
     services: [
       "Transfer of Tax Declaration",
       "Issuance of Tax Declaration for Consolidation/Subdivision",
@@ -18,7 +18,7 @@ const offices = [
   {
     title: "BUSINESS PERMIT AND LICENSING OFFICE",
     icon: <FaBriefcase size={32} />,
-    color: '#0d6efd',
+    color: 'var(--blue-logo)',
     services: [
       "Manual Registration of Business/Mayor's Permit",
       "Manual Renewal of Business/Mayor's Permit",
@@ -30,7 +30,7 @@ const offices = [
   {
     title: "MUNICIPAL ENGINEERING OFFICE",
     icon: <FaTools size={32} />,
-    color: '#0d6efd',
+    color: 'var(--blue-logo)',
     services: [
       "Issuance of Building Permit",
       "Issuance of Certificate of Occupancy",
@@ -45,7 +45,7 @@ const offices = [
   {
     title: "MUNICIPAL AGRARIAN OFFICE",
     icon: <FaSeedling size={32} />,
-    color: '#0d6efd',
+    color: 'var(--blue-logo)',
     services: [
       "Distribution of Farm Machineries",
       "Distribution of Farm Inputs to Registered Farmers (Certified Seeds, Corn, Fingerlings, Seedlings)",
@@ -59,15 +59,13 @@ const Services = () => {
   return (
     <div className="services-page bg-light min-vh-100">
       {/* Page Header */}
-      <div className="page-header bg-dark text-white py-5 mb-0" style={{
-        backgroundImage: 'linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("/assets/images/capas.background.png")',
+      <div className="page-header text-white py-5 mb-0" style={{
+        backgroundColor: 'var(--blue-logo)',
+        backgroundImage: 'linear-gradient(rgba(20,24,61,0.9), rgba(20,24,61,0.9)), url("/assets/images/capas.background.png")',
         backgroundSize: 'cover',
         backgroundPosition: 'center'
       }}>
         <Container className="py-4">
-          <div className="breadcrumb-custom mb-3 opacity-75">
-            <Link to="/" className="text-white text-decoration-none">Home</Link> / <span className="text-primary-light">Services</span>
-          </div>
           <h1 className="display-4 fw-bold">Citizen's Charter</h1>
           <p className="lead opacity-75">Transparency and efficiency in public service delivery.</p>
         </Container>

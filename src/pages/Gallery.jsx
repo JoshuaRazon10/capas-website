@@ -144,26 +144,22 @@ const Gallery = () => {
           {filteredItems.map((item, index) => (
             <Col key={index} xs={12} sm={6} md={4} lg={3} className="animate-fadeIn">
               <Card 
-                className="border-0 shadow-sm overflow-hidden gallery-card h-100" 
+                className="border-0 overflow-hidden gallery-card h-100" 
                 onClick={() => handleOpen(item)}
-                style={{ cursor: 'pointer', borderRadius: '15px' }}
+                style={{ cursor: 'pointer', borderRadius: '0' }}
               >
-                <div className="position-relative overflow-hidden" style={{ height: '250px' }}>
+                <div className="position-relative overflow-hidden" style={{ height: '350px' }}>
                   <Card.Img 
                     src={item.src} 
                     alt={item.title} 
                     className="w-100 h-100 object-fit-cover transition-all gallery-img" 
                   />
-                  <div className="gallery-overlay d-flex align-items-center justify-content-center">
-                    <FaSearchPlus size={30} className="text-white" />
+                  <div className="gallery-overlay d-flex flex-column align-items-center justify-content-center text-white p-3 text-center">
+                    <FaSearchPlus size={30} className="mb-2" />
+                    <h6 className="fw-bold mb-0">{item.title}</h6>
+                    <small className="text-uppercase opacity-75" style={{ fontSize: '0.6rem' }}>{item.cat}</small>
                   </div>
                 </div>
-                <Card.Body className="p-3 text-center">
-                  <h6 className="fw-bold mb-0 text-dark">{item.title}</h6>
-                  <span className="text-uppercase small text-muted" style={{ fontSize: '0.7rem', letterSpacing: '1px' }}>
-                    {item.cat}
-                  </span>
-                </Card.Body>
               </Card>
             </Col>
           ))}

@@ -99,7 +99,7 @@ const Events = () => {
         <Card className="border-0 shadow-sm rounded-4 mb-5 p-4">
           <InputGroup className="shadow-sm rounded-pill overflow-hidden border-0 bg-light p-1">
             <InputGroup.Text className="bg-transparent border-0 ps-3">
-              <FaSearch className="text-muted" />
+              <FaSearch style={{ color: 'var(--blue-logo)' }} />
             </InputGroup.Text>
             <Form.Control
               placeholder="Search events by title or date..."
@@ -142,13 +142,13 @@ const Events = () => {
                           title={`Facebook Event ${idx}`}
                         ></iframe>
                       </div>
-                      <Badge bg="primary" className="position-absolute top-0 end-0 m-3 rounded-pill shadow-sm fw-bold px-3 py-2" style={{ background: 'var(--primary)', border: 'none' }}>
+                      <Badge className="position-absolute top-0 end-0 m-3 rounded-pill shadow-sm fw-bold px-3 py-2" style={{ backgroundColor: 'var(--blue-logo)', border: 'none', color: 'white' }}>
                         {idx === 0 ? 'EVENT SPOTLIGHT' : 'UPCOMING'}
                       </Badge>
                     </div>
                     <Card.Body className="p-4 bg-white border-top">
                       <div className="d-flex align-items-center gap-2 mb-2 text-muted small fw-bold">
-                        <FaCalendarDay size={12} className="text-primary" /> {item.date}
+                        <FaCalendarDay size={12} style={{ color: 'var(--primary)' }} /> {item.date}
                       </div>
                       <h6 className="fw-bold mb-3 text-truncate-2" style={{ color: 'var(--blue-logo)', lineHeight: '1.4', height: '2.8em', overflow: 'hidden' }}>{item.title}</h6>
                       <Button 
@@ -156,8 +156,8 @@ const Events = () => {
                         href={item.link} 
                         target="_blank" 
                         variant="link" 
-                        className="p-0 text-primary fw-bold text-decoration-none d-flex align-items-center gap-2 mt-auto"
-                        style={{ color: 'var(--primary)' }}
+                        className="p-0 text-decoration-none d-flex align-items-center gap-2 mt-auto"
+                        style={{ color: 'var(--primary)', fontWeight: '700' }}
                       >
                         View Full Details <FaExternalLinkAlt size={12} />
                       </Button>
@@ -171,7 +171,7 @@ const Events = () => {
 
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h3 className="fw-bold mb-0">All Event Records</h3>
-          <Badge bg="light" className="text-muted rounded-pill px-3 py-2 border">
+          <Badge className="rounded-pill px-3 py-2" style={{ backgroundColor: 'var(--blue-logo)', color: 'white' }}>
             {filteredEvents.length} Entries
           </Badge>
         </div>
@@ -191,7 +191,7 @@ const Events = () => {
                   <tr key={idx} className="align-middle">
                     <td className="py-4 px-4 border-0">
                       <div className="d-flex align-items-center gap-2">
-                        <FaCalendarDay className="text-primary opacity-50" />
+                        <FaCalendarDay style={{ color: 'var(--blue-logo)', opacity: 0.6 }} />
                         <span className="fw-semibold">{item.date}</span>
                       </div>
                     </td>
@@ -204,8 +204,8 @@ const Events = () => {
                         href={item.link} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        variant="outline-primary"
                         className="rounded-pill px-3 py-2 btn-sm fw-bold border-2 d-inline-flex align-items-center gap-2"
+                        style={{ border: '2px solid var(--blue-logo)', color: 'var(--blue-logo)', background: 'transparent' }}
                       >
                         View Event <FaExternalLinkAlt size={12} />
                       </Button>

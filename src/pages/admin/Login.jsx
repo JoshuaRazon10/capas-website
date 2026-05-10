@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Container, Row, Col, Form, Button, Card, Alert } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { FaShieldAlt, FaEnvelope, FaLock, FaArrowRight } from 'react-icons/fa'
+import capasLogo from '../../assets/images/capas.logo.jpg'
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -49,12 +50,11 @@ const Login = () => {
           <Col md={5} lg={4}>
             <div className="text-center mb-4">
               <div style={{
-                width: '64px', height: '64px', borderRadius: '18px',
-                background: 'linear-gradient(135deg, #0C0C6B, #06063A)',
+                width: '74px', height: '74px', borderRadius: '50%',
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                marginBottom: '1rem', boxShadow: '0 8px 30px rgba(12,12,107,0.4)',
+                marginBottom: '1rem', boxShadow: '0 8px 30px rgba(0,0,0,0.5)', overflow: 'hidden'
               }}>
-                <FaShieldAlt size={28} color="white" />
+                <img src={capasLogo} alt="Capas Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
               <h3 className="fw-bold text-white mb-1">Admin Panel</h3>
               <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem' }}>Municipality of Capas, Tarlac</p>
@@ -79,7 +79,7 @@ const Login = () => {
                       <FaEnvelope size={14} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: 'var(--gray-500)' }} />
                       <Form.Control
                         type="email"
-                        placeholder="admin@capas.gov.ph"
+                        placeholder=""
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="modern-input"
@@ -95,7 +95,7 @@ const Login = () => {
                       <FaLock size={14} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: 'var(--gray-500)' }} />
                       <Form.Control
                         type="password"
-                        placeholder="••••••••"
+                        placeholder=""
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         className="modern-input"
