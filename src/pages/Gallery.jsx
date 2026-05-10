@@ -112,8 +112,7 @@ const Gallery = () => {
         backgroundImage: 'linear-gradient(rgba(20,24,61,0.9), rgba(20,24,61,0.9)), url("/assets/images/capas.background.png")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        color: 'white',
-        borderRadius: '0 0 50px 50px'
+        color: 'white'
       }}>
         <Container className="text-center py-4">
           <h1 className="display-3 fw-bold mb-3">Municipal Gallery</h1>
