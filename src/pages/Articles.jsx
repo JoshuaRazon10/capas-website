@@ -79,6 +79,59 @@ const Articles = () => {
           </InputGroup>
         </Card>
 
+        {/* Latest Previews */}
+        {!searchTerm && (
+          <div className="mb-5">
+            <h3 className="fw-bold mb-4 d-flex align-items-center gap-2">
+              <div style={{ width: '8px', height: '32px', backgroundColor: 'var(--primary)', borderRadius: '4px' }}></div>
+              Latest Highlights
+            </h3>
+            <Row className="g-4">
+              {articles.slice(0, 5).map((item, idx) => (
+                <Col key={idx} lg={idx === 0 ? 8 : 4} md={6}>
+                  <Card className="h-100 border-0 shadow-sm rounded-4 overflow-hidden hover-lift transition-all bg-white">
+                    <div style={{ 
+                      height: idx === 0 ? '300px' : '200px', 
+                      background: `linear-gradient(135deg, var(--blue-logo), var(--primary))`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      position: 'relative'
+                    }}>
+                      <FaNewspaper size={idx === 0 ? 80 : 50} style={{ opacity: 0.2, color: 'white' }} />
+                      <Badge bg="light" className="text-dark position-absolute top-0 end-0 m-3 rounded-pill px-3 py-2 shadow-sm fw-bold">
+                        Latest Post #{idx + 1}
+                      </Badge>
+                    </div>
+                    <Card.Body className="p-4">
+                      <div className="d-flex align-items-center gap-2 mb-2 text-muted small fw-bold">
+                        <FaCalendarAlt size={12} /> {item.date}
+                      </div>
+                      <h5 className="fw-bold mb-3" style={{ lineHeight: '1.4' }}>{item.title}</h5>
+                      <Button 
+                        as="a" 
+                        href={item.link} 
+                        target="_blank" 
+                        variant="link" 
+                        className="p-0 text-primary fw-bold text-decoration-none d-flex align-items-center gap-2 mt-auto"
+                      >
+                        Read Full Story on Facebook <FaExternalLinkAlt size={12} />
+                      </Button>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          </div>
+        )}
+
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <h3 className="fw-bold mb-0">All Article Records</h3>
+          <Badge bg="light" className="text-muted rounded-pill px-3 py-2 border">
+            {filteredArticles.length} Entries
+          </Badge>
+        </div>
+
         <Card className="border-0 shadow-sm rounded-4 overflow-hidden">
           <Table responsive hover className="mb-0 custom-table">
             <thead className="bg-white border-bottom">
