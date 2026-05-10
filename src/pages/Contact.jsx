@@ -23,9 +23,9 @@ const Contact = () => {
           <Row className="gy-3">
             {[
               { icon: <FaMapMarkerAlt size={22} />, title: 'Visit Us', line1: 'Municipal Hall, McArthur Hwy', line2: 'Capas, Tarlac 2315' },
-              { icon: <FaPhone size={22} />, title: 'Call Us', line1: '(045) 925-0154', line2: 'Mon – Fri, 8AM – 5PM' },
+              { icon: <FaPhone size={22} />, title: 'Call Us', line1: '(045) 925-0154', line2: 'Mon – Thu, 7AM – 6PM' },
               { icon: <FaEnvelope size={22} />, title: 'Email Us', line1: 'info@capas.gov.ph', line2: 'We reply within 24 hours' },
-              { icon: <FaClock size={22} />, title: 'Office Hours', line1: 'Monday – Friday', line2: '8:00 AM – 5:00 PM' },
+              { icon: <FaClock size={22} />, title: 'Office Hours', line1: 'Monday – Thursday', line2: '7:00 AM – 6:00 PM' },
             ].map((item, idx) => (
               <Col key={idx} lg={3} md={6}>
                 <Card className="modern-card border-0 p-4 text-center h-100">

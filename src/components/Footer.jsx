@@ -6,7 +6,7 @@ import phSeal from '../assets/images/ph.seal.jfif'
 
 const Footer = () => {
   return (
-    <footer className="footer-baguio-style" style={{ backgroundColor: 'var(--primary)', color: 'white', padding: '60px 0 20px 0' }}>
+    <footer className="official-footer py-5" style={{ backgroundColor: 'var(--primary)', color: 'white' }}>
       <Container>
         <Row className="gy-4">
           {/* Column 1: Philippine Seal */}
@@ -74,21 +74,19 @@ const Footer = () => {
             </div>
           </Col>
         </Row>
-
-
       </Container>
 
-      <style>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         .hover-opacity-100:hover {
           opacity: 1 !important;
-          color: #EF5350 !important;
+          color: #ffffff !important;
+          text-decoration: underline !important;
         }
-        .footer-baguio-style {
-          /* Plain red background as requested */
-        }
-      `}</style>
+      `}} />
     </footer>
   )
 }
 
 export default Footer
+
+

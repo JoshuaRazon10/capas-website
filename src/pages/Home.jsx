@@ -28,6 +28,23 @@ import bootsImg from '../assets/images/mayors/boots.webp'
 import lyceumImg from '../assets/images/lyceum.jpg'
 import palengImg from '../assets/images/paleng.jpg'
 import lguImg from '../assets/images/lgu.jpg'
+import vmAlex from '../assets/images/vm.alex.jpg'
+import lgbtImg from '../assets/images/LGBTQ/1.jpg'
+import youthImg from '../assets/images/youth/1.jpg'
+
+// Frontpage Awards
+import award1 from '../assets/images/frontpage/1.png'
+import award2 from '../assets/images/frontpage/2.png'
+import award3 from '../assets/images/frontpage/3.png'
+import award4 from '../assets/images/frontpage/4.png'
+import award5 from '../assets/images/frontpage/5.png'
+import award6 from '../assets/images/frontpage/6.png'
+import award7 from '../assets/images/frontpage/7.png'
+import award8 from '../assets/images/frontpage/8.png'
+import award9 from '../assets/images/frontpage/9.png'
+import award10 from '../assets/images/frontpage/10.png'
+import award11 from '../assets/images/frontpage/11.png'
+
 
 const Home = () => {
   const pageRef = useRef(null)
@@ -319,11 +336,17 @@ const Home = () => {
           className="municipal-carousel shadow-lg"
         >
           {[
-            { src: flag1, title: 'Flag Rites 2026', cat: 'Official Events' },
-            { src: flag2, title: 'Community Gathering', cat: 'Local Government' },
-            { src: flag3, title: 'Official Ceremony', cat: 'Events' },
-            { src: flag4, title: 'LGU Personnel', cat: 'Public Service' },
-            { src: flag5, title: 'Capas Pride', cat: 'Culture' },
+            { src: award1, title: 'Outstanding Performance', cat: 'Recognition' },
+            { src: award2, title: 'Municipal Excellence', cat: 'Award' },
+            { src: award3, title: 'Public Service Award', cat: 'Recognition' },
+            { src: award4, title: 'Governance Citation', cat: 'Award' },
+            { src: award5, title: 'Community Impact', cat: 'Recognition' },
+            { src: award6, title: 'Leadership Award', cat: 'Award' },
+            { src: award7, title: 'Special Recognition', cat: 'Recognition' },
+            { src: award8, title: 'Performance Excellence', cat: 'Award' },
+            { src: award9, title: 'Municipal Achievement', cat: 'Recognition' },
+            { src: award10, title: 'Top Performer', cat: 'Award' },
+            { src: award11, title: 'National Recognition', cat: 'Award' },
           ].map((item, idx) => (
             <Carousel.Item key={idx}>
                   <div className="carousel-img-wrapper" style={{ height: '70vh', minHeight: '500px', position: 'relative', overflow: 'hidden', backgroundColor: '#000' }}>

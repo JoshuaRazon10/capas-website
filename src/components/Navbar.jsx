@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap'
 import { Link, useLocation } from 'react-router-dom'
-import {
-  FaFacebookF, FaTwitter, FaInstagram, FaBars, FaSearch
-} from 'react-icons/fa'
+import { FaFacebookF, FaYoutube, FaBars, FaSearch, FaInstagram } from 'react-icons/fa'
 
 import logo from '../assets/images/capas.logo.jpg'
 import bagongPilipinasLogo from '../assets/images/Bagong_Pilipinas_logo.png'
@@ -195,12 +193,18 @@ const NavbarComponent = () => {
             <span className="official-gazette">OFFICIAL GAZETTE</span>
           </div>
           <div className="d-flex align-items-center gap-4">
-            <a href="#" className="top-bar-link">Transparency Seal</a>
-            <a href="#" className="top-bar-link">FOI</a>
-            <div className="top-socials">
-              <FaFacebookF />
-              <FaTwitter />
-              <FaInstagram />
+            <Link to="/transparency-seal" className="top-bar-link text-decoration-none">Transparency Seal</Link>
+            <Link to="/foi" className="top-bar-link text-decoration-none">FOI</Link>
+            <div className="top-socials d-flex gap-3">
+              <a href="https://www.facebook.com/CapasInformationOfficeOfficial" target="_blank" rel="noreferrer" className="text-white opacity-75 hover-opacity-100">
+                <FaFacebookF size={40} />
+              </a>
+              <a href="https://www.youtube.com/channel/UCGPbqKxR8633lLk_vwzVkLw" target="_blank" rel="noreferrer" className="text-white opacity-75 hover-opacity-100">
+                <FaYoutube />
+              </a>
+              <a href="https://www.instagram.com" target="_blank" rel="noreferrer" className="text-white opacity-75 hover-opacity-100">
+                <FaInstagram />
+              </a>
             </div>
           </div>
         </Container>

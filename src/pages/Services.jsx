@@ -133,7 +133,7 @@ const Services = () => {
                 <FaClock size={40} className="text-primary-red flex-shrink-0" />
                 <div>
                   <h4 className="fw-bold mb-2">Office Hours</h4>
-                  <p className="text-muted m-0">Monday – Friday: 8:00 AM – 5:00 PM</p>
+                  <p className="text-muted m-0">Monday – Thursday: 7:00 AM – 6:00 PM</p>
                   <p className="text-muted small">No Noon Break policy implemented for continuous service.</p>
                 </div>
               </div>

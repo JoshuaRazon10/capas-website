@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Row, Col, Card, Tab, Nav } from 'react-bootstrap'
+import { Container, Row, Col, Card, Tab, Nav, Carousel } from 'react-bootstrap'
 import { FaUsers, FaHandsHelping, FaVenusMars, FaChild, FaUserFriends, FaRainbow, FaExternalLinkAlt, FaFacebook } from 'react-icons/fa'
 
 import lgbt1 from '../assets/images/LGBTQ/1.jpg'
@@ -62,15 +62,25 @@ const GAD = () => {
             <Col lg={5}>
               <div className="gad-visuals-grid position-relative">
                 <div className="bg-primary position-absolute w-100 h-100 rounded-4" style={{ top: '20px', left: '20px', zIndex: 0, opacity: 0.1 }}></div>
-                <div className="position-relative p-2 bg-white rounded-4 shadow-sm" style={{ zIndex: 1 }}>
-                   {/* Placeholder for carousel/collage */}
-                   <div className="rounded-3 overflow-hidden bg-light d-flex align-items-center justify-content-center" style={{ height: '400px' }}>
-                      <div className="text-center p-4">
-                        <FaUsers size={60} className="text-primary opacity-25 mb-3" />
-                        <h5 className="fw-bold text-muted">GAD Activities Gallery</h5>
-                        <p className="small text-muted">Showcasing all sectors and activities in Capas</p>
-                      </div>
-                   </div>
+                <div className="position-relative p-2 bg-white rounded-4 shadow-sm overflow-hidden" style={{ zIndex: 1 }}>
+                   <Carousel fade interval={3000} controls={false} indicators={true} className="gad-main-carousel rounded-3 overflow-hidden">
+                     {[...lgbtImages, ...youthImages].sort(() => 0.5 - Math.random()).map((img, idx) => (
+                       <Carousel.Item key={idx}>
+                         <div style={{ height: '400px' }}>
+                           <img
+                             className="d-block w-100 h-100"
+                             src={img}
+                             alt={`GAD Activity ${idx + 1}`}
+                             style={{ objectFit: 'cover' }}
+                           />
+                           <div className="carousel-caption d-none d-md-block" style={{ background: 'rgba(0,0,0,0.4)', left: 0, right: 0, bottom: 0, padding: '20px' }}>
+                             <h5 className="fw-bold m-0 text-white">GAD Community in Action</h5>
+                             <p className="small m-0 text-white-50">Empowering and supporting every sector in Capas.</p>
+                           </div>
+                         </div>
+                       </Carousel.Item>
+                     ))}
+                   </Carousel>
                 </div>
               </div>
             </Col>

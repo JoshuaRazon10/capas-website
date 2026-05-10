@@ -22,7 +22,7 @@ const BusinessPermit = () => {
         backgroundPosition: 'center',
         color: 'white'
       }}>
-        <Container className="py-4 text-center text-md-start">
+        <Container className="py-4 text-center">
           <h1 className="display-4 fw-bold m-0">Business Permit and Licensing Office</h1>
         </Container>
       </div>
@@ -61,7 +61,7 @@ const BusinessPermit = () => {
                   <h5 className="fw-bold d-flex align-items-center gap-2 mb-3" style={{ color: 'var(--blue-logo)' }}>
                     <FaClock /> Operating Hours
                   </h5>
-                  <p className="text-muted mb-0">Monday to Friday | 8:00 AM – 5:00 PM (No Noon Break)</p>
+                  <p className="text-muted mb-0">Monday to Thursday | 7:00 AM – 6:00 PM (No Noon Break)</p>
                 </div>
               </Card>
             </Col>
