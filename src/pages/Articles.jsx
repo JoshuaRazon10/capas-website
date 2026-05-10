@@ -56,9 +56,6 @@ const Articles = () => {
         backgroundPosition: 'center'
       }}>
         <Container className="py-4">
-          <div className="breadcrumb-custom mb-3 opacity-75">
-            <Link to="/" className="text-white text-decoration-none">Home</Link> / <span className="text-primary-light">News</span>
-          </div>
           <h1 className="display-4 fw-bold">Municipal Articles</h1>
           <p className="lead opacity-75">Archive of official news, press releases, and stories from Capas.</p>
         </Container>
