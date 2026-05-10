@@ -152,7 +152,7 @@ const NavbarComponent = () => {
         { path: '/job-hiring', label: 'Job Hiring' },
         { path: '/peso-capas', label: 'PESO Capas' },
         { path: '/peso-tarlac', label: 'PESO Tarlac Province' },
-        { path: '/jobs-clark', label: 'Jobs at Clark' },
+        { path: 'http://45.32.113.4/?fbclid=IwAR2049EqY2gqGleTs76d_k_bazGOOpAh7KHPVoA21yJGQ8FTtFf_WYlSrwI', label: 'Jobs at Clark' },
       ]
     },
   ]
@@ -286,8 +286,8 @@ const NavbarComponent = () => {
                           }
                           return (
                             <NavDropdown.Item
-                              as={Link}
-                              to={item.path}
+                              as={item.path.startsWith('http') ? 'a' : Link}
+                              {...(item.path.startsWith('http') ? { href: item.path, target: '_blank', rel: 'noopener noreferrer' } : { to: item.path })}
                               key={idx}
                               className="dropdown-item-custom"
                             >
