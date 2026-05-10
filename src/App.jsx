@@ -38,6 +38,8 @@ import ExecutiveOrders from './pages/ExecutiveOrders'
 import Gallery from './pages/Gallery'
 import MunicipalCouncil from './pages/MunicipalCouncil'
 import DownloadableForms from './pages/DownloadableForms'
+import Articles from './pages/Articles'
+import Events from './pages/Events'
 
 
 
@@ -117,8 +119,8 @@ function App() {
           <Route path="/application-forms" element={<><NavbarComponent /><main className="flex-grow-1"><DownloadableForms /></main><PreFooter /><Footer /></>} />
 
           {/* News Missing */}
-          <Route path="/articles" element={<><NavbarComponent /><UnderDevelopment /><PreFooter /><Footer /></>} />
-          <Route path="/events" element={<><NavbarComponent /><UnderDevelopment /><PreFooter /><Footer /></>} />
+          <Route path="/articles" element={<><NavbarComponent /><main className="flex-grow-1"><Articles /></main><PreFooter /><Footer /></>} />
+          <Route path="/events" element={<><NavbarComponent /><main className="flex-grow-1"><Events /></main><PreFooter /><Footer /></>} />
           <Route path="/gallery" element={<><NavbarComponent /><main className="flex-grow-1"><Gallery /></main><PreFooter /><Footer /></>} />
           <Route path="/foi" element={<><NavbarComponent /><UnderDevelopment /><PreFooter /><Footer /></>} />
 
