@@ -86,41 +86,46 @@ const Articles = () => {
             <Row className="g-4">
               {articles.slice(0, 5).map((item, idx) => (
                 <Col key={idx} lg={idx === 0 ? 8 : 4} md={6}>
-                  <Card className="h-100 border-0 shadow-sm rounded-4 overflow-hidden hover-lift transition-all bg-white">
+                  <Card className="h-100 border-0 shadow-sm rounded-4 overflow-hidden hover-lift transition-all bg-white" style={{ border: '1px solid rgba(20,24,61,0.08)' }}>
                     <div style={{ 
-                      height: idx === 0 ? '450px' : '350px', 
+                      height: idx === 0 ? '500px' : '400px', 
                       overflow: 'hidden',
-                      backgroundColor: '#f0f2f5',
-                      position: 'relative'
+                      backgroundColor: 'var(--blue-logo)',
+                      position: 'relative',
+                      padding: '2px', // Border effect
+                      background: idx === 0 ? 'linear-gradient(135deg, var(--blue-logo), var(--primary))' : 'var(--blue-logo)'
                     }}>
-                      <iframe 
-                        src={`https://www.facebook.com/plugins/post.php?href=${encodeURIComponent(item.link)}&show_text=true&width=500`}
-                        width="100%" 
-                        height="100%" 
-                        style={{ border: 'none', overflow: 'hidden' }} 
-                        scrolling="no" 
-                        frameBorder="0" 
-                        allowFullScreen={true} 
-                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                        title={`Facebook Post ${idx}`}
-                      ></iframe>
-                      <Badge bg="primary" className="position-absolute top-0 end-0 m-2 rounded-pill shadow-sm">
-                        Live Post
+                      <div style={{ height: '100%', width: '100%', backgroundColor: 'white', borderRadius: '14px 14px 0 0', overflow: 'hidden' }}>
+                        <iframe 
+                          src={`https://www.facebook.com/plugins/post.php?href=${encodeURIComponent(item.link)}&show_text=true&width=500`}
+                          width="100%" 
+                          height="100%" 
+                          style={{ border: 'none', overflow: 'hidden' }} 
+                          scrolling="no" 
+                          frameBorder="0" 
+                          allowFullScreen={true} 
+                          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                          title={`Facebook Post ${idx}`}
+                        ></iframe>
+                      </div>
+                      <Badge bg="primary" className="position-absolute top-0 end-0 m-3 rounded-pill shadow-sm fw-bold px-3 py-2" style={{ background: 'var(--primary)', border: 'none' }}>
+                        {idx === 0 ? 'TOP STORY' : 'FEATURED'}
                       </Badge>
                     </div>
                     <Card.Body className="p-4 bg-white border-top">
                       <div className="d-flex align-items-center gap-2 mb-2 text-muted small fw-bold">
-                        <FaCalendarAlt size={12} /> {item.date}
+                        <FaCalendarAlt size={12} className="text-primary" /> {item.date}
                       </div>
-                      <h6 className="fw-bold mb-3 text-truncate-2" style={{ lineHeight: '1.4', height: '2.8em', overflow: 'hidden' }}>{item.title}</h6>
+                      <h6 className="fw-bold mb-3 text-truncate-2" style={{ color: 'var(--blue-logo)', lineHeight: '1.4', height: '2.8em', overflow: 'hidden' }}>{item.title}</h6>
                       <Button 
                         as="a" 
                         href={item.link} 
                         target="_blank" 
                         variant="link" 
                         className="p-0 text-primary fw-bold text-decoration-none d-flex align-items-center gap-2 mt-auto"
+                        style={{ color: 'var(--primary)' }}
                       >
-                        Open on Facebook <FaExternalLinkAlt size={12} />
+                        Read Full Post <FaExternalLinkAlt size={12} />
                       </Button>
                     </Card.Body>
                   </Card>
