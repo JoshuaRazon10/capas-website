@@ -239,19 +239,19 @@ const Directory = () => {
       department: 'Sangguniang Bayan Office',
       deptEmail: ['vmo@capas.gov.ph'],
       contact: ['-'],
-      personalEmail: []
+      personalEmail: ['espinosa@capas.gov.ph']
     },
-    { no: 2, name: 'Hon. Julieta C. Jimenez', position: 'Municipal Councilor', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: [] },
-    { no: 3, name: 'Hon. Ariel G. Batican', position: 'Municipal Councilor', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: [] },
-    { no: 4, name: 'Hon. Editha M. Yumul', position: 'Municipal Councilor', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: [] },
-    { no: 5, name: 'Hon. Benz A. Pineda', position: 'Municipal Councilor', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: [] },
-    { no: 6, name: 'Hon. Clodualdo B. Gamboa', position: 'Municipal Councilor', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: [] },
-    { no: 7, name: 'Hon. Jefferson M. Garcia', position: 'Municipal Councilor', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: [] },
-    { no: 8, name: 'Hon. Estela S. Manlupig', position: 'Municipal Councilor', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: [] },
-    { no: 9, name: 'Hon. Alejandro T. Dueñas', position: 'Municipal Councilor', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: [] },
-    { no: 10, name: 'Hon. Victor Valantin', position: 'IPMR Representative', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: [] },
-    { no: 11, name: 'Hon. Arnold Arcilla', position: 'ABC President', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: [] },
-    { no: 12, name: 'Hon. Marleo Delos Reyes', position: 'SK Federation President', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: [] },
+    { no: 2, name: 'Hon. Julieta C. Jimenez', position: 'Municipal Councilor', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: ['jimenez@capas.gov.ph'] },
+    { no: 3, name: 'Hon. Ariel G. Batican', position: 'Municipal Councilor', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: ['batican@capas.gov.ph'] },
+    { no: 4, name: 'Hon. Editha M. Yumul', position: 'Municipal Councilor', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: ['yumul@capas.gov.ph'] },
+    { no: 5, name: 'Hon. Benz A. Pineda', position: 'Municipal Councilor', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: ['pineda@capas.gov.ph'] },
+    { no: 6, name: 'Hon. Clodualdo B. Gamboa', position: 'Municipal Councilor', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: ['gamboa@capas.gov.ph'] },
+    { no: 7, name: 'Hon. Jefferson M. Garcia', position: 'Municipal Councilor', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: ['garcia@capas.gov.ph'] },
+    { no: 8, name: 'Hon. Estela S. Manlupig', position: 'Municipal Councilor', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: ['manlupig@capas.gov.ph'] },
+    { no: 9, name: 'Hon. Alejandro T. Dueñas', position: 'Municipal Councilor', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: ['duenas@capas.gov.ph'] },
+    { no: 10, name: 'Hon. Victor Valantin', position: 'IPMR Representative', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: ['valantin@capas.gov.ph'] },
+    { no: 11, name: 'Hon. Arnold Arcilla', position: 'ABC President', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: ['arcilla@capas.gov.ph'] },
+    { no: 12, name: 'Hon. Marleo Delos Reyes', position: 'SK Federation President', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: ['delosreyes@capas.gov.ph'] },
   ]
 
   const renderTable = (data) => (
