@@ -31,12 +31,19 @@ const MunicipalCouncil = () => {
     { name: 'Hon. Alejandro T. Dueñas', role: 'Municipal Councilor', image: alejandroImg },
     { name: 'Hon. Victor Valantin', role: 'IPMR Representative', image: victorImg },
     { name: 'Hon. Arnold Arcilla', role: 'ABC President', image: arnoldImg },
-    { name: 'Hon. Raymart Catacutan', role: 'SK Federation President', image: null },
+    { name: 'Hon. Marleo Delos Reyes', role: 'SK Federation President', image: marleoImg },
     { 
       name: 'Atty. Catherine Rose Diaz Cunanan', 
       role: 'Municipal Legal Officer', 
       office: 'Municipal Legal Office',
       email: 'legaloffice@capastarlac.gov.ph',
+      image: null 
+    },
+    { 
+      name: 'Mahalia C. Bertillo', 
+      role: 'Officer-in-Charge', 
+      office: 'Municipal Public Information Office',
+      email: 'publicinformationoffice@capastarlac.gov.ph',
       image: null 
     },
   ]
@@ -45,19 +52,17 @@ const MunicipalCouncil = () => {
     <div className="municipal-council-page py-5 bg-light min-vh-100">
       {/* Hero Section */}
       <div className="bg-white border-bottom mb-5 py-5 shadow-sm overflow-hidden position-relative">
-        <div className="position-absolute top-0 end-0 opacity-10" style={{ transform: 'translate(20%, -20%)' }}>
-          <FaGavel size={300} />
-        </div>
+
         <Container>
           <Row className="align-items-center position-relative">
-            <Col lg={7}>
+            <Col lg={12} className="text-center">
               <span className="badge mb-3 px-3 py-2 text-uppercase letter-spacing-1" style={{ backgroundColor: 'var(--blue-logo)', color: 'white', borderRadius: '4px' }}>Legislative Branch</span>
               <h1 className="fw-bold text-dark mb-3" style={{ fontSize: '3rem' }}>Municipal Council</h1>
-              <p className="text-muted lead mb-4">
+              <p className="text-muted lead mb-4 mx-auto" style={{ maxWidth: '700px' }}>
                 The legislative heart of Capas, enacting laws and policies that empower our community 
                 and ensure sustainable progress for all.
               </p>
-              <div className="d-flex gap-4">
+              <div className="d-flex gap-4 justify-content-center">
                 <div className="text-center">
                   <div className="h4 fw-bold mb-0" style={{ color: '#800000' }}>11</div>
                   <small className="text-muted text-uppercase">Members</small>
@@ -110,8 +115,56 @@ const MunicipalCouncil = () => {
             </span>
             Municipal Councilors
           </h2>
-          <Row className="g-4">
-            {councilMembers.map((member, idx) => (
+          <Row className="g-4 mb-5">
+            {councilMembers.slice(0, 8).map((member, idx) => (
+              <Col key={idx} sm={6} lg={4} xl={3}>
+                <Card className="border-0 shadow-sm h-100 rounded-4 hover-lift transition-all">
+                  <div className="bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center" style={{ height: '250px' }}>
+                    {member.image ? (
+                      <img src={member.image} alt={member.name} className="w-100 h-100" style={{ objectFit: 'cover' }} />
+                    ) : (
+                      <FaUserAlt size={60} style={{ color: '#800000', opacity: 0.2 }} />
+                    )}
+                  </div>
+                  <Card.Body className="text-center p-4">
+                    <h5 className="fw-bold text-dark mb-1">{member.name}</h5>
+                    <p className="text-muted small mb-0 text-uppercase letter-spacing-1">{member.role}</p>
+                    {member.office && (
+                      <p className="text-muted small mb-0 mt-2">{member.office}</p>
+                    )}
+                    {member.email && (
+                      <a href={`mailto:${member.email}`} className="text-primary small d-block mt-1 text-decoration-none">{member.email}</a>
+                    )}
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+
+          {/* Special Representatives Row - Centered */}
+          <Row className="g-4 justify-content-center mb-5">
+            {councilMembers.slice(8, 11).map((member, idx) => (
+              <Col key={idx} sm={6} lg={4} xl={3}>
+                <Card className="border-0 shadow-sm h-100 rounded-4 hover-lift transition-all">
+                  <div className="bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center" style={{ height: '250px' }}>
+                    {member.image ? (
+                      <img src={member.image} alt={member.name} className="w-100 h-100" style={{ objectFit: 'cover' }} />
+                    ) : (
+                      <FaUserAlt size={60} style={{ color: '#800000', opacity: 0.2 }} />
+                    )}
+                  </div>
+                  <Card.Body className="text-center p-4">
+                    <h5 className="fw-bold text-dark mb-1">{member.name}</h5>
+                    <p className="text-muted small mb-0 text-uppercase letter-spacing-1">{member.role}</p>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+
+          {/* Legal and Information Officers Row - Below */}
+          <Row className="g-4 justify-content-center">
+            {councilMembers.slice(11).map((member, idx) => (
               <Col key={idx} sm={6} lg={4} xl={3}>
                 <Card className="border-0 shadow-sm h-100 rounded-4 hover-lift transition-all">
                   <div className="bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center" style={{ height: '250px' }}>

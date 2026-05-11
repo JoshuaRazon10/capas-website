@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap'
-import { Link, useLocation } from 'react-router-dom'
-import { FaFacebookF, FaYoutube, FaBars, FaSearch, FaInstagram } from 'react-icons/fa'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { FaFacebookF, FaYoutube, FaBars, FaSearch, FaInstagram, FaTimes, FaArrowRight } from 'react-icons/fa'
 
 import logo from '../assets/images/capas.logo.jpg'
 import bagongPilipinasLogo from '../assets/images/Bagong_Pilipinas_logo.png'
@@ -9,9 +9,12 @@ import bagongPilipinasLogo from '../assets/images/Bagong_Pilipinas_logo.png'
 const NavbarComponent = () => {
   const bpLogo = bagongPilipinasLogo
   const location = useLocation()
+  const navigate = useNavigate()
   
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0, opacity: 0 })
   const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [searchResults, setSearchResults] = useState([])
   const navRef = useRef(null)
 
   const updateIndicatorToActive = () => {
@@ -149,13 +152,45 @@ const NavbarComponent = () => {
       label: 'CAREERS',
       hasDropdown: true,
       dropdownItems: [
-        { path: '/job-hiring', label: 'Job Hiring' },
-        { path: '/peso-capas', label: 'PESO Capas' },
-        { path: '/peso-tarlac', label: 'PESO Tarlac Province' },
+        { isHeader: true, label: 'Job Hiring' },
+        { path: 'https://www.facebook.com/PESOCapasTarlacOfficial', label: 'PESO Capas' },
+        { path: 'https://www.facebook.com/peso.tarlac.province.2024/', label: 'PESO Tarlac Province' },
         { path: 'http://45.32.113.4/?fbclid=IwAR2049EqY2gqGleTs76d_k_bazGOOpAh7KHPVoA21yJGQ8FTtFf_WYlSrwI', label: 'Jobs at Clark' },
       ]
     },
   ]
+
+  // Handle Search
+  useEffect(() => {
+    if (searchQuery.trim().length > 1) {
+      const results = []
+      links.forEach(link => {
+        if (link.label.toLowerCase().includes(searchQuery.toLowerCase()) && link.path) {
+          results.push({ label: link.label, path: link.path, category: 'Main Menu' })
+        }
+        if (link.hasDropdown) {
+          link.dropdownItems.forEach(item => {
+            if (item.label && item.label.toLowerCase().includes(searchQuery.toLowerCase()) && item.path) {
+              results.push({ label: item.label, path: item.path, category: link.label })
+            }
+          })
+        }
+      })
+      setSearchResults(results)
+    } else {
+      setSearchResults([])
+    }
+  }, [searchQuery])
+
+  const handleSearchResultClick = (path) => {
+    setIsSearchOpen(false)
+    setSearchQuery('')
+    if (path.startsWith('http')) {
+      window.open(path, '_blank')
+    } else {
+      navigate(path)
+    }
+  }
 
   return (
     <div className="modern-nav-wrapper">
@@ -170,16 +205,48 @@ const NavbarComponent = () => {
           </button>
           <Container className="text-center">
             <h2 className="text-white mb-4 fw-bold">Search Capas LGU</h2>
-            <div className="search-input-group mx-auto" style={{ maxWidth: '700px' }}>
+            <div className="search-input-group mx-auto position-relative" style={{ maxWidth: '700px' }}>
               <input 
                 type="text" 
                 className="form-control form-control-lg rounded-pill shadow-lg px-4" 
                 placeholder="What are you looking for?" 
                 autoFocus
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
               <FaSearch className="search-icon-inside" />
+
+              {/* Search Results Dropdown */}
+              {searchResults.length > 0 && (
+                <div className="search-results-list mt-3 shadow-xl rounded-4 overflow-hidden bg-white text-start">
+                  <div className="p-3 bg-light border-bottom small fw-bold text-uppercase text-muted">
+                    Found {searchResults.length} matches
+                  </div>
+                  <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                    {searchResults.map((result, idx) => (
+                      <div 
+                        key={idx} 
+                        className="search-result-item p-3 border-bottom d-flex justify-content-between align-items-center"
+                        style={{ cursor: 'pointer', transition: 'background 0.2s' }}
+                        onClick={() => handleSearchResultClick(result.path)}
+                        onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f8f9fa'}
+                        onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                      >
+                        <div>
+                          <div className="fw-bold text-dark">{result.label}</div>
+                          <div className="small text-muted">{result.category}</div>
+                        </div>
+                        <FaArrowRight size={12} className="text-primary-red" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {searchQuery.trim().length > 1 && searchResults.length === 0 && (
+                <div className="mt-3 text-white-50">No results found for "{searchQuery}"</div>
+              )}
             </div>
-            <p className="text-white-50 mt-3">Press ESC to close</p>
+            <p className="text-white-50 mt-4">Press ESC or click &times; to close</p>
           </Container>
         </div>
       )}

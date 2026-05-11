@@ -143,7 +143,7 @@ const Events = () => {
                         ></iframe>
                       </div>
                       <Badge className="position-absolute top-0 end-0 m-3 rounded-pill shadow-sm fw-bold px-3 py-2" style={{ backgroundColor: 'var(--blue-logo)', border: 'none', color: 'white' }}>
-                        {idx === 0 ? 'EVENT SPOTLIGHT' : 'UPCOMING'}
+                        {idx === 0 ? 'EVENT SPOTLIGHT' : 'LATEST NEWS'}
                       </Badge>
                     </div>
                     <Card.Body className="p-4 bg-white border-top">

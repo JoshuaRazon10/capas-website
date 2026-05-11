@@ -2,7 +2,7 @@ import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { FaEnvelope, FaViber } from 'react-icons/fa'
 import logo from '../assets/images/capas.logo.jpg'
-import phSeal from '../assets/images/ph.seal.jfif'
+import phSeal from '../assets/images/ph.seal.png'
 
 const Footer = () => {
   return (

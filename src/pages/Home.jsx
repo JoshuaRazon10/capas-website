@@ -11,10 +11,6 @@ import flag2 from '../assets/images/flagrites2.jpg'
 import flag3 from '../assets/images/flagrites3.jpg'
 import flag4 from '../assets/images/flagrites4.jpg'
 import flag5 from '../assets/images/flagrites5.jpg'
-import shrineImg from '../assets/images/shrine.png'
-import shrine1 from '../assets/images/shrine1.jfif'
-import shrine1png from '../assets/images/shrine1.png'
-import shrineHD from '../assets/images/shrine_hd.png'
 import pinatuboImg from '../assets/images/pinatubo.webp'
 import clarkImg from '../assets/images/clark.jpg'
 import hotline1 from '../assets/images/hotline1.jpg'
@@ -282,8 +278,8 @@ const Home = () => {
                 boxShadow: 'var(--shadow-lg)',
               }}>
                 <img 
-                  src={shrine1png} 
-                  alt="Capas National Shrine" 
+                  src={backgroundImage} 
+                  alt="Capas Municipal Hall" 
                   style={{ 
                     width: '100%', 
                     height: '100%', 
@@ -406,76 +402,7 @@ const Home = () => {
         </Carousel>
       </section>
 
-      {/* ======== NATIONAL TREASURES SECTION ======== */}
-      <section className="py-5" style={{ background: 'white' }}>
-        <Container className="py-5">
-          <Row className="align-items-center g-5">
-            {/* Treasure Image */}
-            <Col lg={6} className="scroll-animate scroll-left">
-              <div className="treasure-img-wrapper">
-                <div className="treasure-main-img shadow-lg">
-                  <img 
-                    src={shrineImg} 
-                    alt="Capas National Shrine" 
-                    className="w-100 h-100" 
-                    style={{ objectFit: 'cover' }}
-                  />
-                  <div className="img-overlay-accent"></div>
-                </div>
-                <div className="treasure-stats-float shadow-lg animate-fadeInUp">
-                  <div className="stat-item">
-                    <span className="stat-num">1991</span>
-                    <span className="stat-label">Inauguration</span>
-                  </div>
-                  <div className="stat-divider"></div>
-                  <div className="stat-item">
-                    <span className="stat-num">70m</span>
-                    <span className="stat-label">Height</span>
-                  </div>
-                </div>
-              </div>
-            </Col>
 
-            {/* Treasure Description */}
-            <Col lg={6} className="scroll-animate scroll-right">
-              <div className="ps-lg-4">
-                <h6 className="text-uppercase fw-bold ls-2 small mb-3" style={{ color: 'var(--primary)' }}>Capas Heritage</h6>
-                <h2 className="fw-bold mb-4" style={{ fontSize: '2.8rem', color: 'var(--gray-900)', lineHeight: '1.2' }}>
-                  The Capas National Shrine: <br />
-                  <span style={{ color: 'var(--primary)' }}>A National Treasure</span>
-                </h2>
-                <div className="heritage-text-content">
-                  <p className="lead fw-bold text-dark mb-3">
-                    A solemn monument dedicated to the brave Filipino and American soldiers of the Bataan Death March.
-                  </p>
-                  <p className="text-muted mb-4" style={{ lineHeight: '1.8' }}>
-                    The Capas National Shrine is a protected historical site in Tarlac that commemorates the sacrifices 
-                    of those who suffered during World War II. Its centerpiece, a towering 70-meter obelisk, serves 
-                    as a beacon of hope and a reminder of the indomitable human spirit.
-                  </p>
-                  <ul className="heritage-features-list list-unstyled mb-4">
-                    <li className="d-flex align-items-center mb-3">
-                      <div className="check-icon me-3">✓</div>
-                      <span><strong>Historical Landmark:</strong> Recognized as a major WWII memorial in Southeast Asia.</span>
-                    </li>
-                    <li className="d-flex align-items-center mb-3">
-                      <div className="check-icon me-3">✓</div>
-                      <span><strong>Cultural Significance:</strong> A symbol of peace, bravery, and national identity.</span>
-                    </li>
-                    <li className="d-flex align-items-center">
-                      <div className="check-icon me-3">✓</div>
-                      <span><strong>Tourism Pillar:</strong> One of the most visited historical landmarks in Tarlac.</span>
-                    </li>
-                  </ul>
-                  <Button as="a" href="https://www.scribd.com/presentation/388411446/Capas-National-Shrine-Philippine-History" target="_blank" rel="noopener noreferrer" className="btn-primary-red py-3 px-5">
-                    Discover More
-                  </Button>
-                </div>
-              </div>
-            </Col>
-          </Row>
-        </Container>
-      </section>
 
       {/* ======== MOUNT PINATUBO SECTION ======== */}
       <section className="py-5" style={{ background: 'var(--gray-100)' }}>

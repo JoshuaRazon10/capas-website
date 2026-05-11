@@ -18,9 +18,6 @@ import BarangayOfficials from './pages/BarangayOfficials'
 import Map from './pages/Map'
 import Mayor from './pages/Mayor'
 import ViceMayor from './pages/ViceMayor'
-import News from './pages/News'
-import Government from './pages/Government'
-import Services from './pages/Services'
 import UnderDevelopment from './pages/UnderDevelopment'
 import Assessors from './pages/Assessors'
 import BusinessPermit from './pages/BusinessPermit'
@@ -77,8 +74,8 @@ function App() {
           <Route path="/mayor" element={<><NavbarComponent /><main className="flex-grow-1"><Mayor /></main><PreFooter /><Footer /></>} />
           <Route path="/vice-mayor" element={<><NavbarComponent /><main className="flex-grow-1"><ViceMayor /></main><PreFooter /><Footer /></>} />
           <Route path="/geography" element={<><NavbarComponent /><main className="flex-grow-1"><Geography /></main><PreFooter /><Footer /></>} />
-          <Route path="/government" element={<><NavbarComponent /><main className="flex-grow-1"><Government /></main><PreFooter /><Footer /></>} />
-          <Route path="/services" element={<><NavbarComponent /><main className="flex-grow-1"><Services /></main><PreFooter /><Footer /></>} />
+          <Route path="/news" element={<><NavbarComponent /><UnderDevelopment /><PreFooter /><Footer /></>} />
+          <Route path="/contact" element={<><NavbarComponent /><UnderDevelopment /><PreFooter /><Footer /></>} />
           <Route path="/assessors" element={<><NavbarComponent /><main className="flex-grow-1"><Assessors /></main><PreFooter /><Footer /></>} />
           <Route path="/business-permit" element={<><NavbarComponent /><main className="flex-grow-1"><BusinessPermit /></main><PreFooter /><Footer /></>} />
           <Route path="/licensing" element={<><NavbarComponent /><main className="flex-grow-1"><BusinessPermit /></main><PreFooter /><Footer /></>} />
@@ -87,8 +84,6 @@ function App() {
           <Route path="/zoning-engineering" element={<><NavbarComponent /><main className="flex-grow-1"><Engineering /></main><PreFooter /><Footer /></>} />
           <Route path="/cooperative" element={<><NavbarComponent /><main className="flex-grow-1"><Cooperative /></main><PreFooter /><Footer /></>} />
           <Route path="/veterinary" element={<><NavbarComponent /><main className="flex-grow-1"><Veterinary /></main><PreFooter /><Footer /></>} />
-          <Route path="/news" element={<><NavbarComponent /><main className="flex-grow-1"><News /></main><PreFooter /><Footer /></>} />
-          <Route path="/contact" element={<><NavbarComponent /><UnderDevelopment /><PreFooter /><Footer /></>} />
           <Route path="/bids-awards" element={<><NavbarComponent /><main className="flex-grow-1"><BidsAwards /></main><PreFooter /><Footer /></>} />
           <Route path="/citizens-charter" element={<><NavbarComponent /><main className="flex-grow-1"><CitizensCharter /></main><PreFooter /><Footer /></>} />
           <Route path="/resolutions" element={<><NavbarComponent /><main className="flex-grow-1"><Resolutions /></main><PreFooter /><Footer /></>} />

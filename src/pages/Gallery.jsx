@@ -8,8 +8,6 @@ import flag2 from '../assets/images/flagrites2.jpg'
 import flag3 from '../assets/images/flagrites3.jpg'
 import flag4 from '../assets/images/flagrites4.jpg'
 import flag5 from '../assets/images/flagrites5.jpg'
-import shrine1 from '../assets/images/shrine1.png'
-import shrine2 from '../assets/images/shrine_hd.png'
 import pinatubo from '../assets/images/pinatubo.webp'
 import clark from '../assets/images/clark.jpg'
 import lgu from '../assets/images/lgu.jpg'
@@ -59,8 +57,7 @@ const Gallery = () => {
     { src: flag3, title: 'Official Ceremony', cat: 'events' },
     { src: flag4, title: 'LGU Personnel', cat: 'government' },
     { src: flag5, title: 'Capas Pride', cat: 'culture' },
-    { src: shrine1, title: 'National Shrine', cat: 'landmarks' },
-    { src: shrine2, title: 'Shrine Obelisk', cat: 'landmarks' },
+
     { src: pinatubo, title: 'Mount Pinatubo', cat: 'landmarks' },
     { src: clark, title: 'New Clark City', cat: 'landmarks' },
     { src: lgu, title: 'Municipal Hall', cat: 'government' },
