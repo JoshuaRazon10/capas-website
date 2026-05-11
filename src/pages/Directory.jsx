@@ -254,6 +254,89 @@ const Directory = () => {
     { no: 12, name: 'Hon. Marleo Delos Reyes', position: 'SK Federation President', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: ['delosreyes@capas.gov.ph'] },
   ]
 
+  const barangayOfficials = [
+    // 1 Aranguren
+    { no: 1, name: 'Bonifacio P. Alzadon Jr.', position: 'Barangay Chairman', department: 'Aranguren', deptEmail: [], contact: ['09084723736'], personalEmail: [] },
+    { no: '', name: 'Jenny S. Manalad', position: 'SK Chairman', department: 'Aranguren', deptEmail: [], contact: ['09661352696'], personalEmail: [] },
+    { no: '', name: 'Joanne L. Tua', position: 'Barangay Secretary', department: 'Aranguren', deptEmail: [], contact: ['09695032116'], personalEmail: [] },
+    // 2 Bueno
+    { no: 2, name: 'Danny D. Agdeppa', position: 'Barangay Chairman', department: 'Bueno', deptEmail: [], contact: ['09704749790'], personalEmail: [] },
+    { no: '', name: 'Vim Aurem Ningala', position: 'SK Chairman', department: 'Bueno', deptEmail: [], contact: ['09468514687'], personalEmail: [] },
+    { no: '', name: 'Rosalinda M. Dumlao', position: 'Barangay Secretary', department: 'Bueno', deptEmail: [], contact: ['09484961819'], personalEmail: [] },
+    // 3 Cristo Rey
+    { no: 3, name: 'Arturo O. Joves', position: 'Barangay Chairman', department: 'Cristo Rey', deptEmail: [], contact: ['09195871858'], personalEmail: [] },
+    { no: '', name: 'Angel Erika B. Mesa', position: 'SK Chairman', department: 'Cristo Rey', deptEmail: [], contact: ['09811867144'], personalEmail: [] },
+    { no: '', name: 'Marife Baun', position: 'Barangay Secretary', department: 'Cristo Rey', deptEmail: [], contact: ['09497087119'], personalEmail: [] },
+    // 4 Cubcub
+    { no: 4, name: 'Jose P. Tolentino', position: 'Barangay Chairman', department: 'Cubcub', deptEmail: [], contact: ['09165834221'], personalEmail: [] },
+    { no: '', name: 'Karl Andrey D. Alimurung', position: 'SK Chairman', department: 'Cubcub', deptEmail: [], contact: ['09615831041'], personalEmail: [] },
+    { no: '', name: 'Julie T. Salak', position: 'Barangay Secretary', department: 'Cubcub', deptEmail: [], contact: ['09107897642'], personalEmail: [] },
+    // 5 Cut-Cut I
+    { no: 5, name: 'Gerardo C. Sangalang', position: 'Barangay Chairman', department: 'Cut-Cut I', deptEmail: [], contact: ['09605164665'], personalEmail: [] },
+    { no: '', name: 'Krizza Jane P. Payumo', position: 'SK Chairman', department: 'Cut-Cut I', deptEmail: [], contact: ['09773023236'], personalEmail: [] },
+    { no: '', name: 'Loreto Garcia', position: 'Barangay Secretary', department: 'Cut-Cut I', deptEmail: [], contact: ['09300934695'], personalEmail: [] },
+    // 6 Cut-Cut II
+    { no: 6, name: 'Edwin A. Macale', position: 'Barangay Chairman', department: 'Cut-Cut II', deptEmail: [], contact: ['09398697945'], personalEmail: [] },
+    { no: '', name: 'Bonito A. Arroyo', position: 'SK Chairman', department: 'Cut-Cut II', deptEmail: [], contact: ['09703869115'], personalEmail: [] },
+    { no: '', name: 'Joselyn G. Lenon', position: 'Barangay Secretary', department: 'Cut-Cut II', deptEmail: [], contact: ['09517532096'], personalEmail: [] },
+    // 7 Dolores
+    { no: 7, name: 'Rogelio D. Pabustan Jr.', position: 'Barangay Chairman', department: 'Dolores', deptEmail: [], contact: ['09328904370'], personalEmail: [] },
+    { no: '', name: 'Omar P. Camaya', position: 'SK Chairman', department: 'Dolores', deptEmail: [], contact: ['09092277569'], personalEmail: [] },
+    { no: '', name: 'Jocelyn C. Natividad', position: 'Barangay Secretary', department: 'Dolores', deptEmail: [], contact: ['09603788424'], personalEmail: [] },
+    // 8 Estrada
+    { no: 8, name: 'Allan S. Ramos', position: 'Barangay Chairman', department: 'Estrada', deptEmail: [], contact: ['09279084180'], personalEmail: [] },
+    { no: '', name: 'Gladys Anne L. Caldino', position: 'SK Chairman', department: 'Estrada', deptEmail: [], contact: ['09150284059'], personalEmail: [] },
+    { no: '', name: 'Mariekeith M. Manguera', position: 'Barangay Secretary', department: 'Estrada', deptEmail: [], contact: ['09686620897'], personalEmail: [] },
+    // 9 Lawy
+    { no: 9, name: 'Porfirio D. Laxamana Jr.', position: 'Barangay Chairman', department: 'Lawy', deptEmail: [], contact: ['09472538740'], personalEmail: [] },
+    { no: '', name: 'Laisa G. Panoy', position: 'SK Chairman', department: 'Lawy', deptEmail: [], contact: ['09485013580'], personalEmail: [] },
+    { no: '', name: 'Jenina Lein T. Linogo', position: 'Barangay Secretary', department: 'Lawy', deptEmail: [], contact: ['09203413539'], personalEmail: [] },
+    // 10 Manga
+    { no: 10, name: 'Julie R. Guevarra', position: 'Barangay Chairman', department: 'Manga', deptEmail: [], contact: ['09813089501'], personalEmail: [] },
+    { no: '', name: 'Lorie C. Tayag', position: 'SK Chairman', department: 'Manga', deptEmail: [], contact: ['09283674188'], personalEmail: [] },
+    { no: '', name: 'Glaiza G. Datu', position: 'Barangay Secretary', department: 'Manga', deptEmail: [], contact: ['09070208206'], personalEmail: [] },
+    // 11 Manlapig
+    { no: 11, name: 'Ricky M. Datu', position: 'Barangay Chairman', department: 'Manlapig', deptEmail: [], contact: ['09387929334'], personalEmail: [] },
+    { no: '', name: 'Paul Angelo T. Mallari', position: 'SK Chairman', department: 'Manlapig', deptEmail: [], contact: ['09071008893'], personalEmail: [] },
+    { no: '', name: 'Rogelio S. Beltran', position: 'Barangay Secretary', department: 'Manlapig', deptEmail: [], contact: ['09107234173'], personalEmail: [] },
+    // 12 Maruglo
+    { no: 12, name: 'Lota S. Guanlao', position: 'Barangay Chairman', department: 'Maruglo', deptEmail: [], contact: ['09302884765'], personalEmail: [] },
+    { no: '', name: 'Adrian F. Sanchez', position: 'SK Chairman', department: 'Maruglo', deptEmail: [], contact: ['09488125252'], personalEmail: [] },
+    { no: '', name: 'Elvie D. Mariano', position: 'Barangay Secretary', department: 'Maruglo', deptEmail: [], contact: ['09482618055'], personalEmail: [] },
+    // 13 O'Donnell
+    { no: 13, name: 'Wendell L. Mercado', position: 'Barangay Chairman', department: "O'Donnell", deptEmail: [], contact: ['09196084313'], personalEmail: [] },
+    { no: '', name: 'Benedict S. Meniolas', position: 'SK Chairman', department: "O'Donnell", deptEmail: [], contact: ['09304332019'], personalEmail: [] },
+    { no: '', name: 'Rose Ann D. Cadiang', position: 'Barangay Secretary', department: "O'Donnell", deptEmail: [], contact: ['09094614941'], personalEmail: [] },
+    // 14 Sta. Juliana
+    { no: 14, name: 'Jude C. Lenon', position: 'Barangay Chairman', department: 'Sta. Juliana', deptEmail: [], contact: ['09206787647'], personalEmail: [] },
+    { no: '', name: 'Blessel Joy D. Tercenio', position: 'SK Chairman', department: 'Sta. Juliana', deptEmail: [], contact: ['09481690851'], personalEmail: [] },
+    { no: '', name: 'Alona T. Caritativo', position: 'Barangay Secretary', department: 'Sta. Juliana', deptEmail: [], contact: ['09506713477'], personalEmail: [] },
+    // 15 Sta. Lucia
+    { no: 15, name: 'Cesario D. Bautista Jr.', position: 'Barangay Chairman', department: 'Sta. Lucia', deptEmail: [], contact: ['09479176588'], personalEmail: [] },
+    { no: '', name: 'Shaira Kylene T. Taruc', position: 'SK Chairman', department: 'Sta. Lucia', deptEmail: [], contact: ['09100824645'], personalEmail: [] },
+    { no: '', name: 'Raymond Maniebog', position: 'Barangay Secretary', department: 'Sta. Lucia', deptEmail: [], contact: ['09307587875'], personalEmail: [] },
+    // 16 Sta. Rita
+    { no: 16, name: 'Arnold C. Arcilla', position: 'Barangay Chairman', department: 'Sta. Rita', deptEmail: [], contact: ['09513244697'], personalEmail: [] },
+    { no: '', name: 'Claire T. Simbulan', position: 'SK Chairman', department: 'Sta. Rita', deptEmail: [], contact: ['09384466305'], personalEmail: [] },
+    { no: '', name: 'Annette R. Yumo', position: 'Barangay Secretary', department: 'Sta. Rita', deptEmail: [], contact: ['09513244697'], personalEmail: [] },
+    // 17 Sto. Domingo I
+    { no: 17, name: 'Jefferson M. Garcia', position: 'Barangay Chairman', department: 'Sto. Domingo I', deptEmail: [], contact: ['09286607326'], personalEmail: [] },
+    { no: '', name: 'Lance Laurrenz B. Punla', position: 'SK Chairman', department: 'Sto. Domingo I', deptEmail: [], contact: ['09387929268'], personalEmail: [] },
+    { no: '', name: 'Mary Grace G. Ferrer', position: 'Barangay Secretary', department: 'Sto. Domingo I', deptEmail: [], contact: ['09100493503'], personalEmail: [] },
+    // 18 Sto. Domingo II
+    { no: 18, name: 'Edwin Lucas M. Baron', position: 'Barangay Chairman', department: 'Sto. Domingo II', deptEmail: [], contact: ['09274373611'], personalEmail: [] },
+    { no: '', name: 'Princess Mae Y. Ramos', position: 'SK Chairman', department: 'Sto. Domingo II', deptEmail: [], contact: ['09647616684'], personalEmail: [] },
+    { no: '', name: 'Angelie Elaine P. Baluyut', position: 'Barangay Secretary', department: 'Sto. Domingo II', deptEmail: [], contact: ['09123035922'], personalEmail: [] },
+    // 19 Sto. Rosario
+    { no: 19, name: 'Solomon E. Sicat Jr.', position: 'Barangay Chairman', department: 'Sto. Rosario', deptEmail: [], contact: ['09193865362'], personalEmail: [] },
+    { no: '', name: 'Marleo M. Delos Reyes', position: 'SK Chairman', department: 'Sto. Rosario', deptEmail: [], contact: ['09213431448'], personalEmail: [] },
+    { no: '', name: 'Lourdes T. Palad', position: 'Barangay Secretary', department: 'Sto. Rosario', deptEmail: [], contact: ['09322291984'], personalEmail: [] },
+    // 20 Talaga
+    { no: 20, name: 'Eliseo C. Malonzo', position: 'Barangay Chairman', department: 'Talaga', deptEmail: [], contact: ['09484327191'], personalEmail: [] },
+    { no: '', name: 'Christine Maryjo L. Catacutan', position: 'SK Chairman', department: 'Talaga', deptEmail: [], contact: ['09998888950'], personalEmail: [] },
+    { no: '', name: 'Joshua S. Cervantes', position: 'Barangay Secretary', department: 'Talaga', deptEmail: [], contact: ['09469881156'], personalEmail: [] },
+  ]
+
   const renderTable = (data) => (
     <div className="table-responsive shadow-sm rounded-4 border bg-white mt-4">
       <Table hover className="mb-0 custom-directory-table">
@@ -381,8 +464,17 @@ const Directory = () => {
                 </div>
               </Tab>
               <Tab eventKey="barangay" title="Barangay Officials">
-                <div className="p-5 text-center">
-                  <p className="text-muted italic">Barangay officials directory information coming soon.</p>
+                <div className="p-4 p-md-5">
+                  <div className="d-flex align-items-center gap-3 mb-4">
+                    <div className="p-3 bg-danger text-white rounded-4 shadow-sm">
+                      <FaUserTie size={24} />
+                    </div>
+                    <div>
+                      <h2 className="fw-bold mb-0">Barangay Officials</h2>
+                      <p className="text-muted mb-0">The local leaders and secretaries of the 20 barangays in Capas.</p>
+                    </div>
+                  </div>
+                  {renderTable(barangayOfficials)}
                 </div>
               </Tab>
               <Tab eventKey="agencies" title="National Agencies">
