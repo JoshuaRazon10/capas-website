@@ -232,7 +232,7 @@ const Directory = () => {
   ]
 
   const renderTable = (data) => (
-    <div className="table-responsive shadow-sm rounded-4 overflow-hidden border bg-white mt-4">
+    <div className="table-responsive shadow-sm rounded-4 border bg-white mt-4">
       <Table hover className="mb-0 custom-directory-table">
         <thead style={{ backgroundColor: 'var(--primary)', color: 'white' }}>
           <tr>
@@ -240,47 +240,56 @@ const Directory = () => {
             <th className="py-3 px-4 text-uppercase small ls-1">Name</th>
             <th className="py-3 px-4 text-uppercase small ls-1">Position</th>
             <th className="py-3 px-4 text-uppercase small ls-1">Department</th>
-            <th className="py-3 px-4 text-uppercase small ls-1">Contact Details</th>
+            <th className="py-3 px-4 text-uppercase small ls-1">Department Email</th>
+            <th className="py-3 px-4 text-uppercase small ls-1">Contact Number</th>
+            <th className="py-3 px-4 text-uppercase small ls-1">Email Address</th>
           </tr>
         </thead>
         <tbody>
           {data.map((item, idx) => (
             <tr key={idx}>
-              <td className="py-4 px-4 align-middle fw-bold text-muted">{item.no}</td>
-              <td className="py-4 px-4 align-middle">
-                <div className="fw-bold text-dark" style={{ fontSize: '1.05rem' }}>{item.name}</div>
+              <td className="py-3 px-3 align-middle fw-bold text-muted">{item.no}</td>
+              <td className="py-3 px-3 align-middle">
+                <div className="fw-bold text-dark" style={{ fontSize: '1rem' }}>{item.name}</div>
               </td>
-              <td className="py-4 px-4 align-middle">
-                <Badge bg="light" className="text-dark border px-3 py-2 fw-normal" style={{ fontSize: '0.85rem' }}>
+              <td className="py-3 px-3 align-middle">
+                <div className="text-muted small">
                   {item.position}
-                </Badge>
+                </div>
               </td>
-              <td className="py-4 px-4 align-middle text-muted" style={{ fontSize: '0.9rem' }}>
+              <td className="py-3 px-3 align-middle text-muted" style={{ fontSize: '0.85rem' }}>
                 <div className="d-flex align-items-center gap-2 mb-1">
                   <FaBuilding className="text-primary-red" size={14} />
                   <span className="fw-semibold">{item.department}</span>
                 </div>
               </td>
-              <td className="py-4 px-4 align-middle">
-                <div style={{ fontSize: '0.85rem' }}>
-                  {item.contact && item.contact[0] !== '-' && (
-                    <div className="d-flex align-items-center gap-2 mb-2 text-dark">
-                      <FaPhoneAlt size={12} className="text-primary-red" />
-                      {item.contact.join(' / ')}
-                    </div>
-                  )}
-                  {item.deptEmail && (
-                    <div className="d-flex align-items-start gap-2 mb-1">
-                      <FaEnvelope size={12} className="text-primary-red mt-1" />
-                      <div>
-                        {item.deptEmail.map((email, eIdx) => (
-                          <a key={eIdx} href={`mailto:${email}`} className="d-block text-decoration-none text-primary hover-underline">
-                            {email}
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+              <td className="py-3 px-3 align-middle">
+                <div style={{ fontSize: '0.8rem' }}>
+                  {item.deptEmail && item.deptEmail.map((email, eIdx) => (
+                    <a key={eIdx} href={`mailto:${email}`} className="d-block text-decoration-none text-primary hover-underline mb-1">
+                      {email}
+                    </a>
+                  ))}
+                </div>
+              </td>
+              <td className="py-3 px-3 align-middle">
+                <div style={{ fontSize: '0.8rem' }} className="text-dark">
+                  {item.contact && item.contact.length > 0 && item.contact[0] !== '-' ? (
+                    item.contact.map((phone, pIdx) => (
+                      <div key={pIdx} className="mb-1">{phone}</div>
+                    ))
+                  ) : '-'}
+                </div>
+              </td>
+              <td className="py-3 px-3 align-middle">
+                <div style={{ fontSize: '0.8rem' }}>
+                  {item.personalEmail && item.personalEmail.length > 0 ? (
+                    item.personalEmail.map((email, eIdx) => (
+                      <a key={eIdx} href={`mailto:${email}`} className="d-block text-decoration-none text-primary hover-underline mb-1">
+                        {email}
+                      </a>
+                    ))
+                  ) : '-'}
                 </div>
               </td>
             </tr>
@@ -314,8 +323,8 @@ const Directory = () => {
         </Container>
       </div>
 
-      <Container className="py-5">
-        <Card className="border-0 shadow-sm rounded-4 overflow-hidden">
+      <Container fluid className="py-5 px-lg-5">
+        <Card className="border-0 shadow-sm rounded-4">
           <Card.Body className="p-0">
             <Tabs
               defaultActiveKey="executive"
