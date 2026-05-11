@@ -6,19 +6,19 @@ const Directory = () => {
   const executiveOffices = [
     {
       no: 1,
-      name: 'Hon. Atty. Roseller B. Rodriguez',
+      name: 'Atty. Roseller B. Rodriguez',
       position: 'Municipal Mayor',
       department: 'Office of the Local Chief Executive',
-      deptEmail: ['lgucapasmayorsoffice@gmail.com', 'capasmayorsoffice@capas.gov.ph'],
+      deptEmail: ['lgucapasmayorsoffice@gmail.com', 'capasmayorsoffice@capas.gov.ph', 'officeadBR2022@gmail.com'],
       contact: ['045 925 0154', '045 925 3258'],
       personalEmail: ['rosellerrodriguez18@gmail.com', 'r.rodriguez@capas.gov.ph']
     },
     {
       no: 2,
       name: 'Alma S. Ayson',
-      position: 'Municipal Administrator / Municipal Assessor',
-      department: "Municipal Administrator's Office / Assessor's Office / HRMO",
-      deptEmail: ['administrator@capas.gov.ph', 'assessorsoffice.capas@gmail.com'],
+      position: 'Municipal Administrator / Municipal Assessor / Officer-in-Charge',
+      department: "Municipal Administrator's Office / Assessor's Office / Human Resources Management Office",
+      deptEmail: ['administrator@capas.gov.ph', 'assessorsoffice.capas@gmail.com', 'assessor@capas.gov.ph', 'hrmo@capas.gov.ph', 'capashrmo@gmail.com'],
       contact: ['-'],
       personalEmail: ['a.ayson@capas.gov.ph']
     },
@@ -44,10 +44,190 @@ const Directory = () => {
       no: 5,
       name: 'Ma. Mia Q. Dizon',
       position: 'Officer-in-Charge',
-      department: 'Business Processing and Licensing Office (BPLO)',
+      department: 'Business Processing and Licensing Office',
       deptEmail: ['bplo@capas.gov.ph'],
       contact: ['-'],
       personalEmail: ['m.dizon@capas.gov.ph', 'ma.mia29@yahoo.com']
+    },
+    {
+      no: 6,
+      name: 'Rommel T. Reamico',
+      position: 'General Services Officer',
+      department: 'General Services Office',
+      deptEmail: ['generalservicesoffice@capas.gov.ph', 'gsocapas@gmail.com'],
+      contact: ['-'],
+      personalEmail: ['r.reamico@capas.gov.ph']
+    },
+    {
+      no: 7,
+      name: 'Jhoan P. Altre, CPA',
+      position: 'Officer-in-Charge',
+      department: 'Market Office',
+      deptEmail: ['marketoffice@capas.gov.ph'],
+      contact: ['-'],
+      personalEmail: ['j.altre@capas.gov.ph']
+    },
+    {
+      no: 8,
+      name: 'Jesus Q. Dizon',
+      position: 'Officer-in-Charge',
+      department: 'Motorpool',
+      deptEmail: ['motorpool@capas.gov.ph'],
+      contact: ['-'],
+      personalEmail: ['j.dizon@capas.gov.ph', 'jqd128@gmail.com']
+    },
+    {
+      no: 9,
+      name: 'Maita Claire L. Bartolome',
+      position: 'Officer-in-Charge',
+      department: 'Municipal Public Information Office',
+      deptEmail: ['publicinformationoffice@capas.gov.ph', 'mio.capasgov@gmail.com'],
+      contact: ['-'],
+      personalEmail: ['mc.bartolome@capas.gov.ph']
+    },
+    {
+      no: 10,
+      name: 'Carlos B. Tuazon',
+      position: 'Officer-in-Charge',
+      department: 'Municipal Agriculture Office',
+      deptEmail: ['dacapastarlac@gmail.com'],
+      contact: ['0949 611 9652'],
+      personalEmail: ['cbtuazon21@gmail.com']
+    },
+    {
+      no: 11,
+      name: 'Atty. Marco Polo E. Cunanan',
+      position: 'Municipal Civil Registrar / Data Protection Officer',
+      department: 'Municipal Civil Registry / Data Privacy Committee',
+      deptEmail: ['mcro@capas.gov.ph', 'capas.mcr@gmail.com'],
+      contact: ['045 925 0504'],
+      personalEmail: ['atty.m.cunanan@capas.gov.ph']
+    },
+    {
+      no: 12,
+      name: 'Angelito S. Mallari',
+      position: 'Officer-in-Charge',
+      department: 'Municipal Cooperative Development Office',
+      deptEmail: ['cooperativeoffice@capas.gov.ph'],
+      contact: ['045 923 1407'],
+      personalEmail: ['l.mallari@capas.gov.ph']
+    },
+    {
+      no: 13,
+      name: 'Mark Robert L. Mercado EMT, RN',
+      position: 'Officer-in-Charge',
+      department: 'Municipal Disaster Risk Reduction Management Office',
+      deptEmail: ['mdrrmo@capas.gov.ph', 'mdrrmc.capas@gmail.com'],
+      contact: ['0951 127 9465'],
+      personalEmail: ['m.mercado@capas.gov.ph']
+    },
+    {
+      no: 14,
+      name: 'Engr. Baby Lyn C. Robles',
+      position: 'Municipal Engineer / Officer-in-Charge / Zoning Officer',
+      department: 'Municipal Engineering Office / Municipal Planning and Development Office / Municipal Zoning Office',
+      deptEmail: ['engineering@capas.gov.ph', 'meocapas2017@gmail.com', 'mpdo@capas.gov.ph', 'mpdocapas@gmail.com', 'mlo@capas.gov.ph'],
+      contact: ['-'],
+      personalEmail: ['b.robles@capas.gov.ph']
+    },
+    {
+      no: 15,
+      name: 'Gener S. Tanhueco',
+      position: 'Municipal Environment and Natural Resources Officer',
+      department: 'Municipal Environment and Natural Resources Office',
+      deptEmail: ['menro@capas.gov.ph'],
+      contact: ['-'],
+      personalEmail: ['g.tanhueco@capas.gov.ph']
+    },
+    {
+      no: 16,
+      name: 'Dr. Franchette Reyes',
+      position: 'Officer-in-Charge',
+      department: 'Municipal Health Office',
+      deptEmail: ['municipalhealthoffice@capas.gov.ph', 'capasrhu@yahoo.com.ph'],
+      contact: ['045 925 0529'],
+      personalEmail: ['dr.r.reyes@capas.gov.ph']
+    },
+    {
+      no: 17,
+      name: '-',
+      position: 'Municipal Legal Officer',
+      department: 'Municipal Legal Office',
+      deptEmail: ['legaloffice@capas.gov.ph'],
+      contact: ['-'],
+      personalEmail: []
+    },
+    {
+      no: 18,
+      name: 'Maria Consorcia R. Corpuz',
+      position: 'Officer-in-Charge',
+      department: 'Municipal Social Welfare and Development Office',
+      deptEmail: ['mswdo@capas.gov.ph', 'mswdcapas@gmail.com'],
+      contact: ['-'],
+      personalEmail: []
+    },
+    {
+      no: 19,
+      name: 'Paul L. Alata',
+      position: 'Officer-in-Charge',
+      department: 'Municipal Tourism Office',
+      deptEmail: ['tourism@capas.gov.ph', 'capastourismoffice@gmail.com'],
+      contact: ['-'],
+      personalEmail: []
+    },
+    {
+      no: 20,
+      name: 'Evelyn P. Roque',
+      position: 'Municipal Treasurer',
+      department: 'Municipal Treasury Office',
+      deptEmail: ['treasury@capas.gov.ph', 'mto_capas@yahoo.com'],
+      contact: ['-'],
+      personalEmail: ['e.roque@capas.gov.ph']
+    },
+    {
+      no: 21,
+      name: 'Dr. Hensly Hope A. Baun',
+      position: 'Municipal Veterinarian',
+      department: 'Municipal Veterinary Office',
+      deptEmail: ['veterinaryoffice@capas.gov.ph'],
+      contact: ['-'],
+      personalEmail: ['h.baun@capas.gov.ph']
+    },
+    {
+      no: 22,
+      name: 'Dr. Leah G. Pangan',
+      position: 'Officer-in-Charge',
+      department: 'Ospital Ning Capas',
+      deptEmail: ['onc@capas.gov.ph'],
+      contact: ['045 491 1361', '0908 897 9421', '0908 821 6879'],
+      personalEmail: ['dra.l.pangan@capas.gov.ph']
+    },
+    {
+      no: 23,
+      name: 'Flordeliza H. Villanueva',
+      position: 'Officer-in-Charge',
+      department: 'Ospital Ning Capas Administrative Office',
+      deptEmail: ['flordelizanucup@yahoo.com'],
+      contact: ['-'],
+      personalEmail: []
+    },
+    {
+      no: 24,
+      name: 'Merly S. Bumagat',
+      position: 'Officer-in-Charge',
+      department: 'Public Employment Services Office (PESO)',
+      deptEmail: ['peso@capas.gov.ph'],
+      contact: ['045 491 3840'],
+      personalEmail: ['m.bumagat@capas.gov.ph']
+    },
+    {
+      no: 25,
+      name: 'Engr. Sonia M. Compra',
+      position: 'Officer-in-Charge',
+      department: 'Public Order and Safety Management Office (POSMO)',
+      deptEmail: ['posmo@capas.gov.ph'],
+      contact: ['-'],
+      personalEmail: ['s.compra@capas.gov.ph']
     }
   ]
 
