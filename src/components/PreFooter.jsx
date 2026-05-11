@@ -133,7 +133,7 @@ const PreFooter = () => {
         .bg-decor-2 {
           width: 400px;
           height: 400px;
-          background: rgba(13, 110, 253, 0.1);
+          background: rgba(20, 24, 61, 0.1);
           bottom: -150px;
           left: -100px;
         }
@@ -165,8 +165,8 @@ const PreFooter = () => {
         }
 
         .red-badge { background: linear-gradient(135deg, #ff4d4d, #dc3545); }
-        .blue-badge { background: linear-gradient(135deg, #4d94ff, #0d6efd); }
-        .dark-badge { background: linear-gradient(135deg, #4a4e69, #14183d); }
+        .blue-badge { background: linear-gradient(135deg, #1f255c, #14183d); }
+        .dark-badge { background: linear-gradient(135deg, #4a4e69, #0a0c1f); }
 
         .modern-title {
           font-family: 'Inter', sans-serif;

@@ -84,7 +84,6 @@ function App() {
           <Route path="/engineering" element={<><NavbarComponent /><main className="flex-grow-1"><Engineering /></main><PreFooter /><Footer /></>} />
           <Route path="/zoning-engineering" element={<><NavbarComponent /><main className="flex-grow-1"><Engineering /></main><PreFooter /><Footer /></>} />
           <Route path="/cooperative" element={<><NavbarComponent /><main className="flex-grow-1"><Cooperative /></main><PreFooter /><Footer /></>} />
-          <Route path="/veterinary" element={<><NavbarComponent /><main className="flex-grow-1"><Veterinary /></main><PreFooter /><Footer /></>} />
           <Route path="/bids-awards" element={<><NavbarComponent /><main className="flex-grow-1"><BidsAwards /></main><PreFooter /><Footer /></>} />
           <Route path="/citizens-charter" element={<><NavbarComponent /><main className="flex-grow-1"><CitizensCharter /></main><PreFooter /><Footer /></>} />
           <Route path="/resolutions" element={<><NavbarComponent /><main className="flex-grow-1"><Resolutions /></main><PreFooter /><Footer /></>} />
@@ -96,18 +95,6 @@ function App() {
           <Route path="/directory" element={<><NavbarComponent /><main className="flex-grow-1"><Directory /></main><PreFooter /><Footer /></>} />
           <Route path="/council" element={<><NavbarComponent /><main className="flex-grow-1"><MunicipalCouncil /></main><PreFooter /><Footer /></>} />
           
-          {/* Services Missing */}
-          <Route path="/transportation" element={<><NavbarComponent /><UnderDevelopment /><PreFooter /><Footer /></>} />
-          <Route path="/health" element={<><NavbarComponent /><UnderDevelopment /><PreFooter /><Footer /></>} />
-          <Route path="/social-welfare" element={<><NavbarComponent /><UnderDevelopment /><PreFooter /><Footer /></>} />
-          <Route path="/peso" element={<><NavbarComponent /><UnderDevelopment /><PreFooter /><Footer /></>} />
-          <Route path="/civil-registrar" element={<><NavbarComponent /><UnderDevelopment /><PreFooter /><Footer /></>} />
-          <Route path="/mdrrmc" element={<><NavbarComponent /><UnderDevelopment /><PreFooter /><Footer /></>} />
-          <Route path="/posmo" element={<><NavbarComponent /><UnderDevelopment /><PreFooter /><Footer /></>} />
-          <Route path="/fire-protection" element={<><NavbarComponent /><UnderDevelopment /><PreFooter /><Footer /></>} />
-          <Route path="/police" element={<><NavbarComponent /><UnderDevelopment /><PreFooter /><Footer /></>} />
-          <Route path="/tourism-operators" element={<><NavbarComponent /><UnderDevelopment /><PreFooter /><Footer /></>} />
-
           {/* Full Disclosure Missing */}
           <Route path="/ordinances" element={<><NavbarComponent /><main className="flex-grow-1"><Ordinances /></main><PreFooter /><Footer /></>} />
           <Route path="/executive-orders" element={<><NavbarComponent /><main className="flex-grow-1"><ExecutiveOrders /></main><PreFooter /><Footer /></>} />

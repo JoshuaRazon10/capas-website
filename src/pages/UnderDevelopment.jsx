@@ -36,7 +36,7 @@ const UnderDevelopment = () => {
         transform: 'translate(-50%, -50%)',
         width: '600px',
         height: '600px',
-        background: 'radial-gradient(circle, rgba(13, 110, 253, 0.1) 0%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(20, 24, 61, 0.1) 0%, transparent 70%)',
         pointerEvents: 'none',
         zIndex: 1
       }}></div>
