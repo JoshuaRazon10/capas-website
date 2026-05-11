@@ -36,14 +36,14 @@ const MunicipalCouncil = () => {
       name: 'Atty. Catherine Rose Diaz Cunanan', 
       role: 'Municipal Legal Officer', 
       office: 'Municipal Legal Office',
-      email: 'legaloffice@capastarlac.gov.ph',
+      email: 'legaloffice@capas.gov.ph',
       image: null 
     },
     { 
       name: 'Mahalia C. Bertillo', 
       role: 'Officer-in-Charge', 
       office: 'Municipal Public Information Office',
-      email: 'publicinformationoffice@capastarlac.gov.ph',
+      email: 'publicinformationoffice@capas.gov.ph',
       image: null 
     },
   ]
