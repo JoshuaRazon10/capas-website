@@ -1,0 +1,222 @@
+import React from 'react'
+import { Container, Row, Col, Table, Tabs, Tab, Card, Badge } from 'react-bootstrap'
+import { FaPhoneAlt, FaEnvelope, FaBuilding, FaSearch, FaUserTie } from 'react-icons/fa'
+
+const Directory = () => {
+  const executiveOffices = [
+    {
+      no: 1,
+      name: 'Hon. Atty. Roseller B. Rodriguez',
+      position: 'Municipal Mayor',
+      department: 'Office of the Local Chief Executive',
+      deptEmail: ['lgucapasmayorsoffice@gmail.com', 'capasmayorsoffice@capas.gov.ph'],
+      contact: ['045 925 0154', '045 925 3258'],
+      personalEmail: ['rosellerrodriguez18@gmail.com', 'r.rodriguez@capas.gov.ph']
+    },
+    {
+      no: 2,
+      name: 'Alma S. Ayson',
+      position: 'Municipal Administrator / Municipal Assessor',
+      department: "Municipal Administrator's Office / Assessor's Office / HRMO",
+      deptEmail: ['administrator@capas.gov.ph', 'assessorsoffice.capas@gmail.com'],
+      contact: ['-'],
+      personalEmail: ['a.ayson@capas.gov.ph']
+    },
+    {
+      no: 3,
+      name: 'Rhyzeth P. Maliwat, CPA',
+      position: 'Municipal Accountant',
+      department: 'Accounting Office',
+      deptEmail: ['accounting@capas.gov.ph'],
+      contact: ['-'],
+      personalEmail: ['r.maliwat@capas.gov.ph']
+    },
+    {
+      no: 4,
+      name: 'Gina M. Intong',
+      position: 'Municipal Budget Officer',
+      department: 'Budget Office',
+      deptEmail: ['budget@capas.gov.ph'],
+      contact: ['-'],
+      personalEmail: ['g.intong@capas.gov.ph', 'gmintong621@gmail.com']
+    },
+    {
+      no: 5,
+      name: 'Ma. Mia Q. Dizon',
+      position: 'Officer-in-Charge',
+      department: 'Business Processing and Licensing Office (BPLO)',
+      deptEmail: ['bplo@capas.gov.ph'],
+      contact: ['-'],
+      personalEmail: ['m.dizon@capas.gov.ph', 'ma.mia29@yahoo.com']
+    }
+  ]
+
+  const renderTable = (data) => (
+    <div className="table-responsive shadow-sm rounded-4 overflow-hidden border bg-white mt-4">
+      <Table hover className="mb-0 custom-directory-table">
+        <thead style={{ backgroundColor: 'var(--primary)', color: 'white' }}>
+          <tr>
+            <th className="py-3 px-4 text-uppercase small ls-1">No.</th>
+            <th className="py-3 px-4 text-uppercase small ls-1">Name</th>
+            <th className="py-3 px-4 text-uppercase small ls-1">Position</th>
+            <th className="py-3 px-4 text-uppercase small ls-1">Department</th>
+            <th className="py-3 px-4 text-uppercase small ls-1">Contact Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((item, idx) => (
+            <tr key={idx}>
+              <td className="py-4 px-4 align-middle fw-bold text-muted">{item.no}</td>
+              <td className="py-4 px-4 align-middle">
+                <div className="fw-bold text-dark" style={{ fontSize: '1.05rem' }}>{item.name}</div>
+              </td>
+              <td className="py-4 px-4 align-middle">
+                <Badge bg="light" className="text-dark border px-3 py-2 fw-normal" style={{ fontSize: '0.85rem' }}>
+                  {item.position}
+                </Badge>
+              </td>
+              <td className="py-4 px-4 align-middle text-muted" style={{ fontSize: '0.9rem' }}>
+                <div className="d-flex align-items-center gap-2 mb-1">
+                  <FaBuilding className="text-primary-red" size={14} />
+                  <span className="fw-semibold">{item.department}</span>
+                </div>
+              </td>
+              <td className="py-4 px-4 align-middle">
+                <div style={{ fontSize: '0.85rem' }}>
+                  {item.contact && item.contact[0] !== '-' && (
+                    <div className="d-flex align-items-center gap-2 mb-2 text-dark">
+                      <FaPhoneAlt size={12} className="text-primary-red" />
+                      {item.contact.join(' / ')}
+                    </div>
+                  )}
+                  {item.deptEmail && (
+                    <div className="d-flex align-items-start gap-2 mb-1">
+                      <FaEnvelope size={12} className="text-primary-red mt-1" />
+                      <div>
+                        {item.deptEmail.map((email, eIdx) => (
+                          <a key={eIdx} href={`mailto:${email}`} className="d-block text-decoration-none text-primary hover-underline">
+                            {email}
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    </div>
+  )
+
+  return (
+    <div className="directory-page bg-light min-vh-100">
+      {/* Hero Header */}
+      <div className="bg-white border-bottom py-5 shadow-sm">
+        <Container className="py-3 text-center">
+          <Badge bg="danger" className="mb-3 px-3 py-2 text-uppercase ls-2">Capas LGU</Badge>
+          <h1 className="display-4 fw-bold text-dark mb-3">Municipal Directory</h1>
+          <p className="text-muted lead mx-auto" style={{ maxWidth: '700px' }}>
+            A comprehensive list of offices, officials, and contact information for the Municipality of Capas.
+          </p>
+          <div className="mt-4 mx-auto" style={{ maxWidth: '500px' }}>
+            <div className="position-relative">
+              <FaSearch className="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted" />
+              <input 
+                type="text" 
+                className="form-control form-control-lg ps-5 rounded-pill border-2" 
+                placeholder="Search office or official..."
+                style={{ fontSize: '1rem' }}
+              />
+            </div>
+          </div>
+        </Container>
+      </div>
+
+      <Container className="py-5">
+        <Card className="border-0 shadow-sm rounded-4 overflow-hidden">
+          <Card.Body className="p-0">
+            <Tabs
+              defaultActiveKey="executive"
+              id="directory-tabs"
+              className="custom-tabs border-bottom"
+              justify
+            >
+              <Tab eventKey="executive" title="Executive Offices">
+                <div className="p-4 p-md-5">
+                  <div className="d-flex align-items-center gap-3 mb-4">
+                    <div className="p-3 bg-danger text-white rounded-4 shadow-sm">
+                      <FaUserTie size={24} />
+                    </div>
+                    <div>
+                      <h2 className="fw-bold mb-0">Executive Offices</h2>
+                      <p className="text-muted mb-0">Offices under the Local Chief Executive and administrative departments.</p>
+                    </div>
+                  </div>
+                  {renderTable(executiveOffices)}
+                </div>
+              </Tab>
+              <Tab eventKey="council" title="Sangguniang Bayan">
+                <div className="p-5 text-center">
+                  <p className="text-muted italic">Legislative branch directory information coming soon.</p>
+                </div>
+              </Tab>
+              <Tab eventKey="barangay" title="Barangay Officials">
+                <div className="p-5 text-center">
+                  <p className="text-muted italic">Barangay officials directory information coming soon.</p>
+                </div>
+              </Tab>
+              <Tab eventKey="agencies" title="National Agencies">
+                <div className="p-5 text-center">
+                  <p className="text-muted italic">Attached national agencies directory information coming soon.</p>
+                </div>
+              </Tab>
+              <Tab eventKey="utilities" title="Utilities">
+                <div className="p-5 text-center">
+                  <p className="text-muted italic">Utility service providers directory information coming soon.</p>
+                </div>
+              </Tab>
+            </Tabs>
+          </Card.Body>
+        </Card>
+      </Container>
+
+      <style>{`
+        .custom-tabs .nav-link {
+          padding: 1.5rem 1rem;
+          border: none;
+          border-bottom: 3px solid transparent;
+          color: var(--gray-600);
+          font-weight: 600;
+          font-size: 0.95rem;
+          transition: all 0.3s ease;
+        }
+        .custom-tabs .nav-link:hover {
+          color: var(--primary);
+          background-color: rgba(var(--primary-rgb), 0.05);
+        }
+        .custom-tabs .nav-link.active {
+          color: var(--primary);
+          border-bottom-color: var(--primary);
+          background-color: white;
+        }
+        .custom-directory-table thead th {
+          border: none;
+          letter-spacing: 1px;
+        }
+        .custom-directory-table tbody tr {
+          transition: background-color 0.2s ease;
+        }
+        .custom-directory-table tbody tr:hover {
+          background-color: rgba(var(--primary-rgb), 0.02);
+        }
+        .ls-1 { letter-spacing: 1px; }
+        .ls-2 { letter-spacing: 2px; }
+        .hover-underline:hover { text-decoration: underline !important; }
+      `}</style>
+    </div>
+  )
+}
+
+export default Directory

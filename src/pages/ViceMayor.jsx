@@ -39,7 +39,35 @@ const ViceMayor = () => {
           </Row>
         </Container>
       </section>
-
+      {/* Profile Details */}
+      <section className="py-5 bg-light">
+        <Container>
+          <Row className="gy-4">
+            <Col lg={6}>
+              <Card className="h-100 border-0 shadow-sm p-4">
+                <h4 className="fw-bold mb-4 d-flex align-items-center gap-2">
+                  <div style={{ width: '8px', height: '24px', backgroundColor: 'var(--primary)', borderRadius: '4px' }}></div>
+                  Our Vision
+                </h4>
+                <p className="text-muted">
+                  A premier municipality in Central Luzon characterized by a vibrant economy, resilient infrastructure, and a globally competitive, healthy, and empowered citizenry living in a safe and sustainable environment under a transparent and responsive governance.
+                </p>
+              </Card>
+            </Col>
+            <Col lg={6}>
+              <Card className="h-100 border-0 shadow-sm p-4">
+                <h4 className="fw-bold mb-4 d-flex align-items-center gap-2">
+                  <div style={{ width: '8px', height: '24px', backgroundColor: 'var(--primary)', borderRadius: '4px' }}></div>
+                  Our Mission
+                </h4>
+                <p className="text-muted">
+                  To provide quality public services, promote sustainable development, and ensure the general welfare of all Capaseños through effective leadership, community participation, and efficient management of resources.
+                </p>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
+      </section>
 
 
       <style>{`

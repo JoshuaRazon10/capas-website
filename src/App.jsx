@@ -12,6 +12,7 @@ import OfficialSeal from './pages/OfficialSeal'
 import TransparencySeal from './pages/TransparencySeal'
 import History from './pages/History'
 import Mayors from './pages/Mayors'
+import Directory from './pages/Directory'
 import Geography from './pages/Geography'
 import BidsAwards from './pages/BidsAwards'
 import BarangayOfficials from './pages/BarangayOfficials'
@@ -92,7 +93,7 @@ function App() {
           <Route path="/map" element={<><NavbarComponent /><main className="flex-grow-1"><Map /></main><PreFooter /><Footer /></>} />
           <Route path="/socio-economic" element={<><NavbarComponent /><main className="flex-grow-1"><Profile /></main><PreFooter /><Footer /></>} />
           <Route path="/sangguniang-bayan" element={<><NavbarComponent /><main className="flex-grow-1"><MunicipalCouncil /></main><PreFooter /><Footer /></>} />
-          <Route path="/directory" element={<><NavbarComponent /><UnderDevelopment /><PreFooter /><Footer /></>} />
+          <Route path="/directory" element={<><NavbarComponent /><main className="flex-grow-1"><Directory /></main><PreFooter /><Footer /></>} />
           <Route path="/council" element={<><NavbarComponent /><main className="flex-grow-1"><MunicipalCouncil /></main><PreFooter /><Footer /></>} />
           
           {/* Services Missing */}
