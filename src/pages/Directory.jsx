@@ -281,10 +281,7 @@ const Directory = () => {
                 </div>
               </td>
               <td className="py-3 px-3 align-middle text-muted" style={{ fontSize: '0.85rem' }}>
-                <div className="d-flex align-items-center gap-2 mb-1">
-                  <FaBuilding className="text-primary-red" size={14} />
-                  <span className="fw-semibold">{item.department}</span>
-                </div>
+                <span className="fw-semibold">{item.department}</span>
               </td>
               <td className="py-3 px-3 align-middle">
                 <div style={{ fontSize: '0.8rem' }}>
