@@ -332,9 +332,24 @@ const Directory = () => {
     { no: '', name: 'Marleo M. Delos Reyes', position: 'SK Chairman', department: 'Sto. Rosario', deptEmail: [], contact: ['09213431448'], personalEmail: [] },
     { no: '', name: 'Lourdes T. Palad', position: 'Barangay Secretary', department: 'Sto. Rosario', deptEmail: [], contact: ['09322291984'], personalEmail: [] },
     // 20 Talaga
-    { no: 20, name: 'Eliseo C. Malonzo', position: 'Barangay Chairman', department: 'Talaga', deptEmail: [], contact: ['09484327191'], personalEmail: [] },
+    { no: 20, name: 'Eliseo C. Malonzo', position: 'Barangay Chairman', department: 'Talaga', deptEmail: [], contact: ['0484327191'], personalEmail: [] },
     { no: '', name: 'Christine Maryjo L. Catacutan', position: 'SK Chairman', department: 'Talaga', deptEmail: [], contact: ['09998888950'], personalEmail: [] },
     { no: '', name: 'Joshua S. Cervantes', position: 'Barangay Secretary', department: 'Talaga', deptEmail: [], contact: ['09469881156'], personalEmail: [] },
+  ]
+
+  const nationalAgencies = [
+    { no: 1, name: 'SINP. Rustico D. Tayag Jr.', position: 'Fire Marshall', department: 'Bureau of Fire Protection', deptEmail: ['capasbfp@yahoo.com'], contact: ['045 925 0398', '0923 280 8254'], personalEmail: [] },
+    { no: 2, name: 'Capt. Jan Carlo Tabaculde', position: 'Commander', department: '3rd Mechanized Infantry Batallion, AFP', deptEmail: [], contact: [], personalEmail: [] },
+    { no: 3, name: 'Marites L. Villaverde, CPA', position: 'State Auditor III-OIC', department: 'Commission on Audit', deptEmail: [], contact: ['045 491 3337', '045 934 2538'], personalEmail: [] },
+    { no: 4, name: 'Elsie C. Sibal', position: 'Election Office IV', department: 'Commission on Election', deptEmail: [], contact: ['045 491 8358'], personalEmail: [] },
+    { no: 5, name: 'Susan Tababa', position: 'Municipal Agrarian Reform Officer', department: 'Department of Agrarian Reform', deptEmail: ['darmunicipalofficecluster3@gmail.com'], contact: [], personalEmail: [] },
+    { no: 6, name: 'Riza M. Guilas', position: 'Municipal LGU Operation Officer', department: 'Department of Interior and Local Government', deptEmail: ['dilgcapas20@gmail.com'], contact: [], personalEmail: [] },
+    { no: 7, name: 'Bernadette L. Galang', position: 'PDO II - Municipal Link', department: 'Department of Social Welfare and Development - 4Ps', deptEmail: ['capas4ps@gmail.com'], contact: ['0933 868 4969'], personalEmail: [] },
+    { no: 8, name: 'Adrian Paolo P. David', position: 'Business Councelor II', department: 'Department of Trade and Industry', deptEmail: ['Capas.LGU@negosyocenter.gov.ph'], contact: ['0956 731 0192'], personalEmail: ['Capas.LGU@negosyocenter.gov.ph'] },
+    { no: 9, name: 'Zenaida P. Gonzales', position: 'Branch Manager', department: 'Landbank of the Philippines', deptEmail: ['lbpcapas@yahoo.com'], contact: ['045 491 7969'], personalEmail: [] },
+    { no: 10, name: 'Tiffany Ann Dizon', position: 'Clerk of Court', department: 'Municipal Circuit Trial Court Branch 66', deptEmail: ['Rtc1Cap066@judiciary.gov.ph'], contact: ['0985 215 6256'], personalEmail: ['rtc1cap066@judiciary.gov.ph'] },
+    { no: 11, name: 'Carolin Felipe', position: 'Post Master', department: 'PhilPost', deptEmail: ['PPCCapastarlac2315@yahoo.com'], contact: ['045 491 8854', '0910 219 0047'], personalEmail: ['ppccapastarlac2315@yahoo.com'] },
+    { no: 12, name: 'Atty. Tiffany Ann C. Dizon', position: 'Branch Clerk of Court 5', department: 'Regional Trial Court', deptEmail: ['RTCIcap066@judiciary.gov.ph'], contact: ['0985 215 6254'], personalEmail: [] },
   ]
 
   const renderTable = (data) => (
@@ -478,8 +493,17 @@ const Directory = () => {
                 </div>
               </Tab>
               <Tab eventKey="agencies" title="National Agencies">
-                <div className="p-5 text-center">
-                  <p className="text-muted italic">Attached national agencies directory information coming soon.</p>
+                <div className="p-4 p-md-5">
+                  <div className="d-flex align-items-center gap-3 mb-4">
+                    <div className="p-3 bg-danger text-white rounded-4 shadow-sm">
+                      <FaUserTie size={24} />
+                    </div>
+                    <div>
+                      <h2 className="fw-bold mb-0">Attached National Agencies</h2>
+                      <p className="text-muted mb-0">National government offices and agencies operating within the Municipality of Capas.</p>
+                    </div>
+                  </div>
+                  {renderTable(nationalAgencies)}
                 </div>
               </Tab>
               <Tab eventKey="utilities" title="Utilities">
