@@ -231,6 +231,29 @@ const Directory = () => {
     }
   ]
 
+  const sbMembers = [
+    {
+      no: 1,
+      name: 'Hon. Alex C. Espinosa',
+      position: 'Municipal Vice Mayor',
+      department: 'Sangguniang Bayan Office',
+      deptEmail: ['vmo@capas.gov.ph'],
+      contact: ['-'],
+      personalEmail: []
+    },
+    { no: 2, name: 'Hon. Julieta C. Jimenez', position: 'Municipal Councilor', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: [] },
+    { no: 3, name: 'Hon. Ariel G. Batican', position: 'Municipal Councilor', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: [] },
+    { no: 4, name: 'Hon. Editha M. Yumul', position: 'Municipal Councilor', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: [] },
+    { no: 5, name: 'Hon. Benz A. Pineda', position: 'Municipal Councilor', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: [] },
+    { no: 6, name: 'Hon. Clodualdo B. Gamboa', position: 'Municipal Councilor', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: [] },
+    { no: 7, name: 'Hon. Jefferson M. Garcia', position: 'Municipal Councilor', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: [] },
+    { no: 8, name: 'Hon. Estela S. Manlupig', position: 'Municipal Councilor', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: [] },
+    { no: 9, name: 'Hon. Alejandro T. Dueñas', position: 'Municipal Councilor', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: [] },
+    { no: 10, name: 'Hon. Victor Valantin', position: 'IPMR Representative', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: [] },
+    { no: 11, name: 'Hon. Arnold Arcilla', position: 'ABC President', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: [] },
+    { no: 12, name: 'Hon. Marleo Delos Reyes', position: 'SK Federation President', department: 'Sangguniang Bayan', deptEmail: [], contact: [], personalEmail: [] },
+  ]
+
   const renderTable = (data) => (
     <div className="table-responsive shadow-sm rounded-4 border bg-white mt-4">
       <Table hover className="mb-0 custom-directory-table">
@@ -347,8 +370,17 @@ const Directory = () => {
                 </div>
               </Tab>
               <Tab eventKey="council" title="Sangguniang Bayan">
-                <div className="p-5 text-center">
-                  <p className="text-muted italic">Legislative branch directory information coming soon.</p>
+                <div className="p-4 p-md-5">
+                  <div className="d-flex align-items-center gap-3 mb-4">
+                    <div className="p-3 bg-danger text-white rounded-4 shadow-sm">
+                      <FaUserTie size={24} />
+                    </div>
+                    <div>
+                      <h2 className="fw-bold mb-0">Sangguniang Bayan</h2>
+                      <p className="text-muted mb-0">The legislative body of the Municipality of Capas, led by the Vice Mayor.</p>
+                    </div>
+                  </div>
+                  {renderTable(sbMembers)}
                 </div>
               </Tab>
               <Tab eventKey="barangay" title="Barangay Officials">
