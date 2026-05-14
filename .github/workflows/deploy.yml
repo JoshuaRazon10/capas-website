@@ -24,11 +24,30 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Deploy to DICT via FTP
+      - name: Deploy to Hostinger via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist/
+          # Upload everything (excluding build files like node_modules)
+          local-dir: ./
           server-dir: ./public_html/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/src/**
+            **/public/**
+            **/tests/**
+            backend/vendor/**
+            backend/node_modules/**
+            backend/.env
+            package-lock.json
+            package.json
+            vite.config.js
+            tsconfig.json
+            extract_bids.cjs
+            make_favicon.cjs
+            composer.phar
+            deploy/**
