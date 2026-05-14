@@ -34,14 +34,11 @@ const Mayor = () => {
                 <a href="https://www.facebook.com/BootsRodriguez518" target="_blank" rel="noopener noreferrer" className="btn btn-outline-light rounded-circle p-2 d-flex align-items-center justify-content-center" style={{ width: '45px', height: '45px' }}>
                   <FaFacebook size={20} />
                 </a>
-                {/* Add more social links if available */}
               </div>
             </Col>
           </Row>
         </Container>
       </section>
-
-
 
       {/* Profile Details */}
       <section className="py-5 bg-light">

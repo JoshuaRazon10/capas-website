@@ -1,262 +1,423 @@
 import React, { useState, useEffect } from 'react'
-import { Container, Row, Col, Card, Nav, Button, Modal, Form, Alert } from 'react-bootstrap'
-import { Link, useNavigate } from 'react-router-dom'
-import { FaPlus, FaTrash, FaSignOutAlt, FaTachometerAlt, FaListAlt, FaFolderOpen, FaTimes, FaFilePdf, FaFileWord, FaDownload, FaCog, FaImage, FaSearch } from 'react-icons/fa'
-import capasLogo from '../../assets/images/capas.logo.jpg'
+import { Container, Row, Col, Card, Button, Modal, Form, Alert, Spinner, Badge } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
+import { FaPlus, FaTrash, FaFolderOpen, FaFilePdf, FaFileWord, FaDownload, FaSearch, FaNewspaper, FaExternalLinkAlt } from 'react-icons/fa'
+import API_BASE_URL from '../../apiConfig'
 
 const ManageFiles = () => {
   const navigate = useNavigate()
+  const [fileList, setFileList] = useState([])
+  const [loading, setLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
-  const [fileName, setFileName] = useState('')
-  const [category, setCategory] = useState('')
-  const [filterCategory, setFilterCategory] = useState('All')
+  const [selectedCategory, setSelectedCategory] = useState(null)
+  
+  const [title, setTitle] = useState('')
+  const [type, setType] = useState('')
+  const [year, setYear] = useState(new Date().getFullYear())
+  const [description, setDescription] = useState('')
+  const [file, setFile] = useState(null)
+  
+  const [searchTerm, setSearchTerm] = useState('')
   const [success, setSuccess] = useState('')
+  const [error, setError] = useState('')
+  const [submitting, setSubmitting] = useState(false)
 
-  // Placeholder files data — will be replaced with actual backend/Firestore integration
-  const [fileList, setFileList] = useState([
-    { id: 1, name: '2026_Annual_Budget.pdf', title: '2026 Annual Budget Report', category: 'Transparency Seal', date: 'May 8, 2026', type: 'PDF' },
-    { id: 2, name: 'Application_Form_Business.docx', title: 'New Business Permit Application', category: 'Downloadable Forms', date: 'May 5, 2026', type: 'DOCX' },
-    { id: 3, name: 'Q1_Trust_Fund_Utilization.pdf', title: 'Q1 Trust Fund Utilization', category: 'Full Disclosure', date: 'Apr 20, 2026', type: 'PDF' },
-  ])
+  const categories = [
+    { name: 'Transparency Seal', icon: <FaFolderOpen />, color: '#14183d', types: ['Transparency Seal', 'Full Disclosure'] },
+    { name: 'Bids & Awards', icon: <FaFolderOpen />, color: '#dc3545', types: ['Bids & Awards'] },
+    { name: 'Citizen\'s Charter', icon: <FaFolderOpen />, color: '#198754', types: ['Citizen\'s Charter'] },
+    { name: 'Downloadable Forms', icon: <FaFolderOpen />, color: '#0dcaf0', types: ['Downloadable Forms'] },
+    { name: 'Ordinances', icon: <FaFolderOpen />, color: '#6610f2', types: ['Ordinances'] },
+    { name: 'Resolutions', icon: <FaFolderOpen />, color: '#6f42c1', types: ['Resolutions'] },
+    { name: 'Executive Orders', icon: <FaFolderOpen />, color: '#d63384', types: ['Executive Orders'] },
+    { name: 'Municipal Articles', icon: <FaNewspaper />, color: '#ffc107', types: ['Municipal Articles'] },
+    { name: 'Municipal Events', icon: <FaFolderOpen />, color: '#17a2b8', types: ['Municipal Events'] },
+    { name: 'GAD', icon: <FaFolderOpen />, color: '#fd7e14', types: ['GAD'] },
+    { name: 'Bayanihan Grant', icon: <FaFolderOpen />, color: '#20c997', types: ['Bayanihan Grant'] },
+    { name: 'Fund Utilization', icon: <FaFolderOpen />, color: '#0d6efd', types: ['Fund Utilization'] },
+  ]
+
+  const availableYears = []
+  for (let y = 2020; y <= 2026; y++) {
+    availableYears.push(y)
+  }
 
   useEffect(() => {
     if (!localStorage.getItem('adminAuth')) {
       navigate('/admin/login')
+      return
     }
+    fetchFiles()
   }, [navigate])
 
-  const handleLogout = () => {
-    localStorage.removeItem('adminAuth')
-    navigate('/admin/login')
-  }
-
-  const openAddModal = () => {
-    setFileName('')
-    setCategory('')
-    setShowModal(true)
-  }
-
-  const handleSave = () => {
-    if (!fileName.trim() || !category) return
-
-    const newItem = {
-      id: Date.now(),
-      name: 'uploaded_file.pdf', // Mock file name
-      title: fileName,
-      category,
-      date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-      type: 'PDF' // Mock type
-    }
-    setFileList(prev => [newItem, ...prev])
-    setSuccess('File uploaded successfully!')
-
-    setShowModal(false)
-    setFileName('')
-    setCategory('')
-    setTimeout(() => setSuccess(''), 3000)
-  }
-
-  const handleDelete = (id) => {
-    if (window.confirm('Are you sure you want to delete this file? This action cannot be undone.')) {
-      setFileList(prev => prev.filter(f => f.id !== id))
-      setSuccess('File deleted successfully!')
-      setTimeout(() => setSuccess(''), 3000)
+  const fetchFiles = async () => {
+    setLoading(true)
+    try {
+      const [docsRes, newsRes, eventsRes] = await Promise.all([
+        fetch(`${API_BASE_URL}/admin/documents`),
+        fetch(`${API_BASE_URL}/admin/articles?type=news`),
+        fetch(`${API_BASE_URL}/admin/articles?type=event`)
+      ])
+      
+      if (docsRes.ok && newsRes.ok && eventsRes.ok) {
+        const docsData = await docsRes.json()
+        const newsData = await newsRes.json()
+        const eventsData = await eventsRes.json()
+        setFileList([...docsData, ...newsData, ...eventsData])
+      }
+    } catch (err) {
+      setError('Failed to load records.')
+    } finally {
+      setLoading(false)
     }
   }
 
-  const getFileIcon = (type) => {
-    if (type === 'PDF') return <FaFilePdf size={20} className="text-danger" />
-    if (type === 'DOCX') return <FaFileWord size={20} style={{ color: 'var(--blue-logo)' }} />
+  const handleSave = async () => {
+    const isArticle = selectedCategory === 'Municipal Articles' || selectedCategory === 'Municipal Events'
+    if (!title.trim() || (!isArticle && !file)) {
+      setError('Title and File are required')
+      return
+    }
+
+    setSubmitting(true)
+    const endpoint = isArticle ? `${API_BASE_URL}/admin/articles` : `${API_BASE_URL}/admin/documents`
+    
+    const formData = new FormData()
+    formData.append('title', title)
+    formData.append('type', selectedCategory === 'Municipal Articles' ? 'news' : (selectedCategory === 'Municipal Events' ? 'event' : (type || selectedCategory)))
+    
+    if (isArticle) {
+      formData.append('image', file)
+      formData.append('external_link', description) // We'll use description field for the link in modal
+      formData.append('date_published', year) // We'll use year field for date in modal
+    } else {
+      formData.append('file', file)
+      formData.append('year', year)
+      formData.append('description', description)
+    }
+
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (response.ok) {
+        setSuccess('Record saved successfully!')
+        setShowModal(false)
+        fetchFiles()
+        setTitle('')
+        setYear(new Date().getFullYear())
+        setDescription('')
+        setFile(null)
+        setTimeout(() => setSuccess(''), 3000)
+      } else {
+        setError('Failed to save record')
+      }
+    } catch (err) {
+      setError('A network error occurred.')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  const handleDelete = async (id, isArticle) => {
+    if (window.confirm('Are you sure you want to delete this record?')) {
+      const endpoint = isArticle ? `${API_BASE_URL}/admin/articles/${id}` : `${API_BASE_URL}/admin/documents/${id}`
+      try {
+        const response = await fetch(endpoint, {
+          method: 'DELETE',
+        })
+        if (response.ok) {
+          setSuccess('Deleted successfully!')
+          fetchFiles()
+          setTimeout(() => setSuccess(''), 3000)
+        }
+      } catch (err) {
+        setError('Failed to delete.')
+      }
+    }
+  }
+
+  const getFileIcon = (ext) => {
+    const e = ext ? ext.toLowerCase() : ''
+    if (e === 'pdf') return <FaFilePdf size={20} className="text-danger" />
+    if (['doc', 'docx'].includes(e)) return <FaFileWord size={20} style={{ color: 'var(--blue-logo)' }} />
     return <FaFolderOpen size={20} className="text-secondary" />
   }
 
+  const filteredFiles = fileList.filter(f => {
+    const matchesSearch = f.title.toLowerCase().includes(searchTerm.toLowerCase())
+    const isArticle = selectedCategory === 'Municipal Articles'
+    const isEvent = selectedCategory === 'Municipal Events'
+    
+    if (isArticle) return matchesSearch && f.type === 'news'
+    if (isEvent) return matchesSearch && f.type === 'event'
+    
+    const catConfig = categories.find(c => c.name === selectedCategory)
+    const matchesCat = catConfig ? catConfig.types.includes(f.type) : false
+    return matchesSearch && matchesCat
+  })
+
+  // Show Category Selection Screen
+  if (!selectedCategory) {
+    return (
+      <div className="admin-files-page p-4 bg-light min-vh-100">
+        <div className="mb-5 text-center">
+          <h2 className="fw-bold mb-2">Document Management</h2>
+          <p className="text-muted">Select a category to manage its files.</p>
+        </div>
+        
+        <Container>
+          <Row className="g-4">
+            {categories.map((cat, idx) => (
+              <Col key={idx} md={4} lg={3}>
+                <Card 
+                  className="border-0 shadow-sm rounded-4 h-100 text-center p-4 hover-lift cursor-pointer transition-all"
+                  onClick={() => setSelectedCategory(cat.name)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <div className="icon-wrapper mb-3 p-3 rounded-circle bg-light d-inline-block mx-auto" style={{ color: cat.color }}>
+                    {cat.icon}
+                  </div>
+                  <h6 className="fw-bold mb-0">{cat.name}</h6>
+                  <small className="text-muted">
+                    {fileList.filter(f => cat.types.includes(f.type)).length} Files
+                  </small>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </Container>
+      </div>
+    )
+  }
+
+  // Show Category-Specific View
   return (
     <>
-      <div className="flex-grow-1" style={{ background: 'var(--gray-100)' }}>
-        {/* Top Bar */}
-        <div className="bg-white px-4 py-3 d-flex justify-content-between align-items-center" style={{ boxShadow: 'var(--shadow-sm)' }}>
-          <div>
-            <h5 className="fw-bold mb-0">Manage Files</h5>
-            <small className="text-muted">{fileList.length} total files uploaded</small>
+      <div className="flex-grow-1" style={{ background: 'var(--gray-100)', minHeight: '100vh' }}>
+        <div className="bg-white px-4 py-3 d-flex justify-content-between align-items-center border-bottom shadow-sm">
+          <div className="d-flex align-items-center gap-3">
+            <Button variant="light" className="rounded-circle" onClick={() => setSelectedCategory(null)}>
+              ←
+            </Button>
+            <div>
+              <h5 className="fw-bold mb-0">{selectedCategory}</h5>
+              <small className="text-muted">Managing {filteredFiles.length} files in this category</small>
+            </div>
           </div>
-          <Button onClick={openAddModal} className="btn-primary-red d-flex align-items-center gap-2" size="sm">
+          <Button onClick={() => setShowModal(true)} className="btn-primary-red d-flex align-items-center gap-2" size="sm">
             <FaPlus size={12} /> Upload New File
           </Button>
         </div>
 
         <Container fluid className="p-4">
-          {success && (
-            <Alert variant="success" className="py-2 d-flex align-items-center gap-2" style={{ borderRadius: 'var(--radius-xs)', fontSize: '0.9rem' }}>
-              ✅ {success}
-            </Alert>
-          )}
+          {success && <Alert variant="success" className="rounded-4">✅ {success}</Alert>}
+          {error && <Alert variant="danger" className="rounded-4">❌ {error}</Alert>}
 
-          {/* Filters */}
-          <Card className="modern-card border-0 mb-4" style={{ boxShadow: 'var(--shadow-sm)' }}>
+          <Card className="modern-card border-0 mb-4 shadow-sm rounded-4">
             <Card.Body className="p-3">
-              <Row className="align-items-center g-3">
-                <Col md={4}>
-                  <div className="position-relative">
-                    <FaSearch size={14} style={{ position: 'absolute', left: '15px', top: '50%', transform: 'translateY(-50%)', color: 'var(--gray-400)' }} />
-                    <Form.Control 
-                      placeholder="Search files..." 
-                      className="modern-input ps-5 border-0 bg-light"
-                      style={{ fontSize: '0.85rem' }}
-                    />
-                  </div>
-                </Col>
-                <Col md={3}>
-                  <Form.Select 
-                    className="modern-input border-0 bg-light" 
-                    style={{ fontSize: '0.85rem' }}
-                    value={filterCategory}
-                    onChange={(e) => setFilterCategory(e.target.value)}
-                  >
-                    <option value="All">All Categories</option>
-                    <option value="Transparency Seal">Transparency Seal</option>
-                    <option value="Full Disclosure">Full Disclosure Policy</option>
-                    <option value="Downloadable Forms">Downloadable Forms</option>
-                    <option value="Bids & Awards">Bids & Awards</option>
-                    <option value="Ordinances">Ordinances</option>
-                    <option value="Resolutions">Resolutions</option>
-                    <option value="Executive Orders">Executive Orders</option>
-                    <option value="Citizen's Charter">Citizen's Charter</option>
-                    <option value="GAD">GAD</option>
-                  </Form.Select>
-                </Col>
-              </Row>
+              <div className="position-relative">
+                <FaSearch size={14} style={{ position: 'absolute', left: '15px', top: '50%', transform: 'translateY(-50%)', color: 'var(--gray-400)' }} />
+                <Form.Control 
+                  placeholder={`Search in ${selectedCategory}...`} 
+                  className="ps-5 border-0 bg-light rounded-pill"
+                  value={searchTerm}
+                  onChange={e => setSearchTerm(e.target.value)}
+                />
+              </div>
             </Card.Body>
           </Card>
 
-          {/* Files Table */}
-          <Card className="modern-card border-0" style={{ boxShadow: 'var(--shadow)' }}>
-            <Card.Body className="p-0">
-              <div className="table-responsive">
-                <table className="table table-hover mb-0" style={{ fontSize: '0.9rem' }}>
-                  <thead>
-                    <tr style={{ background: 'var(--gray-100)' }}>
-                      <th className="fw-semibold text-muted small text-uppercase py-3 ps-4 border-0" style={{ width: '50px' }}>#</th>
-                      <th className="fw-semibold text-muted small text-uppercase py-3 border-0">Document Title</th>
-                      <th className="fw-semibold text-muted small text-uppercase py-3 border-0">Category</th>
-                      <th className="fw-semibold text-muted small text-uppercase py-3 border-0">Date Uploaded</th>
-                      <th className="fw-semibold text-muted small text-uppercase py-3 pe-4 border-0 text-end">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {fileList
-                      .filter(f => filterCategory === 'All' || f.category === filterCategory)
-                      .map((file, idx) => (
-                      <tr key={file.id} className="align-middle">
-                        <td className="py-3 ps-4 text-muted">{idx + 1}</td>
-                        <td className="py-3">
+          <Card className="modern-card border-0 shadow-sm rounded-4 overflow-hidden">
+            <div className="table-responsive">
+              <table className="table table-hover mb-0">
+                <thead className="bg-light">
+                  <tr>
+                    <th className="py-3 ps-4 border-0 small fw-bold text-muted">DOCUMENT TITLE</th>
+                    {['Transparency Seal', 'Bayanihan Grant', 'Fund Utilization', 'Downloadable Forms'].includes(selectedCategory) && (
+                      <th className="py-3 border-0 small fw-bold text-muted">YEAR/SUB</th>
+                    )}
+                    {(selectedCategory === 'Municipal Articles' || selectedCategory === 'Municipal Events') && (
+                      <th className="py-3 border-0 small fw-bold text-muted">DATE/LINK</th>
+                    )}
+                    <th className="py-3 border-0 small fw-bold text-muted text-end pe-4">ACTIONS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {loading ? (
+                    <tr><td colSpan="5" className="text-center py-5"><Spinner animation="border" variant="danger" /></td></tr>
+                  ) : filteredFiles.length > 0 ? (
+                    filteredFiles.map(f => (
+                      <tr key={f.id} className="align-middle">
+                        <td className="py-3 ps-4">
                           <div className="d-flex align-items-center gap-3">
-                            <div className="d-flex align-items-center justify-content-center p-2 rounded-3 bg-light">
-                              {getFileIcon(file.type)}
-                            </div>
+                            {(selectedCategory === 'Municipal Articles' || selectedCategory === 'Municipal Events') ? <FaNewspaper size={20} style={{ color: '#ffc107' }} /> : getFileIcon(f.file_extension)}
                             <div>
-                              <div className="fw-semibold text-dark">{file.title}</div>
-                              <div className="text-muted" style={{ fontSize: '0.78rem' }}>{file.name}</div>
+                              <div className="fw-bold">{f.title}</div>
+                              <small className="text-muted">{(selectedCategory === 'Municipal Articles' || selectedCategory === 'Municipal Events') ? (f.external_link ? 'External Link Post' : 'Image Only') : f.file_name}</small>
                             </div>
                           </div>
                         </td>
-                        <td className="py-3">
-                          <span className="badge bg-light text-dark border px-2 py-1" style={{ fontWeight: 600 }}>
-                            {file.category}
-                          </span>
-                        </td>
-                        <td className="py-3 text-muted">{file.date}</td>
-                        <td className="py-3 pe-4 text-end">
-                          <Button variant="link" size="sm" className="text-primary p-1 me-2" title="Download">
-                            <FaDownload size={14} />
-                          </Button>
-                          <Button variant="link" size="sm" className="text-danger p-1" onClick={() => handleDelete(file.id)} title="Delete">
+                        {['Transparency Seal', 'Bayanihan Grant', 'Fund Utilization', 'Downloadable Forms'].includes(selectedCategory) && (
+                          <td>
+                            <small className="text-muted">{f.year}</small>
+                            {f.description && <div className="small text-primary">{f.description}</div>}
+                          </td>
+                        )}
+                        {(selectedCategory === 'Municipal Articles' || selectedCategory === 'Municipal Events') && (
+                          <td>
+                            <small className="text-muted">{f.date_published}</small>
+                            {f.external_link && (
+                              <div className="small">
+                                <a href={f.external_link} target="_blank" rel="noreferrer" className="text-decoration-none d-flex align-items-center gap-1">
+                                  <FaExternalLinkAlt size={10} /> View Story
+                                </a>
+                              </div>
+                            )}
+                          </td>
+                        )}
+                        <td className="text-end pe-4">
+                          <Button variant="link" className="text-danger" onClick={() => handleDelete(f.id, (selectedCategory === 'Municipal Articles' || selectedCategory === 'Municipal Events'))}>
                             <FaTrash size={14} />
                           </Button>
                         </td>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              {fileList.length === 0 && (
-                <div className="text-center py-5 text-muted">
-                  <FaFolderOpen size={48} className="mb-3" style={{ opacity: 0.2 }} />
-                  <p>No files uploaded yet. Click "Upload New File" to get started.</p>
-                </div>
-              )}
-            </Card.Body>
+                    ))
+                  ) : (
+                    <tr><td colSpan="5" className="text-center py-5 text-muted">No files found in this category.</td></tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </Card>
         </Container>
+
+        <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+          <Modal.Header closeButton className="border-0"><Modal.Title className="fw-bold">Upload to {selectedCategory}</Modal.Title></Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group className="mb-3">
+                <Form.Label className="small fw-bold">DOCUMENT TITLE *</Form.Label>
+                <Form.Control type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder="e.g., Annual Budget Report" />
+              </Form.Group>
+              
+              {selectedCategory === 'Transparency Seal' && (
+                <Form.Group className="mb-3">
+                  <Form.Label className="small fw-bold">TYPE *</Form.Label>
+                  <Form.Select value={type} onChange={e => setType(e.target.value)}>
+                    <option value="">Select type...</option>
+                    <option value="Transparency Seal">Transparency Seal</option>
+                    <option value="Full Disclosure">Full Disclosure</option>
+                  </Form.Select>
+                </Form.Group>
+              )}
+              
+              {['Transparency Seal', 'Bayanihan Grant', 'Fund Utilization', 'Downloadable Forms'].includes(selectedCategory) && (
+                <>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="small fw-bold">YEAR *</Form.Label>
+                    <Form.Select value={year} onChange={e => setYear(e.target.value)}>
+                      {availableYears.sort((a, b) => b - a).map(y => (
+                        <option key={y} value={y}>{y}</option>
+                      ))}
+                    </Form.Select>
+                  </Form.Group>
+                  
+                  <Form.Group className="mb-3">
+                    <Form.Label className="small fw-bold">SUB-CATEGORY (OPTIONAL)</Form.Label>
+                    <div className="d-flex gap-2">
+                      <Form.Control 
+                        type="text" 
+                        value={description} 
+                        onChange={e => setDescription(e.target.value)} 
+                        placeholder="e.g., Business Permits" 
+                      />
+                      <Form.Select 
+                        style={{ width: '200px' }}
+                        onChange={e => setDescription(e.target.value)}
+                        value=""
+                      >
+                        <option value="">Quick Select...</option>
+                        <option value="New Building Permit">New Building Permit</option>
+                        <option value="Electrical Permit Form">Electrical Permit Form</option>
+                        <option value="Application Form for New Business">Application Form for New Business</option>
+                        <option value="Application Form for Renewal">Application Form for Renewal</option>
+                        <option value="Fencing Permit Form">Fencing Permit Form</option>
+                        <option value="Certificate of Occupancy Application Form and Completion Form">Certificate of Occupancy Group</option>
+                        <option value="Building Permit Form and Other Ancillary Permit Form">Building Permit & Ancillary Group</option>
+                        <option value="Annual Reports">Annual Reports</option>
+                      </Form.Select>
+                    </div>
+                  </Form.Group>
+                </>
+              )}
+
+              {(selectedCategory === 'Municipal Articles' || selectedCategory === 'Municipal Events') ? (
+                <>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="small fw-bold">DATE PUBLISHED (e.g., Dec 25, 2023)</Form.Label>
+                    <Form.Control 
+                      type="text" 
+                      value={year} 
+                      onChange={e => setYear(e.target.value)} 
+                      placeholder="Leave blank for today" 
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="small fw-bold">FACEBOOK/EXTERNAL STORY LINK</Form.Label>
+                    <Form.Control 
+                      type="text" 
+                      value={description} 
+                      onChange={e => setDescription(e.target.value)} 
+                      placeholder="https://facebook.com/..." 
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="small fw-bold">FEATURE IMAGE (OPTIONAL)</Form.Label>
+                    <Form.Control type="file" accept="image/*" onChange={e => setFile(e.target.files[0])} />
+                  </Form.Group>
+                </>
+              ) : (
+                <Form.Group className="mb-3">
+                  <Form.Label className="small fw-bold">FILE (PDF, DOC, DOCX) *</Form.Label>
+                  <Form.Control type="file" accept=".pdf,.doc,.docx" onChange={e => setFile(e.target.files[0])} />
+                </Form.Group>
+              )}
+            </Form>
+          </Modal.Body>
+          <Modal.Footer className="border-0">
+            <Button variant="light" onClick={() => setShowModal(false)} disabled={submitting}>Cancel</Button>
+            <Button className="btn-primary-red" onClick={handleSave} disabled={submitting}>
+              {submitting ? 'Uploading...' : 'Upload'}
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
-
-      {/* Upload File Modal */}
-      <Modal show={showModal} onHide={() => setShowModal(false)} size="lg" centered>
-        <Modal.Header className="border-0 pb-0 px-4 pt-4">
-          <Modal.Title className="fw-bold" style={{ fontSize: '1.2rem' }}>
-            Upload New File
-          </Modal.Title>
-          <Button variant="link" className="text-muted p-0" onClick={() => setShowModal(false)}>
-            <FaTimes size={18} />
-          </Button>
-        </Modal.Header>
-        <Modal.Body className="px-4 py-3">
-          <Form>
-            <Form.Group className="mb-3">
-              <Form.Label className="fw-semibold small" style={{ color: 'var(--gray-500)', fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Document Title *</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="e.g., 2026 Annual Budget Report"
-                value={fileName}
-                onChange={(e) => setFileName(e.target.value)}
-                className="modern-input"
-              />
-            </Form.Group>
-            
-            <Form.Group className="mb-3">
-              <Form.Label className="fw-semibold small" style={{ color: 'var(--gray-500)', fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Category / Placement *</Form.Label>
-              <Form.Select 
-                value={category} 
-                onChange={(e) => setCategory(e.target.value)}
-                className="modern-input border-0 bg-light"
-                style={{ padding: '0.75rem 1rem' }}
-              >
-                <option value="">Select category...</option>
-                <option value="Transparency Seal">Transparency Seal (Annual Reports)</option>
-                <option value="Full Disclosure">Full Disclosure Policy</option>
-                <option value="Downloadable Forms">Application / Downloadable Forms</option>
-                <option value="Bids & Awards">Bids & Awards</option>
-                <option value="Ordinances">Ordinances</option>
-                <option value="Resolutions">Resolutions</option>
-                <option value="Executive Orders">Executive Orders</option>
-                <option value="Citizen's Charter">Citizen's Charter</option>
-                <option value="GAD">GAD (Gender and Development)</option>
-                <option value="Bayanihan Grant">Bayanihan Grant</option>
-                <option value="Fund Utilization">Report on Fund Utilization</option>
-              </Form.Select>
-            </Form.Group>
-
-            <Form.Group className="mb-3 mt-4">
-              <div className="border border-2 border-dashed rounded-4 p-5 text-center" style={{ borderColor: 'rgba(0,0,0,0.1) !important', background: '#fcfcfc' }}>
-                <FaFolderOpen size={40} className="mb-3 text-muted opacity-50" />
-                <h6 className="fw-bold mb-1">Click or drag file to this area to upload</h6>
-                <p className="text-muted small mb-3">Support for a single PDF, DOC, or DOCX upload. Maximum size: 50MB.</p>
-                <Form.Control type="file" accept=".pdf,.doc,.docx" className="d-none" id="fileUpload" />
-                <Button as="label" htmlFor="fileUpload" variant="outline-primary" className="rounded-pill px-4" style={{ cursor: 'pointer', borderColor: 'var(--blue-logo)', color: 'var(--blue-logo)' }}>
-                  Browse Files
-                </Button>
-              </div>
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer className="border-0 px-4 pb-4 pt-0">
-          <Button variant="light" onClick={() => setShowModal(false)} style={{ borderRadius: 'var(--radius-sm)' }}>
-            Cancel
-          </Button>
-          <Button onClick={handleSave} className="btn-primary-red d-flex align-items-center gap-2">
-            Upload File
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <style>{`
+        .hover-lift {
+          transition: all 0.3s ease;
+        }
+        .hover-lift:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+        }
+        .cursor-pointer {
+          cursor: pointer;
+        }
+        .icon-wrapper {
+          width: 64px;
+          height: 64px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 24px;
+        }
+        .transition-all {
+          transition: all 0.3s ease;
+        }
+      `}</style>
     </>
   )
 }

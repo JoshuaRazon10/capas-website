@@ -1,6 +1,5 @@
-import React from 'react'
-import { Container, Row, Col, Card, Tab, Nav, Carousel } from 'react-bootstrap'
 import { FaUsers, FaHandsHelping, FaVenusMars, FaChild, FaUserFriends, FaRainbow, FaExternalLinkAlt, FaFacebook } from 'react-icons/fa'
+import { Container, Row, Col, Card, Tab, Nav, Carousel } from 'react-bootstrap'
 
 import lgbt1 from '../assets/images/LGBTQ/1.jpg'
 import lgbt2 from '../assets/images/LGBTQ/2.jpg'
@@ -306,6 +305,7 @@ const GAD = () => {
                 <FaHandsHelping size={50} className="mb-3 opacity-50" style={{ color: 'var(--blue-logo)' }} />
                 <h4 className="fw-bold mb-3" style={{ color: 'var(--blue-logo)' }}>GAD Accomplishments & Plans</h4>
                 <p className="text-muted mb-4">Click the buttons below to access our full archive of GAD reports and future plans.</p>
+                
                 <div className="d-flex flex-wrap justify-content-center gap-3">
                   <a 
                     href="https://drive.google.com/drive/folders/1vwKglz1XNWqT25RSKgyU_O7N4V4_Pmw2?usp=sharing" 

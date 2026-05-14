@@ -8,9 +8,16 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-# dist
-dist-ssr
-*.local
+dist
+.env
+.env.local
+.env.production
+.htaccess
+deploy/
+*.txt
+*.sql
+*.cjs
+composer.phar
 
 # Editor directories and files
 .vscode/*

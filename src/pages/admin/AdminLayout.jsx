@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom'
 import { Nav, Offcanvas, Button } from 'react-bootstrap'
-import { FaSignOutAlt, FaTachometerAlt, FaListAlt, FaFolderOpen, FaCog, FaImage, FaBars } from 'react-icons/fa'
+import { FaSignOutAlt, FaTachometerAlt, FaListAlt, FaFolderOpen, FaCog, FaImage, FaBars, FaBullhorn, FaMapMarkerAlt } from 'react-icons/fa'
 import capasLogo from '../../assets/images/capas.logo.jpg'
 
 const AdminLayout = () => {
@@ -33,7 +33,16 @@ const AdminLayout = () => {
           <FaTachometerAlt size={16} /> Dashboard
         </Nav.Link>
         <Nav.Link as={Link} to="/admin/news" className={`d-flex align-items-center gap-3 ${location.pathname === '/admin/news' ? 'active' : ''}`} onClick={() => setShowMobileSidebar(false)}>
-          <FaListAlt size={16} /> Manage News
+          <FaListAlt size={16} /> Manage News & Articles
+        </Nav.Link>
+        <Nav.Link as={Link} to="/admin/home-visuals" className={`d-flex align-items-center gap-3 ${location.pathname === '/admin/home-visuals' ? 'active' : ''}`} onClick={() => setShowMobileSidebar(false)}>
+          <FaImage size={16} /> Manage Awards
+        </Nav.Link>
+        <Nav.Link as={Link} to="/admin/manage-barangays" className={`d-flex align-items-center gap-3 ${location.pathname === '/admin/manage-barangays' ? 'active' : ''}`} onClick={() => setShowMobileSidebar(false)}>
+          <FaMapMarkerAlt size={16} /> Manage Barangays
+        </Nav.Link>
+        <Nav.Link as={Link} to="/admin/announcements" className={`d-flex align-items-center gap-3 ${location.pathname === '/admin/announcements' ? 'active' : ''}`} onClick={() => setShowMobileSidebar(false)}>
+          <FaBullhorn size={16} /> Manage Announcements
         </Nav.Link>
         <Nav.Link as={Link} to="/admin/files" className={`d-flex align-items-center gap-3 ${location.pathname === '/admin/files' ? 'active' : ''}`} onClick={() => setShowMobileSidebar(false)}>
           <FaFolderOpen size={16} /> Manage Files

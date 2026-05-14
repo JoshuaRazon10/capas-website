@@ -1,21 +1,29 @@
-import React from 'react'
-import { Container, Accordion, Button, Row, Col } from 'react-bootstrap'
+import { Container, Accordion, Button, Row, Col, Spinner } from 'react-bootstrap'
 import { FaFileDownload, FaChartLine, FaHistory, FaCalendarAlt } from 'react-icons/fa'
+import { useState, useEffect } from 'react'
+import API_BASE_URL from '../apiConfig'
 
 const FundUtilization = () => {
-  const reports = [
-    {
-      year: '2023',
-      categories: [
-        {
-          title: 'Report on Fund Utilization and Status of Program or Project Implementation',
-          quarters: [
-            { label: 'as of March 31, 2023', file: 'Report-on-Fund-Utilization-and-Status-of-Program-or-Project-Implementation-as-of-March-31-2023.pdf' }
-          ]
+  const [reports, setReports] = useState([])
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    const fetchReports = async () => {
+      setLoading(true)
+      try {
+        const response = await fetch(`${API_BASE_URL}/documents?type=Fund Utilization`)
+        if (response.ok) {
+          const data = await response.json()
+          setReports(data)
         }
-      ]
+      } catch (err) {
+        console.error('Failed to fetch reports:', err)
+      } finally {
+        setLoading(false)
+      }
     }
-  ]
+    fetchReports()
+  }, [])
 
   return (
     <div className="fund-utilization-page min-vh-100 pb-5">
@@ -40,60 +48,37 @@ const FundUtilization = () => {
                 <h2 className="h3 fw-bold mb-0">Financial Transparency Record</h2>
               </div>
 
-              {reports.map((item, index) => (
-                <div key={index} className="mb-4">
-                  <div className="d-flex align-items-center gap-4 mb-4">
-                    <div className="year-pill">
-                      {item.year}
-                    </div>
-                    <span className="fw-bold h5 mb-0">Report Year {item.year}</span>
-                  </div>
-                  
-                  <Row className="g-5">
-                    {item.categories.map((cat, idx) => (
-                      <Col md={12} key={idx} className="category-section">
-                        <div className="d-flex align-items-center gap-3 mb-4">
-                          <div className="category-line"></div>
-                          <h4 className="h5 fw-bold text-dark mb-0 text-uppercase tracking-tight">{cat.title}</h4>
+              {loading ? (
+                <div className="text-center py-5"><Spinner animation="border" variant="danger" /></div>
+              ) : reports.length > 0 ? (
+                <Row className="g-4">
+                  {reports.map((report, idx) => (
+                    <Col sm={6} lg={4} key={idx}>
+                      <a 
+                        href={report.file_path.startsWith('http') || report.file_path.startsWith('/') ? report.file_path : `${API_BASE_URL.replace('/api', '/storage')}/${report.file_path}`} 
+                        target="_blank" 
+                        rel="noreferrer"
+                        className="report-link-card p-4 rounded-4 border text-decoration-none d-block transition-all h-100 shadow-sm"
+                      >
+                        <div className="d-flex flex-column h-100 justify-content-between">
+                          <div className="d-flex justify-content-between align-items-center mb-3">
+                            <div className="pdf-mini">PDF</div>
+                            <FaFileDownload className="icon-dl" color="#800000" size={20} />
+                          </div>
+                          <div>
+                            <div className="fw-bold link-text h6 mb-1" style={{ color: '#800000', lineHeight: '1.5' }}>{report.title}</div>
+                            <small className="text-muted small">
+                              {report.year} {report.description && `• ${report.description}`}
+                            </small>
+                          </div>
                         </div>
-                        <Row className="g-3">
-                          {cat.quarters.map((q, qIdx) => {
-                            const quarterLabel = typeof q === 'string' ? q : q.label;
-                            let filePath = '#';
-                            
-                            if (typeof q !== 'string') {
-                              if (cat.title.includes('Utilization and Status')) {
-                                filePath = `/fund/${q.file}`;
-                              } else {
-                                filePath = `/report/${item.year}/${q.file}`;
-                              }
-                            }
-                            
-                            return (
-                              <Col sm={6} lg={4} key={qIdx}>
-                                <a 
-                                  href={filePath} 
-                                  target="_blank" 
-                                  rel="noreferrer"
-                                  className="report-link-card p-4 rounded-4 border text-decoration-none d-block transition-all h-100 shadow-sm"
-                                >
-                                  <div className="d-flex flex-column h-100 justify-content-between">
-                                    <div className="d-flex justify-content-between align-items-center mb-3">
-                                      <div className="pdf-mini">PDF</div>
-                                      <FaFileDownload className="icon-dl" color="#800000" size={20} />
-                                    </div>
-                                    <div className="fw-bold link-text h6 mb-0" style={{ color: '#800000', lineHeight: '1.5' }}>{quarterLabel}</div>
-                                  </div>
-                                </a>
-                              </Col>
-                            );
-                          })}
-                        </Row>
-                      </Col>
-                    ))}
-                  </Row>
-                </div>
-              ))}
+                      </a>
+                    </Col>
+                  ))}
+                </Row>
+              ) : (
+                <div className="text-center py-5 text-muted">No reports found.</div>
+              )}
 
               <div className="mt-5 p-4 rounded-4 bg-light text-center border">
                 <p className="mb-0 text-muted fw-medium small">

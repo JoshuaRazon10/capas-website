@@ -4,10 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { FaFacebookF, FaYoutube, FaBars, FaSearch, FaInstagram, FaTimes, FaArrowRight } from 'react-icons/fa'
 
 import logo from '../assets/images/capas.logo.jpg'
-import bagongPilipinasLogo from '../assets/images/Bagong_Pilipinas_logo.png'
-
 const NavbarComponent = () => {
-  const bpLogo = bagongPilipinasLogo
   const location = useLocation()
   const navigate = useNavigate()
   
@@ -140,11 +137,11 @@ const NavbarComponent = () => {
       ]
     },
     {
-      label: 'NEWS',
+      label: 'NEWS & ARTICLES',
       hasDropdown: true,
       dropdownItems: [
-        { path: '/articles', label: 'Articles' },
-        { path: '/events', label: 'Events' },
+        { path: '/articles', label: 'News' },
+        { path: '/events', label: 'Articles' },
         { path: '/gallery', label: 'Photo Gallery' },
       ]
     },
@@ -256,12 +253,8 @@ const NavbarComponent = () => {
         <Container className="d-flex justify-content-between align-items-center h-100">
           <div className="d-flex align-items-center gap-3">
             <span className="republic-text">REPUBLIC OF THE PHILIPPINES</span>
-            <span className="gov-separator">|</span>
-            <span className="official-gazette">OFFICIAL GAZETTE</span>
           </div>
           <div className="d-flex align-items-center gap-4">
-            <Link to="/transparency-seal" className="top-bar-link text-decoration-none">Transparency Seal</Link>
-            <Link to="/foi" className="top-bar-link text-decoration-none">FOI</Link>
             <div className="top-socials d-flex gap-3">
               <a href="https://www.facebook.com/CapasInformationOfficeOfficial" target="_blank" rel="noreferrer" className="text-white opacity-75 hover-opacity-100">
                 <FaFacebookF size={40} />
@@ -284,14 +277,9 @@ const NavbarComponent = () => {
           <Navbar.Brand as={Link} to="/" className="d-flex align-items-center py-2">
             <div className="logo-group d-flex align-items-center me-3">
               <img
-                src={bpLogo}
-                alt="Bagong Pilipinas"
-                className="logo-bp"
-              />
-              <img
                 src={logo}
                 alt="Capas Logo"
-                className="logo-capas ms-2"
+                className="logo-capas"
               />
             </div>
             <div className="brand-text-modern">

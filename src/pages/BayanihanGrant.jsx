@@ -1,23 +1,30 @@
-import React from 'react'
-import { Container, Row, Col, Card, ListGroup } from 'react-bootstrap'
+import { Container, Row, Col, Card, ListGroup, Spinner } from 'react-bootstrap'
 import { FaFileInvoiceDollar, FaDownload, FaEye, FaHandHoldingHeart } from 'react-icons/fa'
+import { useState, useEffect } from 'react'
+import API_BASE_URL from '../apiConfig'
 import logo from '../assets/images/capas.logo.jpg'
 
 const BayanihanGrant = () => {
-  const reports = [
-    {
-      id: 1,
-      title: 'Report on Fund Utilization and Status of Program Projects Activity Implementation for the Month of April 2020',
-      file: 'Report-on-Fund-Utilization-and-Status-of-Program-Projects-Activity-Implementation-for-the-Month-of-April-2020.pdf',
-      date: 'April 2020'
-    },
-    {
-      id: 2,
-      title: 'Report on Fund Utilization and Status of Program Projects Activity Implementation for the Month of May 2020',
-      file: 'Report-on-Fund-Utilization-and-Status-of-Program-Projects-Activity-Implementation-for-the-Month-of-May-2020.pdf',
-      date: 'May 2020'
+  const [reports, setReports] = useState([])
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    const fetchReports = async () => {
+      setLoading(true)
+      try {
+        const response = await fetch(`${API_BASE_URL}/documents?type=Bayanihan Grant`)
+        if (response.ok) {
+          const data = await response.json()
+          setReports(data)
+        }
+      } catch (err) {
+        console.error('Failed to fetch reports:', err)
+      } finally {
+        setLoading(false)
+      }
     }
-  ]
+    fetchReports()
+  }, [])
 
   return (
     <div className="bayanihan-page bg-light min-vh-100 pb-5">
@@ -51,29 +58,38 @@ const BayanihanGrant = () => {
               </Card.Header>
               <Card.Body className="p-0">
                 <ListGroup variant="flush">
-                  {reports.map((report, idx) => (
-                    <ListGroup.Item key={idx} className="p-4 hover-bg transition-all border-bottom">
-                      <Row className="align-items-center">
-                        <Col md={1} className="d-none d-md-block text-center">
-                          <span className="fw-bold text-muted h5 mb-0">{report.id}</span>
-                        </Col>
-                        <Col md={7}>
-                          <h6 className="fw-bold mb-0 text-dark">{report.title}</h6>
-                        </Col>
-                        <Col md={4} className="text-md-end mt-3 mt-md-0">
-                          <div className="d-flex gap-2 justify-content-md-end">
-                            <a 
-                              href={`/bayanihan/${report.file}`} 
-                              download
-                              className="btn btn-primary fw-bold px-4 rounded-pill hover-lift"
-                            >
-                              <FaDownload className="me-2" /> Download
-                            </a>
-                          </div>
-                        </Col>
-                      </Row>
-                    </ListGroup.Item>
-                  ))}
+                  {loading ? (
+                    <div className="text-center py-5"><Spinner animation="border" variant="danger" /></div>
+                  ) : reports.length > 0 ? (
+                    reports.map((report, idx) => (
+                      <ListGroup.Item key={idx} className="p-4 hover-bg transition-all border-bottom">
+                        <Row className="align-items-center">
+                          <Col md={1} className="d-none d-md-block text-center">
+                            <span className="fw-bold text-muted h5 mb-0">{idx + 1}</span>
+                          </Col>
+                          <Col md={7}>
+                            <h6 className="fw-bold mb-0 text-dark">{report.title}</h6>
+                            <small className="text-muted">
+                              {report.year} {report.description && `• ${report.description}`}
+                            </small>
+                          </Col>
+                          <Col md={4} className="text-md-end mt-3 mt-md-0">
+                            <div className="d-flex gap-2 justify-content-md-end">
+                              <a 
+                                href={report.file_path.startsWith('http') || report.file_path.startsWith('/') ? report.file_path : `${API_BASE_URL.replace('/api', '/storage')}/${report.file_path}`} 
+                                download
+                                className="btn btn-primary fw-bold px-4 rounded-pill hover-lift"
+                              >
+                                <FaDownload className="me-2" /> Download
+                              </a>
+                            </div>
+                          </Col>
+                        </Row>
+                      </ListGroup.Item>
+                    ))
+                  ) : (
+                    <div className="text-center py-5 text-muted">No reports found.</div>
+                  )}
                 </ListGroup>
               </Card.Body>
             </Card>

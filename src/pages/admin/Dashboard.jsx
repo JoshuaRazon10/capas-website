@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Container, Row, Col, Card, Nav, Button } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
-import { FaNewspaper, FaPlus, FaSignOutAlt, FaTachometerAlt, FaListAlt, FaChartLine, FaUsers, FaEye, FaFolderOpen, FaCog, FaImage } from 'react-icons/fa'
+import { FaNewspaper, FaPlus, FaSignOutAlt, FaTachometerAlt, FaListAlt, FaChartLine, FaUsers, FaEye, FaFolderOpen, FaCog, FaImage, FaBullhorn } from 'react-icons/fa'
 import capasLogo from '../../assets/images/capas.logo.jpg'
 
 const Dashboard = () => {
@@ -69,25 +69,31 @@ const Dashboard = () => {
             <Card.Body className="p-4">
               <h6 className="fw-bold mb-3">Quick Actions</h6>
               <Row className="g-3">
-                <Col md={3}>
+                <Col md={4} lg={2.4}>
                   <Button as={Link} to="/admin/news" className="btn-light w-100 py-3 border d-flex flex-column align-items-center gap-2" style={{ borderRadius: '15px' }}>
-                    <FaPlus className="text-primary" />
+                    <FaNewspaper className="text-primary" />
                     <span className="small fw-bold">Post News</span>
                   </Button>
                 </Col>
-                <Col md={3}>
+                <Col md={4} lg={2.4}>
+                  <Button as={Link} to="/admin/announcements" className="btn-light w-100 py-3 border d-flex flex-column align-items-center gap-2" style={{ borderRadius: '15px' }}>
+                    <FaBullhorn className="text-danger" />
+                    <span className="small fw-bold">Add Announcement</span>
+                  </Button>
+                </Col>
+                <Col md={4} lg={2.4}>
                   <Button as={Link} to="/admin/files" className="btn-light w-100 py-3 border d-flex flex-column align-items-center gap-2" style={{ borderRadius: '15px' }}>
                     <FaFolderOpen className="text-success" />
                     <span className="small fw-bold">Upload Document</span>
                   </Button>
                 </Col>
-                <Col md={3}>
+                <Col md={4} lg={2.4}>
                   <Button as={Link} to="/admin/gallery" className="btn-light w-100 py-3 border d-flex flex-column align-items-center gap-2" style={{ borderRadius: '15px' }}>
                     <FaImage className="text-warning" />
                     <span className="small fw-bold">Add Photo</span>
                   </Button>
                 </Col>
-                <Col md={3}>
+                <Col md={4} lg={2.4}>
                   <Button as={Link} to="/admin/settings" className="btn-light w-100 py-3 border d-flex flex-column align-items-center gap-2" style={{ borderRadius: '15px' }}>
                     <FaCog className="text-secondary" />
                     <span className="small fw-bold">Security Settings</span>

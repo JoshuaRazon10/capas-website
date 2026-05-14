@@ -172,10 +172,7 @@ h6 {
   transition: var(--transition);
 }
 
-.logo-bp {
-  height: 45px;
-  width: auto;
-}
+
 
 .logo-capas {
   height: 45px;
@@ -417,7 +414,7 @@ a.dropdown-subheader-custom:hover {
     font-size: 0.9rem;
   }
 
-  .logo-bp, .logo-capas {
+  .logo-capas {
     height: 35px;
     width: auto;
   }

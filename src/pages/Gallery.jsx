@@ -1,104 +1,70 @@
-import React, { useState } from 'react'
-import { Container, Row, Col, Card, Modal } from 'react-bootstrap'
-import { FaSearchPlus, FaTimes } from 'react-icons/fa'
+import React, { useState, useEffect } from 'react'
+import { Container, Row, Col, Card, Modal, Spinner } from 'react-bootstrap'
+import { FaSearchPlus, FaTimes, FaImage } from 'react-icons/fa'
+import API_BASE_URL from '../apiConfig'
 
-// Import all images
-import flag1 from '../assets/images/flagrites.jpg'
-import flag2 from '../assets/images/flagrites2.jpg'
-import flag3 from '../assets/images/flagrites3.jpg'
-import flag4 from '../assets/images/flagrites4.jpg'
-import flag5 from '../assets/images/flagrites5.jpg'
-import pinatubo from '../assets/images/pinatubo.webp'
+// Import some core images as fallbacks or static content if needed
 import clark from '../assets/images/clark.jpg'
-import lgu from '../assets/images/lgu.jpg'
-import lyceum from '../assets/images/lyceum.jpg'
-import paleng from '../assets/images/paleng.jpg'
-import award from '../assets/images/capas.award.jpg'
-import vmalex from '../assets/images/vm.alex.jpg'
-import engrBey from '../assets/images/Engr. Bey.png'
-import bootsImg from '../assets/images/mayors/boots.webp'
-
-// Frontpage Awards
-import award1 from '../assets/images/frontpage/1.png'
-import award2 from '../assets/images/frontpage/2.png'
-import award3 from '../assets/images/frontpage/3.png'
-import award4 from '../assets/images/frontpage/4.png'
-import award5 from '../assets/images/frontpage/5.png'
-import award6 from '../assets/images/frontpage/6.png'
-import award7 from '../assets/images/frontpage/7.png'
-import award8 from '../assets/images/frontpage/8.png'
-import award9 from '../assets/images/frontpage/9.png'
-import award10 from '../assets/images/frontpage/10.png'
-import award11 from '../assets/images/frontpage/11.png'
-
-
-// GAD Images
-import lgbt1 from '../assets/images/LGBTQ/1.jpg'
-import lgbt2 from '../assets/images/LGBTQ/2.jpg'
-import lgbt3 from '../assets/images/LGBTQ/3.jpg'
-import lgbt4 from '../assets/images/LGBTQ/4.jpg'
-import lgbt5 from '../assets/images/LGBTQ/5.jpg'
-import youth1 from '../assets/images/youth/1.jpg'
-import youth2 from '../assets/images/youth/2.jpg'
-import youth3 from '../assets/images/youth/3.jpg'
-import youth4 from '../assets/images/youth/4.jpg'
-import youth5 from '../assets/images/youth/5.jpg'
-import youth6 from '../assets/images/youth/6.jpg'
-import youth7 from '../assets/images/youth/7.jpg'
 
 const Gallery = () => {
   const [showModal, setShowModal] = useState(false)
   const [selectedImg, setSelectedImg] = useState(null)
   const [filter, setFilter] = useState('all')
+  const [loading, setLoading] = useState(false)
+  const [galleryItems, setGalleryItems] = useState([])
 
-  const galleryItems = [
-    { src: flag1, title: 'Flag Rites 2026', cat: 'events' },
-    { src: flag2, title: 'Community Gathering', cat: 'events' },
-    { src: flag3, title: 'Official Ceremony', cat: 'events' },
-    { src: flag4, title: 'LGU Personnel', cat: 'government' },
-    { src: flag5, title: 'Capas Pride', cat: 'culture' },
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 20
 
-    { src: pinatubo, title: 'Mount Pinatubo', cat: 'landmarks' },
-    { src: clark, title: 'New Clark City', cat: 'landmarks' },
-    { src: lgu, title: 'Municipal Hall', cat: 'government' },
-    { src: lyceum, title: 'Lyceum of Capas', cat: 'education' },
-    { src: paleng, title: 'Public Market', cat: 'economy' },
-    { src: award, title: 'Recognition Day', cat: 'events' },
-    { src: bootsImg, title: 'Hon. Atty. Roseller "Boots" Rodriguez', cat: 'leadership' },
-    { src: vmalex, title: 'Vice Mayor Alex Pascual', cat: 'leadership' },
-    { src: engrBey, title: 'Engr. Baby Lyn Robles', cat: 'leadership' },
-    { src: lgbt1, title: 'LGBTQIA+ Event', cat: 'gad' },
-    { src: lgbt2, title: 'Community Support', cat: 'gad' },
-    { src: lgbt3, title: 'Pride March', cat: 'gad' },
-    { src: lgbt4, title: 'Unity in Diversity', cat: 'gad' },
-    { src: lgbt5, title: 'Advocacy Meeting', cat: 'gad' },
-    { src: youth1, title: 'Youth Leadership', cat: 'gad' },
-    { src: youth2, title: 'Student Summit', cat: 'gad' },
-    { src: youth3, title: 'Empowerment Workshop', cat: 'gad' },
-    { src: youth4, title: 'Future Leaders', cat: 'gad' },
-    { src: youth5, title: 'Skill Building', cat: 'gad' },
-    { src: youth6, title: 'Community Service', cat: 'gad' },
-    { src: youth7, title: 'Youth Forum', cat: 'gad' },
-    { src: award1, title: 'Outstanding Performance', cat: 'awards' },
-    { src: award2, title: 'Municipal Excellence', cat: 'awards' },
-    { src: award3, title: 'Public Service Award', cat: 'awards' },
-    { src: award4, title: 'Governance Citation', cat: 'awards' },
-    { src: award5, title: 'Community Impact', cat: 'awards' },
-    { src: award6, title: 'Leadership Award', cat: 'awards' },
-    { src: award7, title: 'Special Recognition', cat: 'awards' },
-    { src: award8, title: 'Performance Excellence', cat: 'awards' },
-    { src: award9, title: 'Municipal Achievement', cat: 'awards' },
-    { src: award10, title: 'Top Performer', cat: 'awards' },
-    { src: award11, title: 'National Recognition', cat: 'awards' },
-  ]
+  useEffect(() => {
+    const fetchGallery = async () => {
+      setLoading(true)
+      try {
+        const response = await fetch(`${API_BASE_URL}/gallery`)
+        if (response.ok) {
+          const data = await response.json()
+          const formattedData = data.map(item => ({
+            src: item.image_path.startsWith('http') ? item.image_path : `${API_BASE_URL.replace('/api', '/storage')}/${item.image_path}`,
+            title: item.title,
+            cat: item.category || 'general'
+          }))
+          setGalleryItems(formattedData)
+        } else {
+          setGalleryItems([])
+        }
+      } catch (error) {
+        console.error('Failed to fetch gallery:', error)
+        setGalleryItems([])
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchGallery()
+  }, [])
 
   const filteredItems = filter === 'all' 
     ? galleryItems 
     : galleryItems.filter(item => item.cat === filter)
 
+  // Pagination Logic
+  const indexOfLastItem = currentPage * itemsPerPage
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem)
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage)
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber)
+    window.scrollTo({ top: 300, behavior: 'smooth' })
+  }
+
   const handleOpen = (img) => {
     setSelectedImg(img)
     setShowModal(true)
+  }
+
+  const handleFilterChange = (cat) => {
+    setFilter(cat)
+    setCurrentPage(1) // Reset to page 1 on filter change
   }
 
   return (
@@ -122,10 +88,10 @@ const Gallery = () => {
       <Container>
         {/* Filters */}
         <div className="d-flex flex-wrap justify-content-center gap-2 mb-5">
-          {['all', 'awards', 'events', 'landmarks', 'government', 'gad', 'leadership'].map((cat) => (
+          {['all', 'awards', 'events', 'landmarks', 'government', 'gad', 'leadership', 'general'].map((cat) => (
             <button
               key={cat}
-              onClick={() => setFilter(cat)}
+              onClick={() => handleFilterChange(cat)}
               className={`btn rounded-pill px-4 py-2 text-capitalize transition-all ${
                 filter === cat ? 'btn-primary-red shadow-lg' : 'btn-outline-secondary'
               }`}
@@ -138,29 +104,83 @@ const Gallery = () => {
 
         {/* Gallery Grid */}
         <Row className="g-4">
-          {filteredItems.map((item, index) => (
-            <Col key={index} xs={12} sm={6} md={4} lg={3} className="animate-fadeIn">
-              <Card 
-                className="border-0 overflow-hidden gallery-card h-100" 
-                onClick={() => handleOpen(item)}
-                style={{ cursor: 'pointer', borderRadius: '0' }}
-              >
-                <div className="position-relative overflow-hidden" style={{ height: '350px' }}>
-                  <Card.Img 
-                    src={item.src} 
-                    alt={item.title} 
-                    className="w-100 h-100 object-fit-cover transition-all gallery-img" 
-                  />
-                  <div className="gallery-overlay d-flex flex-column align-items-center justify-content-center text-white p-3 text-center">
-                    <FaSearchPlus size={30} className="mb-2" />
-                    <h6 className="fw-bold mb-0">{item.title}</h6>
-                    <small className="text-uppercase opacity-75" style={{ fontSize: '0.6rem' }}>{item.cat}</small>
-                  </div>
-                </div>
-              </Card>
+          {loading ? (
+            <Col xs={12} className="text-center py-5">
+              <Spinner animation="border" variant="danger" />
+              <p className="mt-3 text-muted">Loading masterpiece gallery...</p>
             </Col>
-          ))}
+          ) : currentItems.length > 0 ? (
+            currentItems.map((item, index) => (
+              <Col key={index} xs={12} sm={6} md={4} lg={3} className="animate-fadeIn">
+                <Card 
+                   className="border-0 overflow-hidden gallery-card h-100 shadow-sm" 
+                   onClick={() => handleOpen(item)}
+                   style={{ cursor: 'pointer', borderRadius: '15px' }}
+                >
+                  <div className="position-relative overflow-hidden" style={{ height: '300px' }}>
+                    <Card.Img 
+                      src={item.src} 
+                      alt={item.title} 
+                      className="w-100 h-100 object-fit-cover transition-all gallery-img" 
+                    />
+                    <div className="gallery-overlay d-flex flex-column align-items-center justify-content-center text-white p-3 text-center">
+                      <div className="zoom-icon-wrapper mb-2">
+                        <FaSearchPlus size={24} />
+                      </div>
+                      <h6 className="fw-bold mb-0">{item.title}</h6>
+                      <small className="text-uppercase opacity-75" style={{ fontSize: '0.65rem', letterSpacing: '1px' }}>{item.cat}</small>
+                    </div>
+                  </div>
+                </Card>
+              </Col>
+            ))
+          ) : (
+            <Col xs={12} className="text-center py-5 text-muted">
+              <div className="py-5">
+                <FaImage size={50} className="opacity-25 mb-3" />
+                <p>No images found for this category.</p>
+              </div>
+            </Col>
+          )}
         </Row>
+
+        {/* Pagination */}
+        {!loading && totalPages > 1 && (
+          <div className="d-flex justify-content-center mt-5 mb-4">
+            <nav className="d-flex align-items-center gap-2">
+              <button 
+                className="btn btn-light rounded-pill px-3 py-2 shadow-sm d-flex align-items-center gap-2"
+                onClick={() => paginate(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </button>
+              
+              <div className="d-flex gap-2 mx-2">
+                {[...Array(totalPages)].map((_, i) => (
+                  <button
+                    key={i + 1}
+                    onClick={() => paginate(i + 1)}
+                    className={`btn rounded-circle p-0 d-flex align-items-center justify-content-center transition-all ${
+                      currentPage === i + 1 ? 'btn-primary-red shadow-lg' : 'btn-light border shadow-sm'
+                    }`}
+                    style={{ width: '40px', height: '40px', fontWeight: '600' }}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+              </div>
+
+              <button 
+                className="btn btn-light rounded-pill px-3 py-2 shadow-sm d-flex align-items-center gap-2"
+                onClick={() => paginate(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </button>
+            </nav>
+          </div>
+        )}
       </Container>
 
       {/* Lightbox Modal */}
@@ -171,20 +191,20 @@ const Gallery = () => {
         size="lg"
         className="gallery-modal"
       >
-        <Modal.Body className="p-0 position-relative bg-black rounded-3 overflow-hidden">
+        <Modal.Body className="p-0 position-relative bg-black rounded-4 overflow-hidden shadow-2xl">
           <button 
             onClick={() => setShowModal(false)}
-            className="position-absolute top-0 end-0 m-3 btn btn-light rounded-circle p-2 shadow-lg"
-            style={{ zIndex: 10, width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            className="position-absolute top-0 end-0 m-3 btn btn-light rounded-circle p-0 shadow-lg d-flex align-items-center justify-content-center"
+            style={{ zIndex: 10, width: '40px', height: '40px' }}
           >
             <FaTimes />
           </button>
           {selectedImg && (
             <>
-              <img src={selectedImg.src} alt={selectedImg.title} className="w-100 h-auto" />
-              <div className="p-4 text-center text-white bg-dark">
+              <img src={selectedImg.src} alt={selectedImg.title} className="w-100 h-auto" style={{ maxHeight: '80vh', objectFit: 'contain' }} />
+              <div className="p-4 text-center text-white" style={{ background: 'var(--blue-logo)' }}>
                 <h4 className="fw-bold mb-1">{selectedImg.title}</h4>
-                <p className="mb-0 opacity-75 text-uppercase small">{selectedImg.cat}</p>
+                <p className="mb-0 opacity-75 text-uppercase small ls-2">{selectedImg.cat}</p>
               </div>
             </>
           )}
@@ -193,14 +213,15 @@ const Gallery = () => {
 
       <style>{`
         .gallery-card {
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+          border: none !important;
         }
         .gallery-card:hover {
           transform: translateY(-10px);
-          box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+          box-shadow: 0 20px 40px rgba(0,0,0,0.15) !important;
         }
         .gallery-img {
-          transition: transform 0.5s ease;
+          transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
         .gallery-card:hover .gallery-img {
           transform: scale(1.1);
@@ -211,18 +232,33 @@ const Gallery = () => {
           left: 0;
           width: 100%;
           height: 100%;
-          background: rgba(220, 53, 69, 0.6);
+          background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, transparent 100%);
           opacity: 0;
-          transition: opacity 0.3s ease;
+          transition: all 0.3s ease;
         }
         .gallery-card:hover .gallery-overlay {
           opacity: 1;
         }
+        .zoom-icon-wrapper {
+          background: rgba(255,255,255,0.2);
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          backdrop-filter: blur(5px);
+          transform: scale(0.8);
+          transition: all 0.3s ease;
+        }
+        .gallery-card:hover .zoom-icon-wrapper {
+          transform: scale(1);
+        }
         .animate-fadeIn {
-          animation: fadeIn 0.5s ease-out forwards;
+          animation: fadeIn 0.6s ease-out forwards;
         }
         @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(20px); }
+          from { opacity: 0; transform: translateY(30px); }
           to { opacity: 1; transform: translateY(0); }
         }
         .gallery-modal .modal-content {
@@ -238,7 +274,9 @@ const Gallery = () => {
           background-color: #a0202c;
           border-color: #a0202c;
           color: white;
+          transform: translateY(-2px);
         }
+        .ls-2 { letter-spacing: 2px; }
       `}</style>
     </div>
   )

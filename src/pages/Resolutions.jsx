@@ -1,13 +1,33 @@
-import React from 'react'
-import { Container, Row, Col, Card, Table } from 'react-bootstrap'
+import React, { useState, useEffect } from 'react'
+import { Container, Row, Col, Card, Table, Spinner } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { FaFilePdf, FaDownload, FaGavel, FaSearch, FaHistory } from 'react-icons/fa'
+import API_BASE_URL from '../apiConfig'
 
 const Resolutions = () => {
-  // Placeholder data for resolutions
-  const resolutions = [
-    { no: "BAC-009", title: "Resolution No. 009 - Procurement of Tire Sets for the Use of Motorpool", file: "/BAC-Resolution-No.-009-Procurement-of-Tire-Sets-for-the-Use-of-Motorpool.pdf" },
-  ]
+  const [loading, setLoading] = useState(false)
+  const [resolutionsState, setResolutionsState] = useState([])
+
+  useEffect(() => {
+    const fetchResolutions = async () => {
+      setLoading(true)
+      try {
+        const response = await fetch(`${API_BASE_URL}/documents?type=Resolutions`)
+        if (response.ok) {
+          const data = await response.json()
+          setResolutionsState(data)
+        } else {
+          setResolutionsState([])
+        }
+      } catch (error) {
+        console.error('Failed to fetch resolutions:', error)
+        setResolutionsState([])
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchResolutions()
+  }, [])
 
   return (
     <div className="resolutions-page bg-light min-vh-100">
@@ -24,12 +44,6 @@ const Resolutions = () => {
           <p className="lead opacity-75 mx-auto mb-4" style={{ maxWidth: '700px' }}>
             Official legislative records and resolutions of the Sangguniang Bayan of Capas.
           </p>
-          <button 
-            className="btn btn-outline-light btn-lg rounded-pill px-5 shadow-sm"
-            style={{ borderWidth: '2px' }}
-          >
-            Download Archive (PDF)
-          </button>
         </Container>
       </div>
 
@@ -59,23 +73,41 @@ const Resolutions = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {resolutions.map((res, idx) => (
-                      <tr key={idx}>
-                        <td className="px-4 py-4 fw-bold text-muted">{res.no}</td>
-                        <td className="py-4 fw-medium text-dark">{res.title}</td>
-                        <td className="px-4 py-4 text-center">
-                          {res.file ? (
-                            <a href={res.file} download className="btn btn-sm btn-outline-primary rounded-pill px-3">
-                              <FaDownload className="me-2" /> PDF
-                            </a>
-                          ) : (
-                            <button className="btn btn-sm btn-outline-secondary rounded-pill px-3" disabled>
-                              <FaDownload className="me-2" /> PDF
-                            </button>
-                          )}
+                    {loading ? (
+                      <tr>
+                        <td colSpan="3" className="text-center py-5">
+                          <Spinner animation="border" variant="primary" />
+                          <p className="mt-3 text-muted">Loading resolutions...</p>
                         </td>
                       </tr>
-                    ))}
+                    ) : resolutionsState.length > 0 ? (
+                      resolutionsState.map((res, idx) => (
+                        <tr key={idx}>
+                          <td className="px-4 py-4 fw-bold text-muted">{res.reference_no || res.no}</td>
+                          <td className="py-4 fw-medium text-dark">{res.title}</td>
+                          <td className="px-4 py-4 text-center">
+                            {res.file_path ? (
+                              <a 
+                                href={res.file_path.startsWith('http') ? res.file_path : `${API_BASE_URL.replace('/api', '/storage')}/${res.file_path}`} 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                className="btn btn-sm btn-outline-primary rounded-pill px-3"
+                              >
+                                <FaDownload className="me-2" /> PDF
+                              </a>
+                            ) : (
+                              <button className="btn btn-sm btn-outline-secondary rounded-pill px-3" disabled>
+                                <FaDownload className="me-2" /> PDF
+                              </button>
+                            )}
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="3" className="text-center py-5 text-muted">No resolutions found.</td>
+                      </tr>
+                    )}
                   </tbody>
                 </Table>
               </div>

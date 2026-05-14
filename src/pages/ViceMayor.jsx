@@ -7,17 +7,17 @@ const ViceMayor = () => {
   return (
     <div className="vice-mayor-profile-page">
       {/* Hero Section */}
-      <section className="mayor-hero bg-dark text-white py-5 position-relative overflow-hidden" style={{
-        backgroundImage: 'linear-gradient(135deg, rgba(13,13,13,0.9), rgba(20,24,61,0.8))',
+      <section className="vice-mayor-hero bg-dark text-white py-5 position-relative overflow-hidden" style={{
+        backgroundImage: 'linear-gradient(135deg, rgba(20,24,61,0.9), rgba(13,13,13,0.8))',
         minHeight: '400px',
         display: 'flex',
         alignItems: 'center'
       }}>
         <div className="hero-pattern"></div>
         <Container className="position-relative z-index-1">
-          <Row className="align-items-center g-5">
-            <Col lg={4} className="text-center text-lg-start">
-              <div className="mayor-image-wrapper p-2 bg-white rounded-4 shadow-xl d-inline-block">
+          <Row className="align-items-center g-5 flex-row-reverse">
+            <Col lg={4} className="text-center text-lg-end">
+              <div className="vm-image-wrapper p-2 bg-white rounded-4 shadow-xl d-inline-block">
                 <img 
                   src={vmAlexImg} 
                   alt="Hon. Alex C. Espinosa" 
@@ -27,11 +27,11 @@ const ViceMayor = () => {
               </div>
             </Col>
             <Col lg={8} className="text-center text-lg-start">
-              <span className="badge px-3 py-2 mb-3 text-uppercase tracking-wider" style={{ background: 'var(--blue-logo)', color: 'white' }}>The Vice Mayor</span>
+              <span className="badge px-3 py-2 mb-3 text-uppercase tracking-wider" style={{ background: 'var(--blue-logo)', color: 'white' }}>The Municipal Vice Mayor</span>
               <h1 className="display-3 fw-bold mb-2">Hon. Alex C. Espinosa</h1>
-              <p className="lead mb-4 opacity-75">Committed to legislative excellence and serving the people of Capas with integrity.</p>
+              <p className="lead mb-4 opacity-75">Presiding Officer of the Sangguniang Bayan of Capas.</p>
               <div className="d-flex justify-content-center justify-content-lg-start gap-3">
-                <a href="https://www.facebook.com/AlexCanlasEspinosa" target="_blank" rel="noopener noreferrer" className="btn btn-outline-light rounded-circle p-2 d-flex align-items-center justify-content-center" style={{ width: '45px', height: '45px' }}>
+                <a href="https://www.facebook.com/alex.espinosa.397" target="_blank" rel="noopener noreferrer" className="btn btn-outline-light rounded-circle p-2 d-flex align-items-center justify-content-center" style={{ width: '45px', height: '45px' }}>
                   <FaFacebook size={20} />
                 </a>
               </div>
@@ -39,39 +39,23 @@ const ViceMayor = () => {
           </Row>
         </Container>
       </section>
-      {/* Profile Details */}
+
       <section className="py-5 bg-light">
         <Container>
-          <Row className="gy-4">
-            <Col lg={6}>
-              <Card className="h-100 border-0 shadow-sm p-4">
-                <h4 className="fw-bold mb-4 d-flex align-items-center gap-2">
-                  <div style={{ width: '8px', height: '24px', backgroundColor: 'var(--primary)', borderRadius: '4px' }}></div>
-                  Our Vision
-                </h4>
-                <p className="text-muted">
-                  A premier municipality in Central Luzon characterized by a vibrant economy, resilient infrastructure, and a globally competitive, healthy, and empowered citizenry living in a safe and sustainable environment under a transparent and responsive governance.
-                </p>
-              </Card>
-            </Col>
-            <Col lg={6}>
-              <Card className="h-100 border-0 shadow-sm p-4">
-                <h4 className="fw-bold mb-4 d-flex align-items-center gap-2">
-                  <div style={{ width: '8px', height: '24px', backgroundColor: 'var(--primary)', borderRadius: '4px' }}></div>
-                  Our Mission
-                </h4>
-                <p className="text-muted">
-                  To provide quality public services, promote sustainable development, and ensure the general welfare of all Capaseños through effective leadership, community participation, and efficient management of resources.
-                </p>
-              </Card>
-            </Col>
-          </Row>
+          <Card className="border-0 shadow-sm p-4 mb-4">
+            <h4 className="fw-bold mb-4 d-flex align-items-center gap-2">
+              <div style={{ width: '8px', height: '24px', backgroundColor: 'var(--blue-logo)', borderRadius: '4px' }}></div>
+              Legislative Leadership
+            </h4>
+            <p className="text-muted" style={{ lineHeight: '1.8' }}>
+              The Vice Mayor serves as the presiding officer of the Sangguniang Bayan, leading the legislative body in creating ordinances and resolutions that drive the growth and welfare of the Municipality of Capas. With a focus on inclusive governance and community-centered policies, Hon. Alex C. Espinosa ensures that the voice of every Capaseño is heard in the halls of the municipal council.
+            </p>
+          </Card>
         </Container>
       </section>
 
-
       <style>{`
-        .mayor-hero .hero-pattern {
+        .vice-mayor-hero .hero-pattern {
           position: absolute;
           top: 0;
           left: 0;
@@ -81,11 +65,11 @@ const ViceMayor = () => {
           background-size: 30px 30px;
           opacity: 0.3;
         }
-        .mayor-image-wrapper {
+        .vm-image-wrapper {
           transform: rotate(2deg);
           transition: transform 0.4s ease;
         }
-        .mayor-image-wrapper:hover {
+        .vm-image-wrapper:hover {
           transform: rotate(0deg) scale(1.02);
         }
         .tracking-wider {

@@ -2,144 +2,51 @@ import React from 'react'
 import { Container, Row, Col, Accordion, ListGroup, Card } from 'react-bootstrap'
 import { FaShieldAlt, FaFileContract, FaChartPie, FaBuilding, FaUserCheck, FaInfoCircle } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import API_BASE_URL from '../apiConfig'
 import logo from '../assets/images/capas.logo.jpg'
 
 const TransparencySeal = () => {
-  const sections = [
-    {
-      title: 'Full Disclosure Policy (FDP) Archive',
-      icon: <FaFileContract />,
-      isNested: true,
-      years: [
-        {
-          year: '2023',
-          categories: [
-            {
-              title: 'Annual Reports',
-              files: [
-                { name: 'Annual Budget Report', file: 'Annual-Budget-Report-1.pdf' },
-                { name: 'Annual GAD Accomplishment Report', file: 'Annual-Gender-and-Development-Accomplishment-Report.pdf' },
-                { name: 'Annual Procurement Plan', file: 'Annual-Procurement-Plan-or-Procurement-List.pdf' },
-                { name: 'Annual Statement of Indebtedness (SIPB)', file: 'Annual-Statement-of-Indebtedness-Payments-and-Balances-SIPB_organized.pdf' },
-                { name: 'Statement of Receipts and Expenditures', file: 'Statement-of-Receipts-and-Expenditures.pdf' },
-                { name: 'Supplemental Procurement Plan', file: 'Supplemental-Procurement-Plan.pdf' }
-              ]
-            }
-          ]
-        },
-        {
-          year: '2022',
-          categories: [
-            {
-              title: 'Annual Reports',
-              files: [
-                { name: 'Annual Budget Report', file: 'Annual-Budget-Report.pdf' },
-                { name: 'Annual GAD Accomplishment Report', file: 'Annual-Gender-and-Development-Accomplishment-Report-1.pdf' },
-                { name: 'Annual Procurement Plan', file: 'Annual-Procurement-Plan-or-Procurement-List-1.pdf' },
-                { name: 'Annual Statement of Indebtedness (SIPB)', file: 'Annual-Statement-of-Indebtedness-Payments-and-Balances-SIPB.pdf' },
-                { name: 'Statement of Receipts and Expenditures', file: 'Statement-of-Receipts-and-Expenditures-1.pdf' }
-              ]
-            },
-            {
-              title: 'Trust Fund Utilization',
-              files: [
-                { name: 'Trust Fund - 1st Quarter', file: 'Trust-Fund-Utilization-1st.pdf' },
-                { name: 'Trust Fund - 2nd Quarter', file: 'Trust-Fund-Utilization-2nd.pdf' },
-                { name: 'Trust Fund - 3rd Quarter', file: 'Trust-Fund-Utilization-3rd.pdf' },
-                { name: 'Trust Fund - 4th Quarter', file: 'Trust-Fund-Utilization-4th.pdf' }
-              ]
-            },
-            {
-              title: 'Special Education Fund (SEF)',
-              files: [
-                { name: 'SEF Utilization - 1st Quarter', file: 'SEF-UTILIZATION-2022-1ST-QUARTER.pdf' },
-                { name: 'SEF Utilization - 2nd Quarter', file: 'SEF-UTILIZATION-2022-2ND-QUARTER.pdf' },
-                { name: 'SEF Utilization - 3rd Quarter', file: 'SEF-UTILIZATION-2022-3RD-QUARTER.pdf' },
-                { name: 'SEF Utilization - 4th Quarter', file: 'SEF-UTILIZATION-2022-4TH-QUARTER.pdf' }
-              ]
-            },
-            {
-              title: '20% Development Fund',
-              files: [
-                { name: '20% Utilization - 1st Quarter', file: '20-Percent-Component-of-the-Internal-Revenue-Allotment-Utilization-1st.pdf' },
-                { name: '20% Utilization - 2nd Quarter', file: '20-Percent-Component-of-the-Internal-Revenue-Allotment-Utilization-2nd.pdf' },
-                { name: '20% Utilization - 3rd Quarter', file: '20-Percent-Component-of-the-Internal-Revenue-Allotment-Utilization-3rd.pdf' },
-                { name: '20% Utilization - 4th Quarter', file: '20-Percent-Component-of-the-Internal-Revenue-Allotment-Utilization.pdf' }
-              ]
-            },
-            {
-              title: 'LDRRM Fund Utilization',
-              files: [
-                { name: 'LDRRMF - 1st Quarter', file: 'Local-Disaster-Risk-Reduction-and-Management-Fund-Utilization-LDRRMF-1st.pdf' },
-                { name: 'LDRRMF - 2nd Quarter', file: 'Local-Disaster-Risk-Reduction-and-Management-Fund-Utilization-LDRRMF-2nd.pdf' },
-                { name: 'LDRRMF - 3rd Quarter', file: 'Local-Disaster-Risk-Reduction-and-Management-Fund-Utilization-LDRRMF-3rd.pdf' },
-                { name: 'LDRRMF - 4th Quarter', file: 'Local-Disaster-Risk-Reduction-and-Management-Fund-Utilization-LDRRMF-4th.pdf' }
-              ]
-            },
-            {
-              title: 'Quarterly Statement of Cash Flow',
-              files: [
-                { name: 'Cash Flow - 1st Quarter', file: 'Quarterly-Statement-of-Cash-Flow-1st.pdf' },
-                { name: 'Cash Flow - 2nd Quarter', file: 'Quarterly-Statement-of-Cash-Flow-2nd.pdf' },
-                { name: 'Cash Flow - 3rd Quarter', file: 'Quarterly-Statement-of-Cash-Flow-3rd.pdf' },
-                { name: 'Cash Flow - 4th Quarter', file: 'Quarterly-Statement-of-Cash-Flow-4th.pdf' }
-              ]
-            },
-            {
-              title: 'Unliquidated Cash Advances',
-              files: [
-                { name: 'Cash Advances - 1st Quarter', file: 'Unliquidated-Cash-Advances-1st.pdf' },
-                { name: 'Cash Advances - 2nd Quarter', file: 'Unliquidated-Cash-Advances-2nd.pdf' },
-                { name: 'Cash Advances - 3rd Quarter', file: 'Unliquidated-Cash-Advances-3rd.pdf' },
-                { name: 'Cash Advances - 4th Quarter', file: 'Unliquidated-Cash-Advances-4th.pdf' }
-              ]
-            },
-            {
-              title: 'Human Resource Complement',
-              files: [
-                { name: 'HR Complement - 1st Quarter', file: 'Human-Resource-Complement-1st.pdf' },
-                { name: 'HR Complement - 2nd Quarter', file: 'Human-Resource-Complement-2nd.pdf' },
-                { name: 'HR Complement - 3rd Quarter', file: 'Human-Resource-Complement-3rd.pdf' },
-                { name: 'HR Complement - 4th Quarter', file: 'Human-Resource-Complement-4th.pdf' }
-              ]
-            },
-            {
-              title: 'Bid Results',
-              files: [
-                { name: 'Bid Results - 1st Quarter', file: 'Bid-Results-on-Civil-Works-Goods-and-Services-and-Consulting-Services-1st.pdf' },
-                { name: 'Bid Results - 2nd Quarter', file: 'Bid-Results-on-Civil-Works-Goods-and-Services-and-Consulting-Services-2nd.pdf' },
-                { name: 'Bid Results - 3rd Quarter', file: 'Bid-Results-on-Civil-Works-Goods-and-Services-and-Consulting-Services-3rd.pdf' },
-                { name: 'Bid Results - 4th Quarter', file: 'Bid-Results-on-Civil-Works-Goods-and-Services-and-Consulting-Services-4th.pdf' }
-              ]
-            }
-          ]
-        },
-        {
-          year: '2021',
-          categories: [
-            {
-              title: 'Local Government Support Fund (LGSF)',
-              files: [
-                { name: 'LGSF - 1st Quarter', file: 'LGSF-1st-Quarter.pdf' },
-                { name: 'LGSF - 2nd Quarter', file: 'LGSF-2nd-Quarter.pdf' },
-                { name: 'LGSF - 3rd Quarter', file: 'LGSF-3rd-Quarter-1.pdf' },
-                { name: 'LGSF - 4th Quarter', file: 'LGSF-4th-Quarter_rotated.pdf' }
-              ]
-            },
-            {
-              title: 'Special Education Fund (SEF)',
-              files: [
-                { name: 'SEF - 1st Quarter', file: 'SEF-1st-Quarter.pdf' },
-                { name: 'SEF - 2nd Quarter', file: 'SEF-2nd-Quarter-1.pdf' },
-                { name: 'SEF - 3rd Quarter', file: 'SEF-3rd-Quarter-1.pdf' },
-                { name: 'SEF - 4th Quarter', file: 'SEF-4th-Quarter_rotated.pdf' }
-              ]
-            }
-          ]
+  const [dynamicDocs, setDynamicDocs] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [groupedDocs, setGroupedDocs] = useState({})
+
+  useEffect(() => {
+    const fetchDocs = async () => {
+      setLoading(true)
+      try {
+        const response = await fetch(`${API_BASE_URL}/documents`)
+        if (response.ok) {
+          const allDocs = await response.json()
+          // Filter for Transparency Seal and Full Disclosure
+          const filtered = allDocs.filter(d => d.type === 'Transparency Seal' || d.type === 'Full Disclosure')
+          
+          // Group by Year and then by Description (Sub-category)
+          const grouped = filtered.reduce((acc, doc) => {
+            const year = doc.year || new Date(doc.created_at).getFullYear()
+            const subCat = doc.description || 'General'
+            
+            if (!acc[year]) acc[year] = {}
+            if (!acc[year][subCat]) acc[year][subCat] = []
+            
+            acc[year][subCat].push(doc)
+            return acc
+          }, {})
+          
+          setGroupedDocs(grouped)
         }
-      ]
+      } catch (err) {
+        console.error('Failed to fetch transparency docs:', err)
+      } finally {
+        setLoading(false)
+      }
     }
-  ]
+    fetchDocs()
+  }, [])
+
+  // Static fallback/initial sections if any (currently handled by groupedDocs)
+  const years = Object.keys(groupedDocs).sort((a, b) => b - a)
+
 
   return (
     <div className="transparency-page bg-light min-vh-100 pb-5">
@@ -163,104 +70,69 @@ const TransparencySeal = () => {
         <Row className="justify-content-center">
           <Col lg={10}>
             {/* Accordion Sections */}
-            <Accordion defaultActiveKey="0" className="transparency-accordion">
-              {sections.map((section, idx) => (
-                <Accordion.Item eventKey={idx.toString()} key={idx} className="mb-4 border-0 rounded-4 shadow-sm overflow-hidden">
-                  <Accordion.Header>
-                    <div className="d-flex align-items-center gap-3 py-2">
-                      <div className="section-icon text-primary">
-                        {section.icon}
+            <Accordion defaultActiveKey={years[0]} className="transparency-accordion mt-5">
+              {years.length > 0 ? (
+                years.map((year, idx) => (
+                  <Accordion.Item eventKey={year} key={year} className="mb-4 border-0 rounded-4 shadow-sm overflow-hidden">
+                    <Accordion.Header>
+                      <div className="d-flex align-items-center gap-3 py-2">
+                        <div className="section-icon text-primary">
+                          <FaFileContract />
+                        </div>
+                        <h4 className="h5 fw-bold mb-0">{year} Reports & Disclosures</h4>
                       </div>
-                      <h4 className="h5 fw-bold mb-0">{section.title}</h4>
-                    </div>
-                  </Accordion.Header>
-                  <Accordion.Body className="bg-white p-4 p-md-5">
-                    {section.isLink ? (
-                      <div className="text-center py-4">
-                        <p className="text-muted mb-4">{section.description}</p>
-                        <Link to={section.linkTo} className="btn btn-primary rounded-pill px-5 py-3 fw-bold shadow-sm">
-                          Go to {section.title.split('. ')[1]}
-                        </Link>
-                      </div>
-                    ) : section.isNested ? (
+                    </Accordion.Header>
+                    <Accordion.Body className="bg-white p-4 p-md-5">
                       <Accordion className="nested-accordion">
-                        {section.years.map((yearObj, yIdx) => (
-                          <Accordion.Item eventKey={yIdx.toString()} key={yIdx} className="border-0 mb-3">
+                        {Object.keys(groupedDocs[year]).map((subCat, sIdx) => (
+                          <Accordion.Item eventKey={`${year}-${sIdx}`} key={sIdx} className="border-0 mb-3">
                             <Accordion.Header className="nested-header">
-                              <span className="fw-bold">{yearObj.year} Reports</span>
+                              <span className="fw-bold text-uppercase small tracking-wider">{subCat}</span>
                             </Accordion.Header>
                             <Accordion.Body className="bg-light-subtle rounded-bottom-4 p-4">
-                              {yearObj.categories ? (
-                                yearObj.categories.map((cat, cIdx) => (
-                                  <div key={cIdx} className="mb-4">
-                                    <div className="d-flex align-items-center gap-2 mb-3">
-                                      <div className="category-marker bg-primary"></div>
-                                      <h6 className="fw-bold text-dark mb-0 text-uppercase small tracking-wider">{cat.title}</h6>
+                              <ListGroup variant="flush" className="rounded-3 overflow-hidden border">
+                                {groupedDocs[year][subCat].map((doc, dIdx) => (
+                                  <ListGroup.Item key={dIdx} className="bg-white py-3 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                                    <div className="d-flex align-items-center gap-3">
+                                      <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" alt="PDF" width="24" />
+                                      <div>
+                                        <span className="fw-medium d-block">{doc.title}</span>
+                                        <small className="text-muted">{new Date(doc.created_at).toLocaleDateString()}</small>
+                                      </div>
                                     </div>
-                                    <ListGroup variant="flush" className="rounded-3 overflow-hidden border">
-                                      {cat.files.map((file, fIdx) => {
-                                        const filePath = file.file ? `/report/${yearObj.year}/${file.file}` : '#';
-                                        return (
-                                          <ListGroup.Item key={fIdx} className="bg-white py-3 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
-                                            <div className="d-flex align-items-center gap-3">
-                                              <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" alt="PDF" width="24" />
-                                              <span className="fw-medium">{file.name}</span>
-                                            </div>
-                                            <div className="d-flex gap-2">
-                                              <a href={filePath} target="_blank" rel="noreferrer" className="btn btn-sm btn-light text-primary fw-bold">View</a>
-                                              <a href={filePath} download className="btn btn-sm btn-outline-primary fw-bold">Download</a>
-                                            </div>
-                                          </ListGroup.Item>
-                                        );
-                                      })}
-                                    </ListGroup>
-                                  </div>
-                                ))
-                              ) : (
-                                <ListGroup variant="flush" className="rounded-3 overflow-hidden border">
-                                  {yearObj.files.map((file, fIdx) => {
-                                    const filePath = file.file ? `/report/${yearObj.year}/${file.file}` : '#';
-                                    return (
-                                      <ListGroup.Item key={fIdx} className="bg-white py-3 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 border-bottom">
-                                        <div className="d-flex align-items-center gap-3">
-                                          <img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" alt="PDF" width="24" />
-                                          <div>
-                                            <span className="fw-medium d-block">{file.name}</span>
-                                            {file.date && <small className="text-muted small">{file.date}</small>}
-                                          </div>
-                                        </div>
-                                        <div className="d-flex gap-2">
-                                          <a href={filePath} target="_blank" rel="noreferrer" className="btn btn-sm btn-light text-primary fw-bold">View</a>
-                                          <a href={filePath} download className="btn btn-sm btn-outline-primary fw-bold">Download</a>
-                                        </div>
-                                      </ListGroup.Item>
-                                    );
-                                  })}
-                                </ListGroup>
-                              )}
+                                    <div className="d-flex gap-2">
+                                      <a 
+                                        href={doc.file_path.startsWith('http') || doc.file_path.startsWith('/') ? doc.file_path : `${API_BASE_URL.replace('/api', '/storage')}/${doc.file_path}`} 
+                                        target="_blank" 
+                                        rel="noreferrer" 
+                                        className="btn btn-sm btn-light text-primary fw-bold"
+                                      >
+                                        View
+                                      </a>
+                                      <a 
+                                        href={doc.file_path.startsWith('http') || doc.file_path.startsWith('/') ? doc.file_path : `${API_BASE_URL.replace('/api', '/storage')}/${doc.file_path}`} 
+                                        download 
+                                        className="btn btn-sm btn-outline-primary fw-bold"
+                                      >
+                                        Download
+                                      </a>
+                                    </div>
+                                  </ListGroup.Item>
+                                ))}
+                              </ListGroup>
                             </Accordion.Body>
                           </Accordion.Item>
                         ))}
                       </Accordion>
-                    ) : (
-                      <ListGroup variant="flush">
-                        {section.items.map((item, i) => (
-                          <ListGroup.Item key={i} className="py-4 border-bottom-dashed d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
-                            <div>
-                              <h6 className="fw-bold mb-1">{item.name}</h6>
-                              <small className="text-muted">{item.date}</small>
-                            </div>
-                            <div className="d-flex gap-2">
-                              <button className="btn btn-light rounded-pill px-4 text-primary fw-bold hover-lift">View</button>
-                              <button className="btn btn-outline-primary rounded-pill px-4 hover-lift">Download</button>
-                            </div>
-                          </ListGroup.Item>
-                        ))}
-                      </ListGroup>
-                    )}
-                  </Accordion.Body>
-                </Accordion.Item>
-              ))}
+                    </Accordion.Body>
+                  </Accordion.Item>
+                ))
+              ) : (
+                <div className="text-center py-5 bg-white rounded-4 shadow-sm">
+                  <FaInfoCircle size={48} className="text-muted mb-3 opacity-50" />
+                  <p className="text-muted lead">No documents found in the archive.</p>
+                </div>
+              )}
             </Accordion>
           </Col>
         </Row>

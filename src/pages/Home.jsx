@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Container, Row, Col, Card, Button, Carousel, Badge } from 'react-bootstrap'
+import { Container, Row, Col, Card, Button, Carousel, Badge, Spinner } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { FaArrowRight, FaGlobe, FaFileAlt, FaUsers, FaNewspaper, FaHandsHelping, FaBuilding, FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock, FaPaperPlane, FaVolumeMute, FaVolumeUp } from 'react-icons/fa'
+import { FaArrowRight, FaGlobe, FaFileAlt, FaUsers, FaNewspaper, FaHandsHelping, FaBuilding, FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock, FaPaperPlane, FaVolumeMute, FaVolumeUp, FaBullseye, FaEye } from 'react-icons/fa'
 import backgroundImage from '../assets/images/capas.background.png'
 import capasLogo from '../assets/images/capas.logo.jpg'
+import API_BASE_URL from '../apiConfig'
 
-// Gallery Images
+// Gallery Images (Static fallbacks)
 import flag1 from '../assets/images/flagrites.jpg'
 import flag2 from '../assets/images/flagrites2.jpg'
 import flag3 from '../assets/images/flagrites3.jpg'
@@ -23,16 +24,6 @@ import hotline3 from '../assets/images/hotline3.jpg'
 import news1Img from '../assets/images/news1.jpg'
 import news2Img from '../assets/images/news2.jpg'
 import news3Img from '../assets/images/news3.jpg'
-import capasAward from '../assets/images/capas.award.jpg'
-import bootsImg from '../assets/images/mayors/boots.webp'
-import lyceumImg from '../assets/images/lyceum.jpg'
-import palengImg from '../assets/images/paleng.jpg'
-import lguImg from '../assets/images/lgu.jpg'
-import vmAlex from '../assets/images/vm.alex.jpg'
-import lgbtImg from '../assets/images/LGBTQ/1.jpg'
-import youthImg from '../assets/images/youth/1.jpg'
-
-// Frontpage Awards
 import award1 from '../assets/images/frontpage/1.png'
 import award2 from '../assets/images/frontpage/2.png'
 import award3 from '../assets/images/frontpage/3.png'
@@ -45,29 +36,75 @@ import award9 from '../assets/images/frontpage/9.png'
 import award10 from '../assets/images/frontpage/10.png'
 import award11 from '../assets/images/frontpage/11.png'
 
-
 const Home = () => {
   const pageRef = useRef(null)
   const [isMuted, setIsMuted] = useState(true)
   const [fbWidth, setFbWidth] = useState(500)
+  const [announcements, setAnnouncements] = useState([])
+  const [galleryItems, setGalleryItems] = useState([])
+  const [loadingNews, setLoadingNews] = useState(false)
+  const [loadingGallery, setLoadingGallery] = useState(false)
+
+  const fallbackAnnouncements = []
+  const fallbackGalleryItems = []
+
+  const resolveImage = (item) => {
+    if (!item || !item.image_path) return null;
+    const path = item.image_path;
+    if (typeof path !== 'string') return path;
+    if (path.startsWith('http') || path.startsWith('/') || path.startsWith('data:')) return path;
+    return `${API_BASE_URL.replace('/api', '/storage')}/${path}`;
+  }
 
   useEffect(() => {
     // Calculate dynamic width for Facebook iframe
     const updateFbWidth = () => {
       const width = window.innerWidth
       if (width < 576) {
-        // Mobile phones: full width minus padding
         setFbWidth(Math.max(180, width - 45))
       } else if (width < 992) {
-        // Tablets
         setFbWidth(500)
       } else {
-        // Desktop
         setFbWidth(500)
       }
     }
     
     updateFbWidth()
+    window.addEventListener('resize', updateFbWidth)
+
+    // Fetch dynamic content
+    const fetchHomeContent = async () => {
+      setLoadingNews(true)
+      setLoadingGallery(true)
+      try {
+        // Fetch Official Announcements
+        const newsRes = await fetch(`${API_BASE_URL}/articles?type=announcement&limit=10`)
+        if (newsRes.ok) {
+          const newsData = await newsRes.json()
+          setAnnouncements(newsData.length > 0 ? newsData : fallbackAnnouncements)
+        } else {
+          setAnnouncements(fallbackAnnouncements)
+        }
+
+        // Fetch Gallery (Homepage Visuals)
+        const galleryRes = await fetch(`${API_BASE_URL}/gallery?category=homepage_visual`)
+        if (galleryRes.ok) {
+          const galleryData = await galleryRes.json()
+          setGalleryItems(galleryData.length > 0 ? galleryData : fallbackGalleryItems)
+        } else {
+          setGalleryItems(fallbackGalleryItems)
+        }
+      } catch (error) {
+        console.error('Failed to fetch home content:', error)
+        setAnnouncements(fallbackAnnouncements)
+        setGalleryItems(fallbackGalleryItems)
+      } finally {
+        setLoadingNews(false)
+        setLoadingGallery(false)
+      }
+    }
+
+    fetchHomeContent()
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -86,9 +123,9 @@ const Home = () => {
 
     return () => {
       observer.disconnect()
+      window.removeEventListener('resize', updateFbWidth)
     }
   }, [])
-
 
   return (
     <div ref={pageRef}>
@@ -97,7 +134,6 @@ const Home = () => {
         className="hero-section position-relative"
         style={{ overflow: 'hidden', minHeight: '600px', display: 'flex', alignItems: 'center' }}
       >
-        {/* Cinematic MP4 Video Background */}
         <div 
           style={{
             position: 'absolute',
@@ -124,7 +160,6 @@ const Home = () => {
           </video>
         </div>
 
-        {/* Audio Toggle Button */}
         <div style={{ position: 'absolute', bottom: '20px', right: '20px', zIndex: 10 }}>
           <Button 
             variant="outline-light" 
@@ -136,7 +171,6 @@ const Home = () => {
           </Button>
         </div>
 
-        {/* Dark Overlay for Text Readability */}
         <div 
           style={{
             position: 'absolute',
@@ -166,8 +200,7 @@ const Home = () => {
               The Tourism Capital of Tarlac — rich in history, culture, and committed to excellence in public service.
             </p>
             <div className="d-flex gap-3 justify-content-center flex-wrap">
-
-              <Button as="a" href="https://www.facebook.com/CapasInformationOfficeOfficial" target="_blank" rel="noopener noreferrer" className="hero-btn hero-btn-outline">
+              <Button as={Link} to="/articles" className="hero-btn hero-btn-outline">
                 Latest News
               </Button>
             </div>
@@ -176,33 +209,56 @@ const Home = () => {
       </section>
 
       {/* ======== MISSION & VISION SECTION ======== */}
-      <section className="py-5" style={{ background: '#f8f9fa' }}>
-        <Container className="py-4">
-          <Row className="gy-5 align-items-stretch">
+      <section className="py-5 position-relative overflow-hidden" style={{ background: '#ffffff' }}>
+        {/* Subtle background elements */}
+        <div className="position-absolute top-0 start-0 w-100 h-100 opacity-5" style={{ 
+          backgroundImage: 'radial-gradient(var(--primary) 0.5px, transparent 0.5px)', 
+          backgroundSize: '30px 30px',
+          zIndex: 0 
+        }}></div>
+        
+        <Container className="py-5 position-relative" style={{ zIndex: 1 }}>
+          <Row className="gy-4 align-items-stretch">
             <Col lg={6} className="scroll-animate scroll-left">
-              <div className="h-100 p-4 p-md-5 bg-white rounded-4 shadow-sm border-start border-4" style={{ borderColor: 'var(--primary)' }}>
+              <div className="mission-vision-card h-100 p-4 p-md-5 bg-white rounded-4 shadow-sm border-start border-4 transition-all" style={{ borderLeftColor: 'var(--primary)', position: 'relative' }}>
                 <div className="mb-4">
-                  <h2 className="fw-bold m-0" style={{ fontSize: '1.8rem' }}>Our Mission</h2>
+                  <h2 className="fw-bold m-0" style={{ fontSize: '1.8rem', color: 'var(--gray-900)' }}>Our Mission</h2>
+                  <div style={{ width: '40px', height: '3px', background: 'var(--primary)', marginTop: '5px', borderRadius: '2px' }}></div>
                 </div>
-                <p className="text-muted" style={{ fontSize: '1.05rem', lineHeight: '1.8', textAlign: 'justify' }}>
-                  IN THE PROMOTION OF THE GENERAL WELL-BEING OF OUR PEOPLE, CAPAS SHALL BE CONSISTENT IN PROVIDING EFFICIENT AND EFFECTIVE SERVICES, THROUGH THE IMPLEMENTATION OF THE PROGRAM, PROJECT AND ACTIVITIES WHERE THE GREATEST NUMBER OF OUR PEOPLE GAINFULLY EMPLOYED.
+                <p className="text-muted" style={{ fontSize: '1.1rem', lineHeight: '1.9', textAlign: 'justify', fontWeight: '400' }}>
+                  In the promotion of the general well-being of our people, Capas shall be consistent in providing efficient and effective services, 
+                  through the implementation of programs, projects, and activities where the greatest number of our people are gainfully employed.
                 </p>
               </div>
             </Col>
             <Col lg={6} className="scroll-animate scroll-right">
-              <div className="h-100 p-4 p-md-5 bg-white rounded-4 shadow-sm border-start border-4" style={{ borderColor: 'var(--blue-logo)' }}>
+              <div className="mission-vision-card h-100 p-4 p-md-5 bg-white rounded-4 shadow-sm border-start border-4 transition-all" style={{ borderLeftColor: 'var(--blue-logo)', position: 'relative' }}>
                 <div className="mb-4">
-                  <h2 className="fw-bold m-0" style={{ fontSize: '1.8rem' }}>Our Vision</h2>
+                  <h2 className="fw-bold m-0" style={{ fontSize: '1.8rem', color: 'var(--gray-900)' }}>Our Vision</h2>
+                  <div style={{ width: '40px', height: '3px', background: 'var(--blue-logo)', marginTop: '5px', borderRadius: '2px' }}></div>
                 </div>
-                <p className="text-muted" style={{ fontSize: '1.05rem', lineHeight: '1.8', textAlign: 'justify' }}>
-                  CAPAS TO BE THE TOURISM AND AGRO-INDUSTRIAL CAPITAL OF TARLAC WITH EMPOWERED AND HEALTHY CITIZENRY IN A SOCIALLY JUST AND SAFE COMMUNITY WHO LIVES IN A SUSTAINABLE AND ECOLOGICALLY-BALANCED ENVIRONMENT WITH ACCESIBLE AND WELL-PLANNED INFRASTRUCTURE UNDER AN INVESTMENT FRIENDLY, PROGRESSIVE AND DIVERSE ECONOMY, GOVERNED BY GOD-FEARING AND RESPONSIVE LEADERSHIP.
+                <p className="text-muted" style={{ fontSize: '1.1rem', lineHeight: '1.9', textAlign: 'justify', fontWeight: '400' }}>
+                  Capas to be the tourism and agro-industrial capital of Tarlac with empowered and healthy citizenry in a socially just and safe community 
+                  who lives in a sustainable and ecologically-balanced environment with accessible and well-planned infrastructure under an 
+                  investment-friendly, progressive and diverse economy, governed by God-fearing and responsive leadership.
                 </p>
               </div>
             </Col>
           </Row>
         </Container>
-      </section>
 
+        <style>{`
+          .mission-vision-card {
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            border: none;
+          }
+          .mission-vision-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1) !important;
+            border-color: transparent;
+          }
+        `}</style>
+      </section>
 
       {/* ======== LATEST NEWS PREVIEW ======== */}
       <section className="py-5" style={{ background: 'var(--gray-100)' }}>
@@ -212,9 +268,9 @@ const Home = () => {
               <h2 className="fw-bold mb-1" style={{ color: 'var(--gray-900)' }}>Latest News</h2>
               <div className="section-divider" style={{ margin: '0' }}></div>
             </div>
-            <a href="https://www.facebook.com/CapasInformationOfficeOfficial" target="_blank" rel="noopener noreferrer" className="text-decoration-none fw-bold" style={{ color: 'var(--primary)' }}>
+            <Link to="/articles" className="text-decoration-none fw-bold" style={{ color: 'var(--primary)' }}>
               View All News <FaArrowRight className="ms-1" size={12} />
-            </a>
+            </Link>
           </div>
           <Row className="g-4">
             {/* Left Column: Facebook Feed */}
@@ -241,18 +297,22 @@ const Home = () => {
                   <FaVolumeUp className="text-primary-red" /> Official Announcements
                 </h3>
                 <div className="announcement-list">
-                  {[
-                    { date: 'May 04, 2026', title: 'Calling all Batch 2026 Latin Honor Graduates!', link: 'https://www.facebook.com/photo/?fbid=948956067946377', img: news1Img },
-                    { date: 'May 02, 2026', title: 'Extension of Search for College President — Lyceum of Capas (LUC)', link: 'https://www.facebook.com/CapasInformationOfficeOfficial', img: news2Img },
-                    { date: 'April 29, 2026', title: 'IN CELEBRATION OF THE 124TH LABOR DAY: PROVINCIAL JOB FAIR', link: 'https://www.facebook.com/CapasInformationOfficeOfficial', img: news3Img }
-                  ].map((ann, i) => (
+                  {loadingNews ? (
+                    <div className="text-center py-5">
+                      <Spinner animation="border" variant="danger" />
+                    </div>
+                  ) : announcements.map((ann, i) => (
                     <div key={i} className="announcement-item pb-3 mb-3 border-bottom d-flex gap-3 align-items-start">
                       <div className="announcement-img-thumb shadow-sm rounded-3 overflow-hidden flex-shrink-0" style={{ width: '90px', height: '90px', border: '1px solid var(--gray-300)' }}>
-                        <img src={ann.img} alt={ann.title} className="w-100 h-100" style={{ objectFit: 'cover' }} />
+                        <img src={resolveImage(ann) || news1Img} alt={ann.title} className="w-100 h-100" style={{ objectFit: 'cover' }} />
                       </div>
                       <div className="flex-grow-1">
-                        <div className="small text-muted mb-1 fw-bold">{ann.date}</div>
-                        <a href={ann.link} target="_blank" rel="noopener noreferrer" className="text-decoration-none text-dark announcement-link fw-bold" style={{ fontSize: '1rem', transition: 'color 0.2s ease', display: 'block', lineHeight: '1.4' }}>
+                        <div className="small text-muted mb-1 fw-bold">
+                          {new Date(ann.date_published).toLocaleDateString('en-US', { 
+                            month: 'long', day: 'numeric', year: 'numeric' 
+                          })}
+                        </div>
+                        <a href={ann.external_link || '#'} target="_blank" rel="noopener noreferrer" className="text-decoration-none text-dark announcement-link fw-bold" style={{ fontSize: '1rem', transition: 'color 0.2s ease', display: 'block', lineHeight: '1.4' }}>
                           {ann.title}
                         </a>
                       </div>
@@ -261,7 +321,7 @@ const Home = () => {
                 </div>
                 <div className="mt-4">
                   <Button as="a" href="https://www.facebook.com/CapasInformationOfficeOfficial" target="_blank" rel="noopener noreferrer" className="btn-primary-red w-100 py-3">
-                    See All Announcements
+                    See Latest Announcements
                   </Button>
                 </div>
               </div>
@@ -331,7 +391,7 @@ const Home = () => {
                   ))}
                 </div>
 
-                <Button as={Link} to="/about" className="btn-primary-red py-3 px-5 mt-2">
+                <Button as={Link} to="/history" className="btn-primary-red py-3 px-5 mt-2">
                   Discover More <FaArrowRight className="ms-2" size={12} />
                 </Button>
               </div>
@@ -343,76 +403,68 @@ const Home = () => {
       {/* ======== MUNICIPAL GALLERY ======== */}
       <section className="py-0 overflow-hidden" style={{ background: 'white' }}>
         <div className="section-header pt-5 mb-4 text-center scroll-animate">
-          <h6 className="text-uppercase fw-bold ls-2 small mb-2" style={{ color: 'var(--primary)' }}>Visuals</h6>
-          <h2 className="fw-bold" style={{ color: 'var(--gray-900)' }}>Municipal Gallery</h2>
+          <h6 className="text-uppercase fw-bold ls-2 small mb-2" style={{ color: 'var(--primary)' }}>AWARDS</h6>
+          <h2 className="fw-bold" style={{ color: 'var(--gray-900)' }}>Municipal Gallery of Awards</h2>
           <div className="section-divider"></div>
         </div>
 
-        <Carousel
-          fade
-          interval={3000}
-          controls={true}
-          indicators={true}
-          className="municipal-carousel shadow-lg"
-        >
-          {[
-            { src: award1, title: 'Outstanding Performance', cat: 'Recognition' },
-            { src: award2, title: 'Municipal Excellence', cat: 'Award' },
-            { src: award3, title: 'Public Service Award', cat: 'Recognition' },
-            { src: award4, title: 'Governance Citation', cat: 'Award' },
-            { src: award5, title: 'Community Impact', cat: 'Recognition' },
-            { src: award6, title: 'Leadership Award', cat: 'Award' },
-            { src: award7, title: 'Special Recognition', cat: 'Recognition' },
-            { src: award8, title: 'Performance Excellence', cat: 'Award' },
-            { src: award9, title: 'Municipal Achievement', cat: 'Recognition' },
-            { src: award10, title: 'Top Performer', cat: 'Award' },
-            { src: award11, title: 'National Recognition', cat: 'Award' },
-          ].map((item, idx) => (
-            <Carousel.Item key={idx}>
-                  <div className="carousel-img-wrapper" style={{ height: '70vh', minHeight: '500px', position: 'relative', overflow: 'hidden', backgroundColor: '#000' }}>
-                    {/* Blurred background for a premium look */}
-                    <img
-                      src={item.src}
-                      alt=""
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        filter: 'blur(15px) brightness(0.6)',
-                        transform: 'scale(1.1)',
-                        zIndex: 1
-                      }}
-                    />
-                    <img
-                      className="d-block w-100 h-100"
-                      src={item.src}
-                      alt={item.title}
-                      style={{ objectFit: 'contain', position: 'relative', zIndex: 2 }}
-                    />
-                <div className="carousel-caption-custom">
-                  <Container>
-                    <div className="caption-content animate-fadeInUp">
-                      <Badge className="mb-2" style={{ backgroundColor: 'var(--primary)', color: 'white', border: 'none' }}>{item.cat}</Badge>
-                      <h2 className="display-4 fw-bold text-white mb-0">{item.title}</h2>
-                    </div>
-                  </Container>
+        {loadingGallery ? (
+          <div className="text-center py-5">
+            <Spinner animation="border" variant="danger" />
+          </div>
+        ) : (
+          <Carousel
+            fade
+            interval={3000}
+            controls={true}
+            indicators={true}
+            className="municipal-carousel shadow-lg"
+          >
+            {galleryItems.map((item, idx) => (
+              <Carousel.Item key={idx}>
+                <div className="carousel-img-wrapper" style={{ height: '70vh', minHeight: '500px', position: 'relative', overflow: 'hidden', backgroundColor: '#000' }}>
+                  <img
+                    src={resolveImage(item) || '/assets/images/capas-logo.png'}
+                    alt=""
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      filter: 'blur(15px) brightness(0.6)',
+                      transform: 'scale(1.1)',
+                      zIndex: 1
+                    }}
+                  />
+                  <img
+                    className="d-block w-100 h-100"
+                    src={resolveImage(item) || '/assets/images/capas-logo.png'}
+                    alt={item.title}
+                    style={{ objectFit: 'contain', position: 'relative', zIndex: 2 }}
+                  />
+                  <div className="carousel-caption-custom">
+                    <Container>
+                      <div className="caption-content animate-fadeInUp">
+                        <Badge className="mb-2" style={{ backgroundColor: 'var(--primary)', color: 'white', border: 'none' }}>
+                          {item.category === 'homepage_visual' ? 'Gallery' : (item.category || 'Gallery')}
+                        </Badge>
+                        <h2 className="display-4 fw-bold text-white mb-0">{item.title}</h2>
+                      </div>
+                    </Container>
+                  </div>
                 </div>
-              </div>
-            </Carousel.Item>
-          ))}
-        </Carousel>
+              </Carousel.Item>
+            ))}
+          </Carousel>
+        )}
       </section>
-
-
 
       {/* ======== NATIONAL TREASURES SECTION ======== */}
       <section className="py-5" style={{ background: 'white' }}>
         <Container className="py-5">
           <Row className="align-items-center g-5">
-            {/* Treasure Image */}
             <Col lg={6} className="scroll-animate scroll-left">
               <div className="treasure-img-wrapper">
                 <div className="treasure-main-img shadow-lg">
@@ -438,7 +490,6 @@ const Home = () => {
               </div>
             </Col>
 
-            {/* Treasure Description */}
             <Col lg={6} className="scroll-animate scroll-right">
               <div className="ps-lg-4">
                 <h6 className="text-uppercase fw-bold ls-2 small mb-3" style={{ color: 'var(--primary)' }}>Capas Heritage</h6>
@@ -469,7 +520,7 @@ const Home = () => {
                       <span><strong>Tourism Pillar:</strong> One of the most visited historical landmarks in Tarlac.</span>
                     </li>
                   </ul>
-                  <Button as="a" href="https://www.scribd.com/presentation/388411446/Capas-National-Shrine-Philippine-History" target="_blank" rel="noopener noreferrer" className="btn-primary-red py-3 px-5">
+                  <Button as="a" href="https://www.facebook.com/watch/?v=401465321242288" target="_blank" rel="noopener noreferrer" className="btn-primary-red py-3 px-5">
                     Discover More
                   </Button>
                 </div>
@@ -483,7 +534,6 @@ const Home = () => {
       <section className="py-5" style={{ background: 'var(--gray-100)' }}>
         <Container className="py-5">
           <Row className="align-items-center g-5 flex-row-reverse">
-            {/* Treasure Image */}
             <Col lg={6} className="scroll-animate scroll-right">
               <div className="treasure-img-wrapper ps-lg-4">
                 <div className="treasure-main-img shadow-lg">
@@ -509,7 +559,6 @@ const Home = () => {
               </div>
             </Col>
 
-            {/* Treasure Description */}
             <Col lg={6} className="scroll-animate scroll-left">
               <div className="pe-lg-4">
                 <h6 className="text-uppercase fw-bold ls-2 small mb-3" style={{ color: 'var(--primary)' }}>Adventure & Nature</h6>
@@ -552,7 +601,6 @@ const Home = () => {
       <section className="py-5" style={{ background: 'white' }}>
         <Container className="py-5">
           <Row className="align-items-center g-5">
-            {/* Treasure Image */}
             <Col lg={6} className="scroll-animate scroll-left">
               <div className="treasure-img-wrapper">
                 <div className="treasure-main-img shadow-lg">
@@ -578,7 +626,6 @@ const Home = () => {
               </div>
             </Col>
 
-            {/* Treasure Description */}
             <Col lg={6} className="scroll-animate scroll-right">
               <div className="ps-lg-4">
                 <h6 className="text-uppercase fw-bold ls-2 small mb-3" style={{ color: 'var(--primary)' }}>Future & Innovation</h6>
@@ -644,13 +691,10 @@ const Home = () => {
         </Container>
       </section>
 
-
-
       {/* ======== CONTACT & MAP SECTION ======== */}
       <section className="py-5" style={{ background: 'var(--gray-100)' }}>
         <Container className="py-5">
           <Row className="g-5">
-            {/* Contact Form */}
             <Col lg={6}>
               <div className="contact-form-wrapper pe-lg-4">
                 <h2 className="fw-bold mb-3" style={{ fontSize: '2.5rem', color: 'var(--gray-900)' }}>Leave a Reply</h2>
@@ -683,7 +727,6 @@ const Home = () => {
               </div>
             </Col>
 
-            {/* Map */}
             <Col lg={6}>
               <div className="map-container-wrapper h-100 position-relative">
                 <a 

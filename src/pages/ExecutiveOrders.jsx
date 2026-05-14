@@ -1,13 +1,32 @@
-import React from 'react'
-import { Container, Row, Col, Card, Table, Badge, Form, InputGroup } from 'react-bootstrap'
+import React, { useState, useEffect } from 'react'
+import { Container, Row, Col, Card, Table, Badge, Form, InputGroup, Spinner } from 'react-bootstrap'
 import { FaFilePdf, FaDownload, FaUserShield, FaSearch, FaHistory, FaSignature } from 'react-icons/fa'
+import API_BASE_URL from '../apiConfig'
 
 const ExecutiveOrders = () => {
-  // Placeholder for Executive Orders
-  const orders = [
-    { no: "E.O. No. 05-2024", title: "An Order re-organizing the Municipal Peace and Order Council", date: "Feb 02, 2024", status: "Active" },
-    { no: "E.O. No. 01-2024", title: "Declaration of Local Holidays for the Month of January", date: "Jan 01, 2024", status: "Completed" },
-  ]
+  const [loading, setLoading] = useState(false)
+  const [ordersState, setOrdersState] = useState([])
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      setLoading(true)
+      try {
+        const response = await fetch(`${API_BASE_URL}/documents?type=${encodeURIComponent('Executive Orders')}`)
+        if (response.ok) {
+          const data = await response.json()
+          setOrdersState(data)
+        } else {
+          setOrdersState([])
+        }
+      } catch (error) {
+        console.error('Failed to fetch executive orders:', error)
+        setOrdersState([])
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchOrders()
+  }, [])
 
   return (
     <div className="executive-orders-page bg-light min-vh-100 pb-5">
@@ -70,25 +89,50 @@ const ExecutiveOrders = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {orders.map((ord, idx) => (
-                        <tr key={idx} className="transition-all hover-bg">
-                          <td className="px-4 py-4 fw-bold text-maroon" style={{ color: '#800000' }}>{ord.no}</td>
-                          <td className="py-4">
-                            <div className="fw-bold text-dark mb-1">{ord.title}</div>
-                            <div className="small text-muted">Issued on: {ord.date}</div>
-                          </td>
-                          <td className="py-4 text-center">
-                            <Badge bg={ord.status === 'Active' ? 'success' : 'secondary'} className="rounded-pill px-3 py-2 fw-medium" style={{ fontSize: '0.75rem' }}>
-                              {ord.status}
-                            </Badge>
-                          </td>
-                          <td className="px-4 py-4 text-center">
-                            <button className="btn btn-maroon btn-sm rounded-pill px-4 fw-bold transition-all" style={{ backgroundColor: '#800000', color: 'white', border: 'none' }}>
-                              <FaDownload className="me-2" /> DOWNLOAD
-                            </button>
+                      {loading ? (
+                        <tr>
+                          <td colSpan="4" className="text-center py-5">
+                            <Spinner animation="border" variant="danger" />
+                            <p className="mt-3 text-muted">Loading orders...</p>
                           </td>
                         </tr>
-                      ))}
+                      ) : ordersState.length > 0 ? (
+                        ordersState.map((ord, idx) => (
+                          <tr key={idx} className="transition-all hover-bg">
+                            <td className="px-4 py-4 fw-bold text-maroon" style={{ color: '#800000' }}>{ord.reference_no || ord.no}</td>
+                            <td className="py-4">
+                              <div className="fw-bold text-dark mb-1">{ord.title}</div>
+                              <div className="small text-muted">Issued on: {ord.date_published || ord.date}</div>
+                            </td>
+                            <td className="py-4 text-center">
+                              <Badge bg={(ord.status === 'Active' || !ord.status) ? 'success' : 'secondary'} className="rounded-pill px-3 py-2 fw-medium" style={{ fontSize: '0.75rem' }}>
+                                {ord.status || 'Active'}
+                              </Badge>
+                            </td>
+                            <td className="px-4 py-4 text-center">
+                              {ord.file_path ? (
+                                <a 
+                                  href={ord.file_path.startsWith('http') ? ord.file_path : `${API_BASE_URL.replace('/api', '/storage')}/${ord.file_path}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="btn btn-maroon btn-sm rounded-pill px-4 fw-bold transition-all text-decoration-none" 
+                                  style={{ backgroundColor: '#800000', color: 'white', border: 'none' }}
+                                >
+                                  <FaDownload className="me-2" /> DOWNLOAD
+                                </a>
+                              ) : (
+                                <button className="btn btn-maroon btn-sm rounded-pill px-4 fw-bold transition-all" style={{ backgroundColor: '#ccc', color: 'white', border: 'none' }} disabled>
+                                  <FaDownload className="me-2" /> DOWNLOAD
+                                </button>
+                              )}
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="4" className="text-center py-5 text-muted">No executive orders found.</td>
+                        </tr>
+                      )}
                     </tbody>
                   </Table>
                 </div>

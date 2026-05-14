@@ -1,285 +1,248 @@
-import React, { useState } from 'react'
-import { Container, Row, Col, Card, Button, Form, InputGroup, Badge, Modal } from 'react-bootstrap'
-import { FaDownload, FaSearch, FaFilePdf, FaFileWord, FaFilter, FaFileAlt, FaEye } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { Container, Row, Col, Card, Button, Form, InputGroup, Modal, Spinner, ListGroup } from 'react-bootstrap'
+import { FaDownload, FaSearch, FaFilePdf, FaFileWord, FaFileAlt, FaArrowRight } from 'react-icons/fa'
+import API_BASE_URL from '../apiConfig'
 
 const DownloadableForms = () => {
   const [searchTerm, setSearchTerm] = useState('')
-  const [filter, setFilter] = useState('All')
   const [showPreview, setShowPreview] = useState(false)
   const [previewFile, setPreviewFile] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [formsState, setFormsState] = useState([])
 
-  const handlePreview = (file) => {
-    setPreviewFile(file)
-    setShowPreview(true)
-  }
+  useEffect(() => {
+    const fetchForms = async () => {
+      setLoading(true)
+      try {
+        const response = await fetch(`${API_BASE_URL}/documents?type=Downloadable Forms`)
+        if (response.ok) {
+          const data = await response.json()
+          
+          // Grouping logic by description
+          const grouped = data.reduce((acc, item) => {
+            const desc = item.description || 'Others'
+            if (!acc[desc]) {
+              acc[desc] = []
+            }
+            acc[desc].push(item)
+            return acc
+          }, {})
 
-  const forms = [
-    // Building & Engineering (Priority)
-    {
-      name: 'New Building Permit Requirements',
-      category: 'Building & Engineering',
-      type: 'DOC',
-      file: 'BUILDING-PERMIT-REQUIREMENTS-NEW.doc'
-    },
-    {
-      name: 'Electrical Permit Form',
-      category: 'Building & Engineering',
-      type: 'DOC',
-      file: 'ELECTRICAL-PERMIT-FORM-front-back-3-copies-1.doc'
-    },
-    // Business Permits
-    {
-      name: 'Application Form for New Business',
-      category: 'Business Permits',
-      type: 'DOCX',
-      file: 'Application-Form-for-New-Business.docx'
-    },
-    {
-      name: 'Application Form for Renewal',
-      category: 'Business Permits',
-      type: 'DOCX',
-      file: 'Application-Form-for-Renewal.docx'
-    },
-    // Fencing
-    {
-      name: 'Fencing Permit Form',
-      category: 'Building & Engineering',
-      type: 'DOCX',
-      file: 'FENCING-PERMIT-FORM-from-back-3-copies.docx'
-    },
-    // Groups
-    {
-      name: 'Certificate of Occupancy Application Form and Completion Form',
-      category: 'Building & Engineering',
-      type: 'PDF / DOC',
-      isGroup: true,
-      files: [
-        { name: 'Unified Occupancy Form', file: 'Unified-Application-Form-for-Certificate-of-Occupancy-1-copy.pdf', type: 'PDF' },
-        { name: 'Certificate of Completion (General)', file: 'CERTIFICATE-OF-COMPLETION-3-copies.doc', type: 'DOC' },
-        { name: 'Certificate of Completion (Electrical)', file: 'CERTIFICATE-OF-COMPLETION-ELECTRICAL-WORKS-3-copies.doc', type: 'DOC' },
-        { name: 'Certification Form (3 Copies)', file: 'CERTIFICATION-3-copies.doc', type: 'DOC' },
-      ]
-    },
-    {
-      name: 'Building Permit Form and Other Ancillary Permit Form',
-      category: 'Building & Engineering',
-      type: 'PDF / DOC',
-      isGroup: true,
-      files: [
-        { name: 'Unified Building Permit Form', file: 'UNIFIED-APPLICATION-FORM-FOR-BUILDING-PERMIT-front-back-5-copies.pdf', type: 'PDF' },
-        { name: 'Building Permit Requirements', file: 'BUILDING-PERMIT-REQUIREMENTS.doc', type: 'DOC' },
-        { name: 'Electronics Permit Form', file: 'ELECTRONICS-PERMIT-FORM-front-back-3-copies.doc', type: 'DOC' },
-        { name: 'Mechanical Permit Form', file: 'MECHANICAL-PERMIT-FORM-front-back-3-copies.doc', type: 'DOC' },
-        { name: 'Sanitary/Plumbing Permit Form', file: 'SANITARY-PLUMBING-PERMIT-FORM-front-back-3-copies.doc', type: 'DOC' },
-      ]
+          const formattedData = Object.keys(grouped).map(desc => {
+            const items = grouped[desc]
+            if (items.length === 1) {
+              const item = items[0]
+              return {
+                name: desc !== 'Others' ? desc : item.title,
+                category: desc,
+                type: item.file_extension ? item.file_extension.toUpperCase() : 'PDF',
+                file_path: item.file_path,
+                isGroup: false
+              }
+            } else {
+              return {
+                name: desc,
+                category: desc,
+                type: 'GROUP',
+                isGroup: true,
+                files: items.map(f => ({
+                  name: f.title,
+                  file: f.file_path,
+                  type: f.file_extension ? f.file_extension.toUpperCase() : 'PDF'
+                }))
+              }
+            }
+          })
+
+          setFormsState(formattedData)
+        } else {
+          setFormsState([])
+        }
+      } catch (error) {
+        console.error('Failed to fetch forms:', error)
+        setFormsState([])
+      } finally {
+        setLoading(false)
+      }
     }
-  ]
+    fetchForms()
+  }, [])
 
-  const categories = ['All', 'Business Permits', 'Building & Engineering', 'Certificates & Others']
-
-  const filteredForms = forms.filter(form => {
-    const matchesSearch = form.name.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesFilter = filter === 'All' || form.category === filter
-    return matchesSearch && matchesFilter
+  const filteredForms = formsState.filter(form => {
+    return form.name.toLowerCase().includes(searchTerm.toLowerCase())
   })
 
-  const getFileIcon = (type) => {
-    if (type === 'PDF') return <FaFilePdf className="text-danger" />
-    if (type.includes('DOC')) return <FaFileWord style={{ color: 'var(--blue-logo)' }} />
-    return <FaFileAlt className="text-secondary" />
+  const getFileUrl = (path) => {
+    if (!path) return '#'
+    if (path.startsWith('http') || path.startsWith('/')) return path
+    return `${API_BASE_URL.replace('/api', '/storage')}/${path}`
   }
 
+  // Define the desired order matching the user's screenshot
+  const formOrder = [
+    'New Building Permit',
+    'Electrical Permit Form',
+    'Application Form for New Business',
+    'Application Form for Renewal',
+    'Fencing Permit Form',
+    'Certificate of Occupancy Application Form and Completion Form',
+    'Building Permit Form and Other Ancillary Permit Form'
+  ]
+
+  const sortedForms = [...filteredForms].sort((a, b) => {
+    const idxA = formOrder.indexOf(a.name)
+    const idxB = formOrder.indexOf(b.name)
+    if (idxA === -1 && idxB === -1) return 0
+    if (idxA === -1) return 1
+    if (idxB === -1) return -1
+    return idxA - idxB
+  })
+
   return (
-    <div className="downloadable-forms-page bg-light min-vh-100">
-      {/* Page Header */}
-      <div className="page-header text-white py-5 mb-0" style={{
-        backgroundColor: 'var(--blue-logo)',
-        backgroundImage: 'linear-gradient(rgba(20,24,61,0.9), rgba(20,24,61,0.9)), url("/assets/images/capas.background.png")',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        position: 'relative'
-      }}>
-        <Container className="py-4 position-relative z-index-1">
-          <h1 className="display-4 fw-bold">Downloadable Forms</h1>
-          <p className="lead opacity-75">Access and download official municipal application forms and documents.</p>
+    <div className="downloadable-forms-page bg-white min-vh-100">
+      {/* Page Header - Clean & Professional */}
+      <section className="bg-white border-bottom py-5">
+        <Container>
+          <div className="text-center">
+            <h1 className="display-5 fw-bold mb-3" style={{ color: '#14183d' }}>Downloadable Forms</h1>
+            <p className="lead text-muted mx-auto" style={{ maxWidth: '700px' }}>
+              Access and download official municipal application forms and documents.
+            </p>
+          </div>
         </Container>
-      </div>
+      </section>
 
       <Container className="py-5">
-        {/* Search and Filter Section */}
-        <Card className="border-0 shadow-sm rounded-4 mb-5 p-4">
-          <Row className="g-3">
-            <Col lg={7}>
-              <InputGroup className="shadow-sm rounded-3 overflow-hidden border">
-                <InputGroup.Text className="bg-white border-0 ps-3">
-                  <FaSearch style={{ color: 'var(--blue-logo)' }} />
-                </InputGroup.Text>
-                <Form.Control
-                  placeholder="Search for forms (e.g. Building, Business...)"
-                  className="border-0 bg-transparent py-3 shadow-none"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </InputGroup>
-            </Col>
-            <Col lg={5}>
-              <div className="d-flex gap-2 overflow-auto pb-2 scrollbar-hide">
-                {categories.map((cat, idx) => (
-                  <Button
-                    key={idx}
-                    className={`rounded-pill px-4 text-nowrap fw-bold ${filter === cat ? 'shadow' : 'border-0 bg-white shadow-sm'}`}
-                    style={{ 
-                      backgroundColor: filter === cat ? 'var(--blue-logo)' : 'white', 
-                      borderColor: filter === cat ? 'var(--blue-logo)' : '#ddd',
-                      color: filter === cat ? 'white' : '#666',
-                      border: filter === cat ? 'none' : '1px solid #ddd'
-                    }}
-                    onClick={() => setFilter(cat)}
-                  >
-                    {cat}
-                  </Button>
+        {/* Search Bar - Minimalist */}
+        <Row className="justify-content-center mb-5">
+          <Col lg={8}>
+            <InputGroup className="shadow-sm rounded-pill overflow-hidden border bg-light">
+              <InputGroup.Text className="bg-transparent border-0 ps-4">
+                <FaSearch className="text-muted" />
+              </InputGroup.Text>
+              <Form.Control
+                placeholder="Search for forms (e.g. Building, Business...)"
+                className="border-0 bg-transparent py-3 shadow-none fw-medium"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </InputGroup>
+          </Col>
+        </Row>
+
+        {/* Forms List - Clean matching user identifier screenshot */}
+        {loading ? (
+          <div className="text-center py-5">
+            <Spinner animation="border" variant="danger" />
+            <p className="mt-3 text-muted">Loading forms...</p>
+          </div>
+        ) : sortedForms.length > 0 ? (
+          <Row className="justify-content-center">
+            <Col lg={9}>
+              <div className="forms-list-container">
+                {sortedForms.map((form, idx) => (
+                  <div key={idx} className="form-item-row py-4 border-bottom transition-all">
+                    <div className="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                      <div className="flex-grow-1">
+                        <h5 className="fw-bold mb-1" style={{ 
+                          color: form.name.includes('Building Permit Form') ? '#483D8B' : '#333',
+                          fontSize: '1.25rem',
+                          transition: 'all 0.3s'
+                        }}>
+                          {form.name}
+                        </h5>
+                        {form.isGroup && (
+                          <span className="badge bg-light text-muted border fw-normal py-1 px-2 mt-1">
+                            {form.files.length} documents included
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Download Section */}
+                      <div className="d-flex align-items-center gap-3">
+                        {!form.isGroup ? (
+                          <Button 
+                            as="a"
+                            href={getFileUrl(form.file_path)}
+                            download
+                            className="btn btn-maroon fw-bold px-4 py-2 rounded-pill d-flex align-items-center gap-2 border-0 shadow-sm"
+                            style={{ backgroundColor: '#800000', color: 'white' }}
+                          >
+                            <FaDownload size={14} /> DOWNLOAD
+                          </Button>
+                        ) : (
+                          <div className="text-muted small fw-bold">SEE LIST BELOW</div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Group Files - Clean nested list */}
+                    {form.isGroup && (
+                      <div className="mt-4 ps-md-4 pe-md-3">
+                        <div className="rounded-4 overflow-hidden border bg-light shadow-sm">
+                          {form.files.map((file, fIdx) => (
+                            <div key={fIdx} className="d-flex align-items-center justify-content-between p-3 border-bottom border-white last-border-none hover-bg-white transition-all">
+                              <div className="d-flex align-items-center gap-3 overflow-hidden">
+                                <div className="p-2 rounded bg-white shadow-xs">
+                                  {file.type === 'PDF' ? (
+                                    <FaFilePdf className="text-danger" />
+                                  ) : (
+                                    <FaFileWord style={{ color: '#2b5797' }} />
+                                  )}
+                                </div>
+                                <span className="text-dark fw-medium text-truncate" style={{ fontSize: '0.95rem' }}>{file.name}</span>
+                              </div>
+                              <a 
+                                href={getFileUrl(file.file)} 
+                                download 
+                                className="btn btn-sm btn-outline-danger border-0 rounded-pill px-3 py-2 fw-bold d-flex align-items-center gap-2"
+                                style={{ fontSize: '0.8rem' }}
+                              >
+                                <FaDownload size={12} /> {file.type}
+                              </a>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 ))}
               </div>
             </Col>
           </Row>
-        </Card>
-
-        {/* Forms Grid */}
-        <Row className="g-4">
-          {filteredForms.length > 0 ? (
-            filteredForms.map((form, idx) => (
-              <Col key={idx} md={6} lg={4}>
-                <Card className="h-100 border-0 shadow-sm rounded-4 hover-lift transition-all overflow-hidden bg-white">
-                  <Card.Body className="p-4 d-flex flex-column">
-                    <div className="d-flex justify-content-between align-items-start mb-3">
-                      <div className="file-icon-wrapper p-3 rounded-4 bg-light">
-                        {getFileIcon(form.isGroup ? 'PDF' : form.type)}
-                      </div>
-                      <Badge className="text-uppercase fw-bold p-2" style={{ fontSize: '0.7rem', letterSpacing: '1px', backgroundColor: 'var(--blue-logo)', color: 'white' }}>
-                        {form.type}
-                      </Badge>
-                    </div>
-                    <h5 className="fw-bold mb-2 text-dark" style={{ lineHeight: '1.4' }}>{form.name}</h5>
-                    
-                    {form.isGroup ? (
-                      <div className="group-files mt-3 mb-4">
-                        <small className="text-uppercase fw-bold text-muted mb-2 d-block" style={{ fontSize: '0.65rem' }}>Includes {form.files.length} documents:</small>
-                        {form.files.map((file, fIdx) => (
-                          <div key={fIdx} className="d-flex align-items-center justify-content-between py-2 border-bottom border-light">
-                            <span className="text-muted small text-truncate me-2" title={file.name}>{file.name}</span>
-                            <div className="d-flex gap-3">
-                              <button 
-                                onClick={() => handlePreview(file)}
-                                className="btn btn-link p-0 text-decoration-none small fw-bold d-flex align-items-center gap-1"
-                                style={{ color: 'var(--blue-logo)' }}
-                              >
-                                <FaEye size={12} /> View
-                              </button>
-                              <a href={`/forms/${file.file}`} download className="text-decoration-none small fw-bold" style={{ color: 'var(--primary)' }}>
-                                <FaDownload size={12} className="me-1" /> {file.type}
-                              </a>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="text-muted small mb-4 mt-auto">
-                        <FaFilter className="me-2" size={10} style={{ color: 'var(--blue-logo)' }} />
-                        {form.category}
-                      </p>
-                    )}
-
-                    {!form.isGroup && (
-                      <div className="d-flex gap-2">
-                        <Button 
-                          className="border-2 py-2 w-50 fw-bold d-flex align-items-center justify-content-center gap-2"
-                          style={{ color: 'var(--blue-logo)', borderColor: 'var(--blue-logo)', background: 'transparent' }}
-                          onClick={() => handlePreview(form)}
-                        >
-                          <FaEye size={14} /> View
-                        </Button>
-                        <Button 
-                          as="a" 
-                          href={`/forms/${form.file}`} 
-                          download 
-                          className="btn-primary-red border-0 py-2 w-50 fw-bold d-flex align-items-center justify-content-center gap-2"
-                          style={{ background: 'linear-gradient(135deg, var(--primary), var(--primary-dark))' }}
-                        >
-                          <FaDownload size={14} /> Download
-                        </Button>
-                      </div>
-                    )}
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))
-          ) : (
-            <Col xs={12} className="text-center py-5">
-              <div className="mb-4 opacity-25" style={{ color: 'var(--blue-logo)' }}>
-                <FaFileAlt size={80} />
-              </div>
-              <h4 className="text-muted fw-bold">No forms found matching your search.</h4>
-              <p className="text-muted">Try adjusting your filters or search terms.</p>
-            </Col>
-          )}
-        </Row>
-
-        {/* Preview Modal */}
-        <Modal show={showPreview} onHide={() => setShowPreview(false)} size="lg" centered className="form-preview-modal">
-          <Modal.Header closeButton className="border-0">
-            <Modal.Title className="fw-bold" style={{ color: 'var(--blue-logo)' }}>{previewFile?.name}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body className="p-0 bg-light">
-            {previewFile?.type === 'PDF' ? (
-              <iframe
-                src={`/forms/${previewFile.file}#toolbar=0`}
-                width="100%"
-                height="600px"
-                className="border-0"
-                title="File Preview"
-              ></iframe>
-            ) : (
-              <div className="text-center py-5 px-4">
-                <div className="mb-4 opacity-50" style={{ color: 'var(--blue-logo)' }}>
-                  <FaFileWord size={80} />
-                </div>
-                <h4 className="fw-bold mb-3">Preview not available for Word documents</h4>
-                <p className="text-muted mb-4">Please download the file to view its contents on your device.</p>
-                <Button 
-                  as="a" 
-                  href={`/forms/${previewFile?.file}`} 
-                  download 
-                  className="btn-primary-red border-0 px-5 py-3 fw-bold rounded-pill"
-                  style={{ background: 'linear-gradient(135deg, var(--primary), var(--primary-dark))' }}
-                >
-                  <FaDownload className="me-2" /> Download Document
-                </Button>
-              </div>
-            )}
-          </Modal.Body>
-        </Modal>
+        ) : (
+          <div className="text-center py-5">
+            <div className="mb-4 opacity-10">
+              <FaFileAlt size={100} />
+            </div>
+            <h4 className="text-muted fw-bold">No forms found.</h4>
+            <p className="text-muted">Try a different search term.</p>
+          </div>
+        )}
       </Container>
 
       <style>{`
-        .hover-lift:hover {
-          transform: translateY(-8px);
-          box-shadow: 0 1rem 3rem rgba(0,0,0,0.1) !important;
+        .form-item-row:hover h5 {
+          color: #800000 !important;
+          transform: translateX(5px);
+        }
+        .hover-bg-white:hover {
+          background-color: #ffffff !important;
+        }
+        .shadow-xs {
+          box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .last-border-none:last-child {
+          border-bottom: none !important;
         }
         .transition-all {
-          transition: all 0.3s ease-in-out;
+          transition: all 0.25s ease-in-out;
         }
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
+        .btn-maroon:hover {
+          background-color: #600000 !important;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(128, 0, 0, 0.2) !important;
         }
-        .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-        .file-icon-wrapper svg {
-          font-size: 2rem;
-        }
-        .z-index-1 { z-index: 1; }
       `}</style>
     </div>
   )

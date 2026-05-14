@@ -45,9 +45,12 @@ import Events from './pages/Events'
 import Login from './pages/admin/Login'
 import Dashboard from './pages/admin/Dashboard'
 import ManageNews from './pages/admin/ManageNews'
+import ManageAnnouncements from './pages/admin/ManageAnnouncements'
 import ManageFiles from './pages/admin/ManageFiles'
 import Settings from './pages/admin/Settings'
 import ManageGallery from './pages/admin/ManageGallery'
+import ManageHomeGallery from './pages/admin/ManageHomeGallery'
+import ManageBarangays from './pages/admin/ManageBarangays'
 import AdminLayout from './pages/admin/AdminLayout'
 
 function App() {
@@ -123,8 +126,12 @@ function App() {
           <Route path="/admin" element={<AdminLayout />}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="news" element={<ManageNews />} />
+            <Route path="home-visuals" element={<ManageHomeGallery />} />
+            <Route path="announcements" element={<ManageAnnouncements />} />
             <Route path="files" element={<ManageFiles />} />
             <Route path="gallery" element={<ManageGallery />} />
+            <Route path="manage-awards" element={<ManageHomeGallery />} />
+            <Route path="manage-barangays" element={<ManageBarangays />} />
             <Route path="settings" element={<Settings />} />
           </Route>
         </Routes>

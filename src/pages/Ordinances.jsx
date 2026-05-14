@@ -1,13 +1,32 @@
-import React from 'react'
-import { Container, Row, Col, Card, Table, Badge, Form, InputGroup } from 'react-bootstrap'
+import React, { useState, useEffect } from 'react'
+import { Container, Row, Col, Card, Table, Badge, Form, InputGroup, Spinner } from 'react-bootstrap'
 import { FaFilePdf, FaDownload, FaGavel, FaSearch, FaHistory, FaBalanceScale } from 'react-icons/fa'
+import API_BASE_URL from '../apiConfig'
 
 const Ordinances = () => {
-  // Placeholder for Ordinances - usually categorized by year
-  const ordinances = [
-    { no: "Ord. No. 001-2024", title: "An Ordinance establishing the Capas Youth Development Center", date: "Jan 15, 2024", status: "Active" },
-    { no: "Ord. No. 012-2023", title: "Comprehensive Land Use Plan (CLUP) 2023-2033", date: "Dec 10, 2023", status: "Active" },
-  ]
+  const [loading, setLoading] = useState(false)
+  const [ordinancesState, setOrdinancesState] = useState([])
+
+  useEffect(() => {
+    const fetchOrdinances = async () => {
+      setLoading(true)
+      try {
+        const response = await fetch(`${API_BASE_URL}/documents?type=Ordinances`)
+        if (response.ok) {
+          const data = await response.json()
+          setOrdinancesState(data)
+        } else {
+          setOrdinancesState([])
+        }
+      } catch (error) {
+        console.error('Failed to fetch ordinances:', error)
+        setOrdinancesState([])
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchOrdinances()
+  }, [])
 
   return (
     <div className="ordinances-page bg-light min-vh-100 pb-5">
@@ -70,25 +89,48 @@ const Ordinances = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {ordinances.map((ord, idx) => (
-                        <tr key={idx} className="transition-all hover-bg">
-                          <td className="px-4 py-4 fw-bold text-maroon" style={{ color: '#800000' }}>{ord.no}</td>
-                          <td className="py-4">
-                            <div className="fw-bold text-dark mb-1">{ord.title}</div>
-                            <div className="small text-muted">Enacted: {ord.date}</div>
-                          </td>
-                          <td className="py-4 text-center">
-                            <Badge bg="success" className="rounded-pill px-3 py-2 fw-medium" style={{ fontSize: '0.75rem' }}>
-                              {ord.status}
-                            </Badge>
-                          </td>
-                          <td className="px-4 py-4 text-center">
-                            <button className="btn btn-maroon btn-sm rounded-pill px-4 fw-bold transition-all" style={{ backgroundColor: '#800000', color: 'white', border: 'none' }}>
-                              <FaDownload className="me-2" /> PDF
-                            </button>
+                      {loading ? (
+                        <tr>
+                          <td colSpan="4" className="text-center py-5">
+                            <Spinner animation="border" variant="danger" />
+                            <p className="mt-3 text-muted">Loading ordinances...</p>
                           </td>
                         </tr>
-                      ))}
+                      ) : ordinancesState.length > 0 ? (
+                        ordinancesState.map((ord, idx) => (
+                          <tr key={idx} className="transition-all hover-bg">
+                            <td className="px-4 py-4 fw-bold text-maroon" style={{ color: '#800000' }}>
+                              {ord.reference_no || ord.no}
+                            </td>
+                            <td className="py-4">
+                              <div className="fw-bold text-dark mb-1">{ord.title}</div>
+                              <div className="small text-muted">
+                                Enacted: {ord.date_published || ord.date || ord.year}
+                              </div>
+                            </td>
+                            <td className="py-4 text-center">
+                              <Badge bg="success" className="rounded-pill px-3 py-2 fw-medium" style={{ fontSize: '0.75rem' }}>
+                                {ord.status || 'Active'}
+                              </Badge>
+                            </td>
+                            <td className="px-4 py-4 text-center">
+                              <a 
+                                href={ord.file_path.startsWith('http') ? ord.file_path : `${API_BASE_URL.replace('/api', '/storage')}/${ord.file_path}`} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="btn btn-maroon btn-sm rounded-pill px-4 fw-bold transition-all text-decoration-none" 
+                                style={{ backgroundColor: '#800000', color: 'white', border: 'none' }}
+                              >
+                                <FaDownload className="me-2" /> PDF
+                              </a>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="4" className="text-center py-5 text-muted">No ordinances found.</td>
+                        </tr>
+                      )}
                     </tbody>
                   </Table>
                 </div>
@@ -98,7 +140,7 @@ const Ordinances = () => {
             {/* Pagination Placeholder */}
             <div className="d-flex justify-content-center mt-5">
               <div className="text-muted small">
-                Showing {ordinances.length} results • For older records, please contact the Sangguniang Bayan Secretary.
+                Showing {ordinancesState.length} results • For older records, please contact the Sangguniang Bayan Secretary.
               </div>
             </div>
           </Col>
