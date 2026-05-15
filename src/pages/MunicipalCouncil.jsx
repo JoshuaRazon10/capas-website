@@ -12,9 +12,12 @@ import jeffersonImg from '../assets/images/council/Jeff Garcia.jpg'
 import estelaImg from '../assets/images/council/Manlupig.jpg'
 import alejandroImg from '../assets/images/council/Driggs Duenas.jpg'
 import vmAlex from '../assets/images/vm.alex.jpg'
+import valantinImg from '../assets/images/council/Valantin.jpg'
+import arcillaImg from '../assets/images/council/Seto Arcilla.jpg'
+import marleoImg from '../assets/images/council/Marleo Delos Reyes.jpg'
 
 const MunicipalCouncil = () => {
-  const electedCouncilors = [
+  const allCouncilMembers = [
     { name: 'Hon. Julieta C. Jimenez', position: 'Municipal Councilor', image: julietaImg },
     { name: 'Hon. Ariel G. Batican', position: 'Municipal Councilor', image: arielImg },
     { name: 'Hon. Editha M. Yumul', position: 'Municipal Councilor', image: edithaImg },
@@ -23,17 +26,11 @@ const MunicipalCouncil = () => {
     { name: 'Hon. Jefferson M. Garcia', position: 'Municipal Councilor', image: jeffersonImg },
     { name: 'Hon. Estela S. Manlupig', position: 'Municipal Councilor', image: estelaImg },
     { name: 'Hon. Alejandro T. Dueñas', position: 'Municipal Councilor', image: alejandroImg },
-  ]
-
-  const exOfficioMembers = [
-    { name: 'Hon. Victor Valantin', position: 'IPMR Representative' },
-    { name: 'Hon. Arnold Arcilla', position: 'ABC President' },
-    { name: 'Hon. Marleo Delos Reyes', position: 'SK Federation President' },
-  ]
-
-  const sbStaff = [
-    { name: 'Atty. Catherine Rose Diaz Cunanan', position: 'SB Secretary' },
-    { name: 'Mahalia C. Bertillo', position: 'SB Staff' },
+    { name: 'Hon. Victor Valantin', position: 'IPMR Representative', image: valantinImg },
+    { name: 'Hon. Arnold Arcilla', position: 'ABC President', image: arcillaImg },
+    { name: 'Hon. Marleo Delos Reyes', position: 'SK Federation President', image: marleoImg },
+    { name: 'Atty. Catherine Rose Diaz Cunanan', position: 'Municipal Legal Officer', image: null },
+    { name: 'Mahalia C. Bertillo', position: 'Officer-in-Charge, Municipal Public Information Office', image: null },
   ]
 
   return (
@@ -98,64 +95,18 @@ const MunicipalCouncil = () => {
             <span className="p-2 rounded me-3 d-flex align-items-center justify-content-center text-white" style={{ backgroundColor: '#800000' }}>
               <FaScroll size={20} />
             </span>
-            Municipal Councilors
+            Members
           </h2>
           <Row className="g-4 mb-5 justify-content-center">
-            {electedCouncilors.map((member, idx) => (
+            {allCouncilMembers.map((member, idx) => (
               <Col key={idx} sm={6} lg={4} xl={3}>
                 <Card className="border-0 shadow-sm h-100 rounded-4 hover-lift transition-all">
                   <div className="bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center" style={{ height: '250px' }}>
-                    <img src={member.image} alt={member.name} className="w-100 h-100" style={{ objectFit: 'cover' }} />
-                  </div>
-                  <Card.Body className="text-center p-4">
-                    <h5 className="fw-bold text-dark mb-1">{member.name}</h5>
-                    <p className="text-muted small mb-0 text-uppercase letter-spacing-1">{member.position}</p>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </section>
-
-        {/* Ex-Officio Members */}
-        <section className="mb-5">
-          <h2 className="fw-bold text-dark mb-4 d-flex align-items-center">
-            <span className="p-2 rounded me-3 d-flex align-items-center justify-content-center text-white" style={{ backgroundColor: 'var(--blue-logo)' }}>
-              <FaUserTie size={20} />
-            </span>
-            Ex-Officio Members
-          </h2>
-          <Row className="g-4 mb-5 justify-content-center">
-            {exOfficioMembers.map((member, idx) => (
-              <Col key={idx} sm={6} lg={4}>
-                <Card className="border-0 shadow-sm h-100 rounded-4 hover-lift transition-all">
-                  <div className="bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center" style={{ height: '200px' }}>
-                    <FaUserAlt size={60} className="text-muted opacity-25" />
-                  </div>
-                  <Card.Body className="text-center p-4">
-                    <h5 className="fw-bold text-dark mb-1">{member.name}</h5>
-                    <p className="text-muted small mb-0 text-uppercase letter-spacing-1">{member.position}</p>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </section>
-
-        {/* SB Staff */}
-        <section className="mb-5">
-          <h2 className="fw-bold text-dark mb-4 d-flex align-items-center">
-            <span className="p-2 rounded me-3 d-flex align-items-center justify-content-center text-white" style={{ backgroundColor: '#475569' }}>
-              <FaUserAlt size={20} />
-            </span>
-            SB Staff
-          </h2>
-          <Row className="g-4 mb-5 justify-content-center">
-            {sbStaff.map((member, idx) => (
-              <Col key={idx} sm={6} lg={4}>
-                <Card className="border-0 shadow-sm h-100 rounded-4 hover-lift transition-all">
-                  <div className="bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center" style={{ height: '200px' }}>
-                    <FaUserAlt size={60} className="text-muted opacity-25" />
+                    {member.image ? (
+                      <img src={member.image} alt={member.name} className="w-100 h-100" style={{ objectFit: 'cover' }} />
+                    ) : (
+                      <FaUserAlt size={60} className="text-muted opacity-25" />
+                    )}
                   </div>
                   <Card.Body className="text-center p-4">
                     <h5 className="fw-bold text-dark mb-1">{member.name}</h5>
