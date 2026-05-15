@@ -65,6 +65,7 @@ if (preg_match('/class ComposerAutoloaderInit([a-f0-9]+)/', $realContent, $m)) {
 } else {
     echo "ERROR: Could not detect hash.\n</pre>"; exit;
 }
+ob_flush(); flush();
 
 $installed = json_decode(file_get_contents($installedFile), true);
 $packages = isset($installed['packages']) ? $installed['packages'] : $installed;
@@ -101,7 +102,7 @@ foreach ($packages as $pkg) {
         }
     }
     
-    // Classmap
+    // Classmap (Only for non-PSR-4 items)
     if (isset($autoloadConfig['classmap'])) {
         foreach ($autoloadConfig['classmap'] as $dir) {
             $path = $installPath . '/' . $dir;
@@ -109,7 +110,6 @@ foreach ($packages as $pkg) {
                 $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS));
                 foreach ($iterator as $file) {
                     if ($file->getExtension() === 'php') {
-                        // Very basic class extraction
                         $content = file_get_contents($file->getPathname());
                         if (preg_match('/(?:class|interface|trait|enum)\s+(\w+)/', $content, $m)) {
                             $ns = '';
@@ -138,25 +138,7 @@ foreach ($packages as $pkg) {
         }
     }
 }
-
-// Rebuild classmap from PSR-4 as well for performance
-foreach ($psr4 as $ns => $dirs_arr) {
-    foreach ($dirs_arr as $d) {
-        if (is_dir($d)) {
-            $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($d, RecursiveDirectoryIterator::SKIP_DOTS));
-            foreach ($iterator as $file) {
-                if ($file->getExtension() === 'php') {
-                    $content = file_get_contents($file->getPathname());
-                    if (preg_match('/(?:class|interface|trait|enum)\s+(\w+)/', $content, $m)) {
-                        $pns = '';
-                        if (preg_match('/namespace\s+([^;]+);/', $content, $pnsM)) $pns = trim($pnsM[1]) . '\\';
-                        $classmap[$pns . $m[1]] = $file->getPathname();
-                    }
-                }
-            }
-        }
-    }
-}
+ob_flush(); flush();
 
 // Write files
 $vendorNorm = str_replace('\\', '/', $vendorDir);
@@ -224,6 +206,7 @@ $staticContent .= "    public static function getInitializer(ClassLoader \$loade
 file_put_contents(__DIR__ . '/../vendor/composer/autoload_static.php', $staticContent);
 
 echo "OK: Autoloader rebuilt with detected hash.\n";
+ob_flush(); flush();
 
 // 6. Bootstrap Laravel
 echo "\n--- Step 6: Bootstrap Laravel ---\n";
