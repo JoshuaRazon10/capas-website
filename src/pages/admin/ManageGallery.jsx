@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Container, Row, Col, Card, Button, Modal, Form, Alert, Spinner, Badge } from 'react-bootstrap'
+import { Container, Row, Col, Button, Modal, Form, Spinner, Badge } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { FaPlus, FaTrash, FaImage, FaTimes } from 'react-icons/fa'
 import API_BASE_URL from '../../apiConfig'
+import AdminToast from '../../components/AdminToast'
 
 const ManageGallery = () => {
   const navigate = useNavigate()
@@ -103,68 +104,71 @@ const ManageGallery = () => {
 
   return (
     <>
-      <div className="flex-grow-1" style={{ background: 'var(--gray-100)', minHeight: '100vh' }}>
-        <div className="bg-white px-4 py-3 d-flex justify-content-between align-items-center" style={{ boxShadow: 'var(--shadow-sm)' }}>
-          <div>
-            <h5 className="fw-bold mb-0">Manage Gallery</h5>
-            <small className="text-muted">{galleryList.length} total photos</small>
-          </div>
-          <Button onClick={openAddModal} className="btn-primary-red d-flex align-items-center gap-2" size="sm">
-            <FaPlus size={12} /> Add Photo
-          </Button>
+      {/* Top Bar */}
+      <div className="admin-topbar d-flex justify-content-between align-items-center">
+        <div>
+          <h5>Photo Gallery</h5>
+          <small>{galleryList.length} total photos</small>
         </div>
-
-        <Container fluid className="p-4">
-          {success && <Alert variant="success">✅ {success}</Alert>}
-          {error && <Alert variant="danger">❌ {error}</Alert>}
-
-          {loading ? (
-            <div className="text-center py-5 w-100">
-              <Spinner animation="border" variant="danger" />
-            </div>
-          ) : (
-            <Row className="g-4">
-              {galleryList.map((photo) => (
-                <Col key={photo.id} md={4} xl={3}>
-                  <Card className="modern-card border-0 h-100 shadow-sm overflow-hidden rounded-4">
-                    <div style={{ height: '200px', overflow: 'hidden', position: 'relative' }}>
-                      <img src={getImageUrl(photo.image_path)} alt={photo.title} className="w-100 h-100 object-fit-cover" />
-                      <div className="position-absolute top-0 end-0 m-2">
-                        <Button variant="danger" size="sm" className="rounded-circle shadow" onClick={() => handleDelete(photo.id)}>
-                          <FaTrash size={12} />
-                        </Button>
-                      </div>
-                    </div>
-                    <Card.Body className="p-3">
-                      <div className="fw-bold small mb-1">{photo.title}</div>
-                      <Badge bg="light" text="dark" className="border text-uppercase" style={{ fontSize: '0.65rem' }}>{photo.category}</Badge>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              ))}
-            </Row>
-          )}
-
-          {!loading && galleryList.length === 0 && (
-            <div className="text-center py-5 text-muted">
-              <p>No photos in the gallery yet.</p>
-            </div>
-          )}
-        </Container>
+        <button onClick={openAddModal} className="admin-btn-primary">
+          <FaPlus size={12} /> Add Photo
+        </button>
       </div>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-        <Modal.Header closeButton className="border-0">
-          <Modal.Title className="fw-bold">Add Photo</Modal.Title>
+      <Container fluid className="p-4">
+        <AdminToast message={success} type="success" onClose={() => setSuccess('')} />
+        <AdminToast message={error} type="error" onClose={() => setError('')} />
+
+        {loading ? (
+          <div className="text-center py-5 w-100">
+            <Spinner animation="border" style={{ color: '#3b82f6' }} />
+          </div>
+        ) : galleryList.length > 0 ? (
+          <Row className="g-3">
+            {galleryList.map((photo) => (
+              <Col key={photo.id} md={4} xl={3}>
+                <div className="admin-photo-card h-100">
+                  <div className="photo-wrapper" style={{ height: '200px' }}>
+                    <img src={getImageUrl(photo.image_path)} alt={photo.title} className="w-100 h-100" style={{ objectFit: 'cover' }} />
+                    <div className="photo-actions">
+                      <button className="admin-btn-action delete" style={{ background: 'white', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }} onClick={() => handleDelete(photo.id)}>
+                        <FaTrash size={12} />
+                      </button>
+                    </div>
+                  </div>
+                  <div className="p-3">
+                    <div style={{ fontWeight: 600, fontSize: '0.85rem', color: '#0f172a', marginBottom: '4px' }}>{photo.title}</div>
+                    <span className="admin-badge" style={{ background: 'rgba(100,116,139,0.08)', color: '#64748b', textTransform: 'uppercase' }}>
+                      {photo.category}
+                    </span>
+                  </div>
+                </div>
+              </Col>
+            ))}
+          </Row>
+        ) : (
+          <div className="admin-card">
+            <div className="admin-empty-state">
+              <div className="icon-wrapper"><FaImage /></div>
+              <p>No photos in the gallery yet. Add your first photo!</p>
+            </div>
+          </div>
+        )}
+      </Container>
+
+      {/* Modal */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered className="admin-modal">
+        <Modal.Header closeButton>
+          <Modal.Title>Add Photo</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3">
-              <Form.Label className="small fw-bold">CAPTION *</Form.Label>
-              <Form.Control type="text" value={caption} onChange={e => setCaption(e.target.value)} />
+              <Form.Label>Caption *</Form.Label>
+              <Form.Control type="text" value={caption} onChange={e => setCaption(e.target.value)} placeholder="Enter a descriptive caption" />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label className="small fw-bold">CATEGORY</Form.Label>
+              <Form.Label>Category</Form.Label>
               <Form.Select value={category} onChange={e => setCategory(e.target.value)}>
                 <option value="general">General</option>
                 <option value="landmarks">Landmarks</option>
@@ -176,16 +180,16 @@ const ManageGallery = () => {
               </Form.Select>
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label className="small fw-bold">IMAGE *</Form.Label>
+              <Form.Label>Image *</Form.Label>
               <Form.Control type="file" accept="image/*" onChange={e => setImageFile(e.target.files[0])} />
             </Form.Group>
           </Form>
         </Modal.Body>
-        <Modal.Footer className="border-0">
-          <Button variant="light" onClick={() => setShowModal(false)} disabled={submitting}>Cancel</Button>
-          <Button className="btn-primary-red" onClick={handleSave} disabled={submitting}>
+        <Modal.Footer>
+          <button className="admin-btn-action" style={{ width: 'auto', padding: '0.5rem 1.25rem', fontSize: '0.82rem', fontWeight: 600 }} onClick={() => setShowModal(false)} disabled={submitting}>Cancel</button>
+          <button className="admin-btn-primary" onClick={handleSave} disabled={submitting}>
             {submitting ? 'Uploading...' : 'Upload'}
-          </Button>
+          </button>
         </Modal.Footer>
       </Modal>
     </>

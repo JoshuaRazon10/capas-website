@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Container, Row, Col, Card, Button, Modal, Form, Alert, Spinner, Badge } from 'react-bootstrap'
+import { Container, Row, Col, Button, Modal, Form, Spinner, Badge } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
-import { FaPlus, FaEdit, FaTrash, FaBullhorn, FaTimes, FaExternalLinkAlt } from 'react-icons/fa'
+import { FaPlus, FaEdit, FaTrash, FaBullhorn, FaExternalLinkAlt, FaCalendarAlt } from 'react-icons/fa'
 import API_BASE_URL from '../../apiConfig'
+import AdminToast from '../../components/AdminToast'
 
 const ManageAnnouncements = () => {
   const navigate = useNavigate()
@@ -135,96 +136,98 @@ const ManageAnnouncements = () => {
 
   return (
     <>
-      <div className="flex-grow-1" style={{ background: 'var(--gray-100)', minHeight: '100vh' }}>
-        <div className="bg-white px-4 py-3 d-flex justify-content-between align-items-center" style={{ boxShadow: 'var(--shadow-sm)' }}>
-          <div>
-            <h5 className="fw-bold mb-0">Manage Official Announcements</h5>
-            <small className="text-muted">{announcementList.length} total announcements</small>
-          </div>
-          <Button onClick={openAddModal} className="btn-primary-red d-flex align-items-center gap-2" size="sm">
-            <FaPlus size={12} /> New Announcement
-          </Button>
+      {/* Top Bar */}
+      <div className="admin-topbar d-flex justify-content-between align-items-center">
+        <div>
+          <h5>Official Announcements</h5>
+          <small>{announcementList.length} total announcements</small>
         </div>
-
-        <Container fluid className="p-4">
-          {success && <Alert variant="success" className="py-2">✅ {success}</Alert>}
-          {error && <Alert variant="danger" className="py-2">❌ {error}</Alert>}
-
-          <Card className="modern-card border-0 shadow-sm overflow-hidden rounded-4">
-            <Card.Body className="p-0">
-              {loading ? (
-                <div className="text-center py-5">
-                  <Spinner animation="border" variant="danger" />
-                  <p className="mt-2 text-muted">Loading announcements...</p>
-                </div>
-              ) : (
-                <div className="table-responsive">
-                  <table className="table table-hover mb-0">
-                    <thead className="bg-light">
-                      <tr>
-                        <th className="ps-4 py-3">Thumbnail</th>
-                        <th className="py-3">Title / Announcement</th>
-                        <th className="py-3">Date</th>
-                        <th className="py-3">Link</th>
-                        <th className="py-3 pe-4 text-end">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {announcementList.map((item) => (
-                        <tr key={item.id} className="align-middle">
-                          <td className="ps-4 py-3">
-                            <div style={{ width: '50px', height: '50px', borderRadius: '8px', overflow: 'hidden', background: '#eee' }}>
-                              {item.image_path ? (
-                                <img src={getImageUrl(item.image_path)} alt="" className="w-100 h-100 object-fit-cover" />
-                              ) : (
-                                <div className="w-100 h-100 d-flex align-items-center justify-content-center text-muted">
-                                  <FaBullhorn size={16} />
-                                </div>
-                              )}
-                            </div>
-                          </td>
-                          <td className="py-3">
-                            <div className="fw-bold text-dark" style={{ maxWidth: '400px' }}>{item.title}</div>
-                          </td>
-                          <td className="py-3">
-                            <small className="text-muted fw-bold">
-                              {new Date(item.date_published).toLocaleDateString('en-US', { 
-                                month: 'long', day: 'numeric', year: 'numeric' 
-                              })}
-                            </small>
-                          </td>
-                          <td className="py-3 text-truncate" style={{ maxWidth: '150px' }}>
-                            <small className="text-primary">{item.external_link ? <a href={item.external_link} target="_blank" rel="noreferrer">Facebook Link</a> : 'No link'}</small>
-                          </td>
-                          <td className="py-3 pe-4 text-end">
-                            <Button variant="link" className="text-primary p-2" onClick={() => openEditModal(item)}><FaEdit /></Button>
-                            <Button variant="link" className="text-danger p-2" onClick={() => handleDelete(item.id)}><FaTrash /></Button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-              {!loading && announcementList.length === 0 && (
-                <div className="text-center py-5 text-muted">
-                  <FaBullhorn size={40} className="opacity-25 mb-3" />
-                  <p>No official announcements yet. Click "New Announcement" to start.</p>
-                </div>
-              )}
-            </Card.Body>
-          </Card>
-        </Container>
+        <button onClick={openAddModal} className="admin-btn-primary">
+          <FaPlus size={12} /> New Announcement
+        </button>
       </div>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-        <Modal.Header closeButton className="border-0 pb-0">
-          <Modal.Title className="fw-bold">{editMode ? 'Edit Announcement' : 'New Announcement'}</Modal.Title>
+      <Container fluid className="p-4">
+        <AdminToast message={success} type="success" onClose={() => setSuccess('')} />
+        <AdminToast message={error} type="error" onClose={() => setError('')} />
+
+        <div className="admin-card">
+          {loading ? (
+            <div className="text-center py-5">
+              <Spinner animation="border" style={{ color: '#3b82f6' }} />
+              <p className="mt-2" style={{ color: '#94a3b8', fontSize: '0.85rem' }}>Loading announcements...</p>
+            </div>
+          ) : announcementList.length > 0 ? (
+            <div className="table-responsive">
+              <table className="admin-table table mb-0">
+                <thead>
+                  <tr>
+                    <th style={{ paddingLeft: '1.5rem' }}>Thumbnail</th>
+                    <th>Announcement</th>
+                    <th>Date</th>
+                    <th>Link</th>
+                    <th style={{ textAlign: 'right', paddingRight: '1.5rem' }}>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {announcementList.map((item) => (
+                    <tr key={item.id}>
+                      <td style={{ paddingLeft: '1.5rem' }}>
+                        <div style={{ width: '48px', height: '48px', borderRadius: '10px', overflow: 'hidden', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          {item.image_path ? (
+                            <img src={getImageUrl(item.image_path)} alt="" className="w-100 h-100" style={{ objectFit: 'cover' }} />
+                          ) : (
+                            <FaBullhorn size={16} style={{ color: '#cbd5e1' }} />
+                          )}
+                        </div>
+                      </td>
+                      <td>
+                        <div style={{ fontWeight: 600, color: '#0f172a', fontSize: '0.85rem', maxWidth: '350px' }}>{item.title}</div>
+                      </td>
+                      <td>
+                        <div className="d-flex align-items-center gap-2" style={{ color: '#64748b', fontSize: '0.8rem' }}>
+                          <FaCalendarAlt size={11} style={{ opacity: 0.5 }} />
+                          {item.date_published ? new Date(item.date_published).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : '—'}
+                        </div>
+                      </td>
+                      <td>
+                        {item.external_link ? (
+                          <a href={item.external_link} target="_blank" rel="noreferrer" style={{ color: '#3b82f6', fontSize: '0.78rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            <FaExternalLinkAlt size={10} /> Facebook
+                          </a>
+                        ) : (
+                          <span style={{ color: '#cbd5e1', fontSize: '0.78rem' }}>No link</span>
+                        )}
+                      </td>
+                      <td style={{ textAlign: 'right', paddingRight: '1.5rem' }}>
+                        <div className="d-flex gap-2 justify-content-end">
+                          <button className="admin-btn-action edit" onClick={() => openEditModal(item)}><FaEdit size={13} /></button>
+                          <button className="admin-btn-action delete" onClick={() => handleDelete(item.id)}><FaTrash size={13} /></button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="admin-empty-state">
+              <div className="icon-wrapper"><FaBullhorn /></div>
+              <p>No official announcements yet. Click "New Announcement" to start.</p>
+            </div>
+          )}
+        </div>
+      </Container>
+
+      {/* Modal */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered className="admin-modal">
+        <Modal.Header closeButton>
+          <Modal.Title>{editMode ? 'Edit Announcement' : 'New Announcement'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3">
-              <Form.Label className="small fw-bold">ANNOUNCEMENT TEXT / TITLE *</Form.Label>
+              <Form.Label>Announcement Text / Title *</Form.Label>
               <Form.Control 
                 as="textarea"
                 rows={3}
@@ -234,7 +237,7 @@ const ManageAnnouncements = () => {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label className="small fw-bold">PUBLISH DATE *</Form.Label>
+              <Form.Label>Publish Date *</Form.Label>
               <Form.Control 
                 type="date" 
                 value={datePublished} 
@@ -242,7 +245,7 @@ const ManageAnnouncements = () => {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label className="small fw-bold">FACEBOOK POST LINK (OPTIONAL)</Form.Label>
+              <Form.Label>Facebook Post Link (Optional)</Form.Label>
               <Form.Control 
                 type="text" 
                 value={externalLink} 
@@ -251,21 +254,21 @@ const ManageAnnouncements = () => {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label className="small fw-bold">THUMBNAIL IMAGE (OPTIONAL)</Form.Label>
+              <Form.Label>Thumbnail Image (Optional)</Form.Label>
               <Form.Control 
                 type="file" 
                 accept="image/*" 
                 onChange={e => setImageFile(e.target.files[0])}
               />
-              {editMode && !imageFile && <small className="text-muted d-block">Leave empty to keep existing image</small>}
+              {editMode && !imageFile && <small style={{ color: '#94a3b8', display: 'block', marginTop: '4px' }}>Leave empty to keep existing image</small>}
             </Form.Group>
           </Form>
         </Modal.Body>
-        <Modal.Footer className="border-0 pt-0">
-          <Button variant="light" onClick={() => setShowModal(false)} disabled={submitting}>Cancel</Button>
-          <Button className="btn-primary-red" onClick={handleSave} disabled={submitting}>
+        <Modal.Footer>
+          <button className="admin-btn-action" style={{ width: 'auto', padding: '0.5rem 1.25rem', fontSize: '0.82rem', fontWeight: 600 }} onClick={() => setShowModal(false)} disabled={submitting}>Cancel</button>
+          <button className="admin-btn-primary" onClick={handleSave} disabled={submitting}>
             {submitting ? 'Saving...' : editMode ? 'Update' : 'Publish'}
-          </Button>
+          </button>
         </Modal.Footer>
       </Modal>
     </>

@@ -53,7 +53,7 @@ const Home = () => {
     const path = item.image_path;
     if (typeof path !== 'string') return path;
     if (path.startsWith('http') || path.startsWith('/') || path.startsWith('data:')) return path;
-    return `${API_BASE_URL.replace('/api', '/storage')}/${path}`;
+    return `${API_BASE_URL.replace('/api', '')}/${path}`;
   }
 
   useEffect(() => {

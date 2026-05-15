@@ -24,7 +24,7 @@ const Gallery = () => {
         if (response.ok) {
           const data = await response.json()
           const formattedData = data.map(item => ({
-            src: item.image_path.startsWith('http') ? item.image_path : `${API_BASE_URL.replace('/api', '/storage')}/${item.image_path}`,
+            src: item.image_path.startsWith('http') ? item.image_path : `${API_BASE_URL.replace('/api', '')}/${item.image_path}`,
             title: item.title,
             cat: item.category || 'general'
           }))

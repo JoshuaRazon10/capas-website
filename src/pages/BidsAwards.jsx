@@ -160,7 +160,7 @@ const BidsAwards = () => {
                       <td className="py-3 text-end">
                         {bid.file_path ? (
                           <a 
-                            href={bid.file_path.startsWith('http') ? bid.file_path : `${API_BASE_URL.replace('/api', '/storage')}/${bid.file_path}`} 
+                            href={bid.file_path.startsWith('http') ? bid.file_path : `${API_BASE_URL.replace('/api', '')}/${bid.file_path}`} 
                             target="_blank" 
                             rel="noopener noreferrer" 
                             className="btn btn-outline-danger btn-sm rounded-pill px-4 d-inline-flex align-items-center fw-bold shadow-sm"

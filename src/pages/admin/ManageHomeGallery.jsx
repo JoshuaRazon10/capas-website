@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Container, Row, Col, Card, Button, Modal, Form, Alert, Spinner, Badge } from 'react-bootstrap'
+import { Container, Row, Col, Button, Modal, Form, Spinner } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
-import { FaPlus, FaTrash, FaImage, FaTimes, FaHome, FaEdit } from 'react-icons/fa'
+import { FaPlus, FaTrash, FaImage, FaEdit, FaInfoCircle } from 'react-icons/fa'
 import API_BASE_URL from '../../apiConfig'
+import AdminToast from '../../components/AdminToast'
 
 const ManageHomeGallery = () => {
   const navigate = useNavigate()
@@ -132,100 +133,103 @@ const ManageHomeGallery = () => {
 
   return (
     <>
-      <div className="flex-grow-1" style={{ background: 'var(--gray-100)', minHeight: '100vh' }}>
-        <div className="bg-white px-4 py-3 d-flex justify-content-between align-items-center" style={{ boxShadow: 'var(--shadow-sm)' }}>
-          <div>
-            <h5 className="fw-bold mb-0">Manage Municipal Awards</h5>
-            <small className="text-muted">{visualsList.length} slider items</small>
-          </div>
-          <Button onClick={openAddModal} className="btn-primary-red d-flex align-items-center gap-2" size="sm">
-            <FaPlus size={12} /> Add New Visual
-          </Button>
+      {/* Top Bar */}
+      <div className="admin-topbar d-flex justify-content-between align-items-center">
+        <div>
+          <h5>Municipal Awards</h5>
+          <small>{visualsList.length} slider items</small>
         </div>
-
-        <Container fluid className="p-4">
-          <Alert variant="info" className="border-0 shadow-sm rounded-4 mb-4">
-            <div className="d-flex align-items-center gap-3">
-              <FaHome size={24} className="text-primary-red" />
-              <div>
-                <div className="fw-bold">Homepage Slider Management</div>
-                <div className="small">The images uploaded here will appear in the <strong>"Municipal Gallery"</strong> section of the main homepage. Recommended size: 1920x1080px.</div>
-              </div>
-            </div>
-          </Alert>
-
-          {success && <Alert variant="success">✅ {success}</Alert>}
-          {error && <Alert variant="danger">❌ {error}</Alert>}
-
-          {loading ? (
-            <div className="text-center py-5 w-100">
-              <Spinner animation="border" variant="danger" />
-            </div>
-          ) : (
-            <Row className="g-4">
-              {visualsList.map((photo) => (
-                <Col key={photo.id} md={6} xl={4}>
-                  <Card className="modern-card border-0 h-100 shadow-sm overflow-hidden rounded-4">
-                    <div style={{ height: '250px', overflow: 'hidden', position: 'relative', background: '#000' }}>
-                      <img src={getImageUrl(photo.image_path)} alt={photo.title} className="w-100 h-100 object-fit-contain" />
-                      <div className="position-absolute top-0 end-0 m-2 d-flex gap-2">
-                        <Button variant="light" size="sm" className="rounded-circle shadow" onClick={() => openEditModal(photo)}>
-                          <FaEdit size={12} />
-                        </Button>
-                        <Button variant="danger" size="sm" className="rounded-circle shadow" onClick={() => handleDelete(photo.id)}>
-                          <FaTrash size={12} />
-                        </Button>
-                      </div>
-                    </div>
-                    <Card.Body className="p-3">
-                      <div className="fw-bold mb-1">{photo.title}</div>
-                      <Badge bg="primary" className="text-uppercase" style={{ fontSize: '0.65rem' }}>GALLERY ITEM</Badge>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              ))}
-            </Row>
-          )}
-
-          {!loading && visualsList.length === 0 && (
-            <div className="text-center py-5 text-muted bg-white rounded-4 shadow-sm">
-              <FaImage size={48} className="mb-3 opacity-25" />
-              <p>No visuals uploaded yet. Add your first homepage slider image!</p>
-            </div>
-          )}
-        </Container>
+        <button onClick={openAddModal} className="admin-btn-primary">
+          <FaPlus size={12} /> Add New Visual
+        </button>
       </div>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+      <Container fluid className="p-4">
+        {/* Info Banner */}
+        <div className="admin-card mb-4" style={{ borderLeft: '4px solid #800000' }}>
+          <div className="d-flex align-items-center gap-3 p-3">
+            <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(128,0,0,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <FaInfoCircle style={{ color: '#800000' }} />
+            </div>
+            <div>
+              <div style={{ fontWeight: 700, fontSize: '0.85rem', color: '#0f172a' }}>Homepage Slider Management</div>
+              <div style={{ fontSize: '0.78rem', color: '#64748b' }}>The images uploaded here will appear in the <strong>"Municipal Gallery"</strong> section of the main homepage. Recommended size: 1920×1080px.</div>
+            </div>
+          </div>
+        </div>
+
+        <AdminToast message={success} type="success" onClose={() => setSuccess('')} />
+        <AdminToast message={error} type="error" onClose={() => setError('')} />
+
+        {loading ? (
+          <div className="text-center py-5 w-100">
+            <Spinner animation="border" style={{ color: '#3b82f6' }} />
+          </div>
+        ) : visualsList.length > 0 ? (
+          <Row className="g-3">
+            {visualsList.map((photo) => (
+              <Col key={photo.id} md={6} xl={4}>
+                <div className="admin-photo-card h-100">
+                  <div className="photo-wrapper" style={{ height: '250px', background: '#0f172a' }}>
+                    <img src={getImageUrl(photo.image_path)} alt={photo.title} className="w-100 h-100" style={{ objectFit: 'contain' }} />
+                    <div className="photo-actions">
+                      <button className="admin-btn-action edit" style={{ background: 'white', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }} onClick={() => openEditModal(photo)}>
+                        <FaEdit size={12} />
+                      </button>
+                      <button className="admin-btn-action delete" style={{ background: 'white', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }} onClick={() => handleDelete(photo.id)}>
+                        <FaTrash size={12} />
+                      </button>
+                    </div>
+                  </div>
+                  <div className="p-3">
+                    <div style={{ fontWeight: 600, fontSize: '0.9rem', color: '#0f172a', marginBottom: '4px' }}>{photo.title}</div>
+                    <span className="admin-badge" style={{ background: 'rgba(128,0,0,0.08)', color: '#800000', textTransform: 'uppercase' }}>Gallery Item</span>
+                  </div>
+                </div>
+              </Col>
+            ))}
+          </Row>
+        ) : (
+          <div className="admin-card">
+            <div className="admin-empty-state">
+              <div className="icon-wrapper"><FaImage /></div>
+              <p>No visuals uploaded yet. Add your first homepage slider image!</p>
+            </div>
+          </div>
+        )}
+      </Container>
+
+      {/* Modal */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered className="admin-modal">
         <Form onSubmit={(e) => { e.preventDefault(); handleSave(); }}>
-          <Modal.Header closeButton className="border-0">
-            <Modal.Title className="fw-bold">{editingVisual ? 'Edit Visual Caption' : 'Add Homepage Visual'}</Modal.Title>
+          <Modal.Header closeButton>
+            <Modal.Title>{editingVisual ? 'Edit Visual Caption' : 'Add Homepage Visual'}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-              <Form.Group className="mb-3">
-                <Form.Label className="small fw-bold">VISUAL TITLE / CAPTION *</Form.Label>
-                <Form.Control 
-                  type="text" 
-                  placeholder="e.g. New Clark City Stadium"
-                  value={title} 
-                  onChange={e => setTitle(e.target.value)} 
-                  autoFocus
-                />
-                <Form.Text className="text-muted">This text will appear as the caption on the homepage slider.</Form.Text>
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label className="small fw-bold">IMAGE {editingVisual ? '(Leave blank to keep current)' : '*'}</Form.Label>
-                <Form.Control type="file" accept="image/*" onChange={e => setImageFile(e.target.files[0])} />
-                {editingVisual && (
-                    <div className="mt-2 small text-muted">Current: {editingVisual.image_path.split('/').pop()}</div>
-                )}
-              </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Visual Title / Caption *</Form.Label>
+              <Form.Control 
+                type="text" 
+                placeholder="e.g. New Clark City Stadium"
+                value={title} 
+                onChange={e => setTitle(e.target.value)} 
+                autoFocus
+              />
+              <Form.Text style={{ color: '#94a3b8', fontSize: '0.72rem' }}>This text will appear as the caption on the homepage slider.</Form.Text>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Image {editingVisual ? '(Leave blank to keep current)' : '*'}</Form.Label>
+              <Form.Control type="file" accept="image/*" onChange={e => setImageFile(e.target.files[0])} />
+              {editingVisual && (
+                <div className="mt-2" style={{ fontSize: '0.72rem', color: '#94a3b8' }}>Current: {editingVisual.image_path.split('/').pop()}</div>
+              )}
+            </Form.Group>
           </Modal.Body>
-          <Modal.Footer className="border-0">
-            <Button variant="light" onClick={() => setShowModal(false)} disabled={submitting}>Cancel</Button>
-            <Button className="btn-primary-red" type="submit" disabled={submitting}>
+          <Modal.Footer>
+            <button type="button" className="admin-btn-action" style={{ width: 'auto', padding: '0.5rem 1.25rem', fontSize: '0.82rem', fontWeight: 600 }} onClick={() => setShowModal(false)} disabled={submitting}>Cancel</button>
+            <button className="admin-btn-primary" type="submit" disabled={submitting}>
               {submitting ? 'Saving...' : (editingVisual ? 'Update Visual' : 'Add to Slider')}
-            </Button>
+            </button>
           </Modal.Footer>
         </Form>
       </Modal>

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Container, Row, Col, Card, Button, Modal, Form, Alert, Spinner, Badge } from 'react-bootstrap'
+import { Container, Row, Col, Button, Modal, Form, Alert, Spinner, Badge } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { FaEdit, FaMapMarkerAlt, FaUserTie, FaSearch } from 'react-icons/fa'
 import API_BASE_URL from '../../apiConfig'
+import AdminToast from '../../components/AdminToast'
 
 const ManageBarangays = () => {
   const navigate = useNavigate()
@@ -109,77 +110,81 @@ const ManageBarangays = () => {
   )
 
   return (
-    <div className="flex-grow-1" style={{ background: 'var(--gray-100)', minHeight: '100vh' }}>
-      <div className="bg-white px-4 py-3 d-flex justify-content-between align-items-center shadow-sm">
+    <div className="admin-content">
+      {/* Top Bar */}
+      <div className="admin-topbar d-flex justify-content-between align-items-center">
         <div>
-          <h5 className="fw-bold mb-0">Manage Barangay Officials</h5>
-          <small className="text-muted">{barangays.length} barangays registered</small>
+          <h5>Barangay Officials</h5>
+          <small>{barangays.length} barangays registered</small>
         </div>
-        <div className="position-relative" style={{ width: '300px' }}>
-          <Form.Control 
+        <div className="admin-search-wrapper" style={{ width: '280px' }}>
+          <FaSearch className="search-icon" size={13} />
+          <input 
             type="text" 
             placeholder="Search barangay or captain..." 
-            size="sm"
-            className="rounded-pill px-3"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <FaSearch className="position-absolute end-0 top-50 translate-middle-y me-3 text-muted" size={12} />
         </div>
       </div>
 
       <Container fluid className="p-4">
-        {success && <Alert variant="success" className="border-0 shadow-sm">✅ {success}</Alert>}
-        {error && <Alert variant="danger" className="border-0 shadow-sm">❌ {error}</Alert>}
+        <AdminToast message={success} type="success" onClose={() => setSuccess('')} />
+        <AdminToast message={error} type="error" onClose={() => setError('')} />
 
         {loading ? (
           <div className="text-center py-5">
-            <Spinner animation="border" variant="danger" />
+            <Spinner animation="border" style={{ color: '#3b82f6' }} />
           </div>
         ) : (
-          <Row className="g-4">
+          <Row className="g-3">
             {filteredBarangays.map((brgy) => (
               <Col key={brgy.id} lg={3} md={4} sm={6}>
-                <Card className="modern-card border-0 h-100 shadow-sm overflow-hidden rounded-4">
-                  <div style={{ height: '200px', overflow: 'hidden', position: 'relative', background: '#f8f9fa' }}>
+                <div className="admin-photo-card h-100">
+                  <div className="photo-wrapper" style={{ height: '200px', background: '#f1f5f9' }}>
                     {brgy.image_path ? (
-                      <img src={getImageUrl(brgy.image_path)} alt={brgy.captain} className="w-100 h-100 object-fit-cover" />
+                      <img src={getImageUrl(brgy.image_path)} alt={brgy.captain} className="w-100 h-100" style={{ objectFit: 'cover' }} />
                     ) : (
-                      <div className="w-100 h-100 d-flex flex-column align-items-center justify-content-center text-muted opacity-50">
-                        <FaUserTie size={48} />
-                        <span className="small mt-2">No Photo</span>
+                      <div className="w-100 h-100 d-flex flex-column align-items-center justify-content-center" style={{ color: '#cbd5e1' }}>
+                        <FaUserTie size={40} />
+                        <span style={{ fontSize: '0.72rem', marginTop: '8px' }}>No Photo</span>
                       </div>
                     )}
-                    <div className="position-absolute top-0 end-0 m-2">
-                      <Button variant="white" size="sm" className="rounded-circle shadow-sm" onClick={() => openEditModal(brgy)}>
-                        <FaEdit size={12} className="text-primary" />
-                      </Button>
+                    <div className="photo-actions">
+                      <button className="admin-btn-action edit" style={{ background: 'white', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }} onClick={() => openEditModal(brgy)}>
+                        <FaEdit size={12} />
+                      </button>
                     </div>
                   </div>
-                  <Card.Body className="p-3 text-center">
-                    <Badge bg="danger" className="mb-2 text-uppercase" style={{ fontSize: '0.6rem' }}>Barangay {brgy.name}</Badge>
-                    <div className="fw-bold text-dark">{brgy.captain}</div>
-                    <small className="text-muted d-block mt-1" style={{ fontSize: '0.75rem' }}>PUNONG BARANGAY</small>
-                  </Card.Body>
-                </Card>
+                  <div className="p-3 text-center">
+                    <span className="admin-badge mb-2" style={{ background: 'rgba(239,68,68,0.08)', color: '#dc2626', textTransform: 'uppercase', fontSize: '0.6rem' }}>
+                      Barangay {brgy.name}
+                    </span>
+                    <div style={{ fontWeight: 700, color: '#0f172a', fontSize: '0.9rem', marginTop: '4px' }}>{brgy.captain}</div>
+                    <div style={{ fontSize: '0.68rem', color: '#94a3b8', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase', marginTop: '2px' }}>Punong Barangay</div>
+                  </div>
+                </div>
               </Col>
             ))}
           </Row>
         )}
       </Container>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+      {/* Modal */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered className="admin-modal">
         <Form onSubmit={handleSave}>
-          <Modal.Header closeButton className="border-0">
-            <Modal.Title className="fw-bold">Edit Barangay Official</Modal.Title>
+          <Modal.Header closeButton>
+            <Modal.Title>Edit Barangay Official</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <div className="text-center mb-4">
-              <Badge bg="light" className="text-dark border px-3 py-2">Barangay {editingOfficial?.name}</Badge>
+              <span className="admin-badge" style={{ background: 'rgba(100,116,139,0.08)', color: '#475569', padding: '6px 16px', fontSize: '0.78rem' }}>
+                Barangay {editingOfficial?.name}
+              </span>
             </div>
             
             <Form.Group className="mb-3">
-              <Form.Label className="small fw-bold text-uppercase">Punong Barangay Name *</Form.Label>
+              <Form.Label>Punong Barangay Name *</Form.Label>
               <Form.Control 
                 type="text" 
                 value={captain} 
@@ -189,7 +194,7 @@ const ManageBarangays = () => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label className="small fw-bold text-uppercase">Description</Form.Label>
+              <Form.Label>Description</Form.Label>
               <Form.Control 
                 as="textarea" 
                 rows={2}
@@ -199,34 +204,33 @@ const ManageBarangays = () => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label className="small fw-bold text-uppercase">Official Photo</Form.Label>
+              <Form.Label>Official Photo</Form.Label>
               {editingOfficial?.image_path && !removeImage && (
-                <div className="mb-2 position-relative" style={{ width: '100px', height: '100px' }}>
-                  <img src={getImageUrl(editingOfficial.image_path)} className="w-100 h-100 rounded object-fit-cover border" alt="current" />
-                  <Button 
-                    variant="danger" 
-                    size="sm" 
-                    className="position-absolute top-0 end-0 m-1 p-0 rounded-circle" 
-                    style={{ width: '20px', height: '20px' }}
+                <div className="mb-2 position-relative" style={{ width: '80px', height: '80px' }}>
+                  <img src={getImageUrl(editingOfficial.image_path)} className="w-100 h-100" style={{ borderRadius: '12px', objectFit: 'cover', border: '1px solid rgba(0,0,0,0.06)' }} alt="current" />
+                  <button 
+                    type="button"
+                    className="position-absolute border-0 d-flex align-items-center justify-content-center" 
+                    style={{ top: '-6px', right: '-6px', width: '20px', height: '20px', borderRadius: '50%', background: '#ef4444', color: 'white', fontSize: '0.65rem', cursor: 'pointer' }}
                     onClick={() => setRemoveImage(true)}
                   >
                     ×
-                  </Button>
+                  </button>
                 </div>
               )}
-              {removeImage && <Alert variant="warning" className="py-1 px-2 small mb-2">Image will be removed upon saving</Alert>}
+              {removeImage && <div className="admin-alert error mb-2" style={{ padding: '0.5rem 0.75rem', fontSize: '0.78rem' }}>Image will be removed upon saving</div>}
               <Form.Control type="file" accept="image/*" onChange={e => {
                 setImageFile(e.target.files[0])
                 setRemoveImage(false)
               }} />
-              <Form.Text className="text-muted">Recommended: Square aspect ratio (e.g. 500x500px)</Form.Text>
+              <Form.Text style={{ color: '#94a3b8', fontSize: '0.72rem' }}>Recommended: Square aspect ratio (e.g. 500x500px)</Form.Text>
             </Form.Group>
           </Modal.Body>
-          <Modal.Footer className="border-0">
-            <Button variant="light" onClick={() => setShowModal(false)} disabled={submitting}>Cancel</Button>
-            <Button className="btn-primary-red" type="submit" disabled={submitting}>
+          <Modal.Footer>
+            <button type="button" className="admin-btn-action" style={{ width: 'auto', padding: '0.5rem 1.25rem', fontSize: '0.82rem', fontWeight: 600 }} onClick={() => setShowModal(false)} disabled={submitting}>Cancel</button>
+            <button className="admin-btn-primary" type="submit" disabled={submitting}>
               {submitting ? 'Saving...' : 'Update Official'}
-            </Button>
+            </button>
           </Modal.Footer>
         </Form>
       </Modal>

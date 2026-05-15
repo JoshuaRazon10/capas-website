@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Container, Row, Col, Card, Button, Modal, Form, Alert, Spinner, Badge } from 'react-bootstrap'
+import { Container, Row, Col, Button, Modal, Form, Spinner, Badge } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
-import { FaPlus, FaTrash, FaFolderOpen, FaFilePdf, FaFileWord, FaDownload, FaSearch, FaNewspaper, FaExternalLinkAlt } from 'react-icons/fa'
+import { FaPlus, FaTrash, FaFolderOpen, FaFilePdf, FaFileWord, FaSearch, FaNewspaper, FaExternalLinkAlt, FaArrowLeft, FaShieldAlt, FaGavel, FaFileAlt, FaHandHoldingHeart, FaChartBar, FaBalanceScale, FaFileSignature, FaCalendarCheck } from 'react-icons/fa'
 import API_BASE_URL from '../../apiConfig'
+import AdminToast from '../../components/AdminToast'
 
 const ManageFiles = () => {
   const navigate = useNavigate()
@@ -23,18 +24,18 @@ const ManageFiles = () => {
   const [submitting, setSubmitting] = useState(false)
 
   const categories = [
-    { name: 'Transparency Seal', icon: <FaFolderOpen />, color: '#14183d', types: ['Transparency Seal', 'Full Disclosure'] },
-    { name: 'Bids & Awards', icon: <FaFolderOpen />, color: '#dc3545', types: ['Bids & Awards'] },
-    { name: 'Citizen\'s Charter', icon: <FaFolderOpen />, color: '#198754', types: ['Citizen\'s Charter'] },
-    { name: 'Downloadable Forms', icon: <FaFolderOpen />, color: '#0dcaf0', types: ['Downloadable Forms'] },
-    { name: 'Ordinances', icon: <FaFolderOpen />, color: '#6610f2', types: ['Ordinances'] },
-    { name: 'Resolutions', icon: <FaFolderOpen />, color: '#6f42c1', types: ['Resolutions'] },
-    { name: 'Executive Orders', icon: <FaFolderOpen />, color: '#d63384', types: ['Executive Orders'] },
-    { name: 'Municipal Articles', icon: <FaNewspaper />, color: '#ffc107', types: ['Municipal Articles'] },
-    { name: 'Municipal Events', icon: <FaFolderOpen />, color: '#17a2b8', types: ['Municipal Events'] },
-    { name: 'GAD', icon: <FaFolderOpen />, color: '#fd7e14', types: ['GAD'] },
-    { name: 'Bayanihan Grant', icon: <FaFolderOpen />, color: '#20c997', types: ['Bayanihan Grant'] },
-    { name: 'Fund Utilization', icon: <FaFolderOpen />, color: '#0d6efd', types: ['Fund Utilization'] },
+    { name: 'Transparency Seal', icon: <FaShieldAlt />, color: '#6366f1', bg: 'rgba(99,102,241,0.08)', types: ['Transparency Seal', 'Full Disclosure'] },
+    { name: 'Bids & Awards', icon: <FaGavel />, color: '#ef4444', bg: 'rgba(239,68,68,0.08)', types: ['Bids & Awards'] },
+    { name: 'Citizen\'s Charter', icon: <FaFileAlt />, color: '#10b981', bg: 'rgba(16,185,129,0.08)', types: ['Citizen\'s Charter'] },
+    { name: 'Downloadable Forms', icon: <FaFileSignature />, color: '#06b6d4', bg: 'rgba(6,182,212,0.08)', types: ['Downloadable Forms'] },
+    { name: 'Ordinances', icon: <FaBalanceScale />, color: '#8b5cf6', bg: 'rgba(139,92,246,0.08)', types: ['Ordinances'] },
+    { name: 'Resolutions', icon: <FaFileAlt />, color: '#a855f7', bg: 'rgba(168,85,247,0.08)', types: ['Resolutions'] },
+    { name: 'Executive Orders', icon: <FaGavel />, color: '#ec4899', bg: 'rgba(236,72,153,0.08)', types: ['Executive Orders'] },
+    { name: 'Municipal Articles', icon: <FaNewspaper />, color: '#f59e0b', bg: 'rgba(245,158,11,0.08)', types: ['Municipal Articles'] },
+    { name: 'Municipal Events', icon: <FaCalendarCheck />, color: '#14b8a6', bg: 'rgba(20,184,166,0.08)', types: ['Municipal Events'] },
+    { name: 'GAD', icon: <FaHandHoldingHeart />, color: '#f97316', bg: 'rgba(249,115,22,0.08)', types: ['GAD'] },
+    { name: 'Bayanihan Grant', icon: <FaHandHoldingHeart />, color: '#22c55e', bg: 'rgba(34,197,94,0.08)', types: ['Bayanihan Grant'] },
+    { name: 'Fund Utilization', icon: <FaChartBar />, color: '#3b82f6', bg: 'rgba(59,130,246,0.08)', types: ['Fund Utilization'] },
   ]
 
   const availableYears = []
@@ -141,9 +142,9 @@ const ManageFiles = () => {
 
   const getFileIcon = (ext) => {
     const e = ext ? ext.toLowerCase() : ''
-    if (e === 'pdf') return <FaFilePdf size={20} className="text-danger" />
-    if (['doc', 'docx'].includes(e)) return <FaFileWord size={20} style={{ color: 'var(--blue-logo)' }} />
-    return <FaFolderOpen size={20} className="text-secondary" />
+    if (e === 'pdf') return <FaFilePdf size={18} style={{ color: '#ef4444' }} />
+    if (['doc', 'docx'].includes(e)) return <FaFileWord size={18} style={{ color: '#3b82f6' }} />
+    return <FaFolderOpen size={18} style={{ color: '#94a3b8' }} />
   }
 
   const filteredFiles = fileList.filter(f => {
@@ -159,32 +160,28 @@ const ManageFiles = () => {
     return matchesSearch && matchesCat
   })
 
-  // Show Category Selection Screen
+  // Category Selection Screen
   if (!selectedCategory) {
     return (
-      <div className="admin-files-page p-4 bg-light min-vh-100">
-        <div className="mb-5 text-center">
-          <h2 className="fw-bold mb-2">Document Management</h2>
-          <p className="text-muted">Select a category to manage its files.</p>
+      <div className="admin-content">
+        <div className="admin-topbar">
+          <h5>Document Management</h5>
+          <small>Select a category to manage its files</small>
         </div>
         
-        <Container>
-          <Row className="g-4">
+        <Container fluid className="p-4">
+          <Row className="g-3">
             {categories.map((cat, idx) => (
-              <Col key={idx} md={4} lg={3}>
-                <Card 
-                  className="border-0 shadow-sm rounded-4 h-100 text-center p-4 hover-lift cursor-pointer transition-all"
-                  onClick={() => setSelectedCategory(cat.name)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  <div className="icon-wrapper mb-3 p-3 rounded-circle bg-light d-inline-block mx-auto" style={{ color: cat.color }}>
+              <Col key={idx} md={4} lg={3} xl={2}>
+                <div className="admin-file-category" onClick={() => setSelectedCategory(cat.name)}>
+                  <div className="cat-icon" style={{ background: cat.bg, color: cat.color }}>
                     {cat.icon}
                   </div>
-                  <h6 className="fw-bold mb-0">{cat.name}</h6>
-                  <small className="text-muted">
+                  <h6>{cat.name}</h6>
+                  <span className="count">
                     {fileList.filter(f => cat.types.includes(f.type)).length} Files
-                  </small>
-                </Card>
+                  </span>
+                </div>
               </Col>
             ))}
           </Row>
@@ -193,119 +190,134 @@ const ManageFiles = () => {
     )
   }
 
-  // Show Category-Specific View
+  // Category Detail View
+  const currentCat = categories.find(c => c.name === selectedCategory)
+
   return (
     <>
-      <div className="flex-grow-1" style={{ background: 'var(--gray-100)', minHeight: '100vh' }}>
-        <div className="bg-white px-4 py-3 d-flex justify-content-between align-items-center border-bottom shadow-sm">
+      <div className="admin-content">
+        {/* Top Bar */}
+        <div className="admin-topbar d-flex justify-content-between align-items-center">
           <div className="d-flex align-items-center gap-3">
-            <Button variant="light" className="rounded-circle" onClick={() => setSelectedCategory(null)}>
-              ←
-            </Button>
+            <button className="admin-btn-action" onClick={() => setSelectedCategory(null)} style={{ flexShrink: 0 }}>
+              <FaArrowLeft size={12} />
+            </button>
             <div>
-              <h5 className="fw-bold mb-0">{selectedCategory}</h5>
-              <small className="text-muted">Managing {filteredFiles.length} files in this category</small>
+              <h5 className="d-flex align-items-center gap-2">
+                <span style={{ color: currentCat?.color }}>{currentCat?.icon}</span>
+                {selectedCategory}
+              </h5>
+              <small>{filteredFiles.length} files in this category</small>
             </div>
           </div>
-          <Button onClick={() => setShowModal(true)} className="btn-primary-red d-flex align-items-center gap-2" size="sm">
-            <FaPlus size={12} /> Upload New File
-          </Button>
+          <button onClick={() => setShowModal(true)} className="admin-btn-primary">
+            <FaPlus size={12} /> Upload File
+          </button>
         </div>
 
         <Container fluid className="p-4">
-          {success && <Alert variant="success" className="rounded-4">✅ {success}</Alert>}
-          {error && <Alert variant="danger" className="rounded-4">❌ {error}</Alert>}
+          <AdminToast message={success} type="success" onClose={() => setSuccess('')} />
+          <AdminToast message={error} type="error" onClose={() => setError('')} />
 
-          <Card className="modern-card border-0 mb-4 shadow-sm rounded-4">
-            <Card.Body className="p-3">
-              <div className="position-relative">
-                <FaSearch size={14} style={{ position: 'absolute', left: '15px', top: '50%', transform: 'translateY(-50%)', color: 'var(--gray-400)' }} />
-                <Form.Control 
-                  placeholder={`Search in ${selectedCategory}...`} 
-                  className="ps-5 border-0 bg-light rounded-pill"
-                  value={searchTerm}
-                  onChange={e => setSearchTerm(e.target.value)}
-                />
-              </div>
-            </Card.Body>
-          </Card>
+          {/* Search */}
+          <div className="admin-search-wrapper mb-4" style={{ maxWidth: '400px' }}>
+            <FaSearch className="search-icon" size={13} />
+            <input 
+              placeholder={`Search in ${selectedCategory}...`} 
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+            />
+          </div>
 
-          <Card className="modern-card border-0 shadow-sm rounded-4 overflow-hidden">
+          {/* Table */}
+          <div className="admin-card">
             <div className="table-responsive">
-              <table className="table table-hover mb-0">
-                <thead className="bg-light">
+              <table className="admin-table table mb-0">
+                <thead>
                   <tr>
-                    <th className="py-3 ps-4 border-0 small fw-bold text-muted">DOCUMENT TITLE</th>
+                    <th style={{ paddingLeft: '1.5rem' }}>Document Title</th>
                     {['Transparency Seal', 'Bayanihan Grant', 'Fund Utilization', 'Downloadable Forms'].includes(selectedCategory) && (
-                      <th className="py-3 border-0 small fw-bold text-muted">YEAR/SUB</th>
+                      <th>Year / Sub</th>
                     )}
                     {(selectedCategory === 'Municipal Articles' || selectedCategory === 'Municipal Events') && (
-                      <th className="py-3 border-0 small fw-bold text-muted">DATE/LINK</th>
+                      <th>Date / Link</th>
                     )}
-                    <th className="py-3 border-0 small fw-bold text-muted text-end pe-4">ACTIONS</th>
+                    <th style={{ textAlign: 'right', paddingRight: '1.5rem' }}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {loading ? (
-                    <tr><td colSpan="5" className="text-center py-5"><Spinner animation="border" variant="danger" /></td></tr>
+                    <tr><td colSpan="5" className="text-center py-5"><Spinner animation="border" style={{ color: '#3b82f6' }} /></td></tr>
                   ) : filteredFiles.length > 0 ? (
                     filteredFiles.map(f => (
-                      <tr key={f.id} className="align-middle">
-                        <td className="py-3 ps-4">
+                      <tr key={f.id}>
+                        <td style={{ paddingLeft: '1.5rem' }}>
                           <div className="d-flex align-items-center gap-3">
-                            {(selectedCategory === 'Municipal Articles' || selectedCategory === 'Municipal Events') ? <FaNewspaper size={20} style={{ color: '#ffc107' }} /> : getFileIcon(f.file_extension)}
+                            <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: currentCat?.bg || '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                              {(selectedCategory === 'Municipal Articles' || selectedCategory === 'Municipal Events') ? <FaNewspaper size={16} style={{ color: currentCat?.color }} /> : getFileIcon(f.file_extension)}
+                            </div>
                             <div>
-                              <div className="fw-bold">{f.title}</div>
-                              <small className="text-muted">{(selectedCategory === 'Municipal Articles' || selectedCategory === 'Municipal Events') ? (f.external_link ? 'External Link Post' : 'Image Only') : f.file_name}</small>
+                              <div style={{ fontWeight: 600, color: '#0f172a', fontSize: '0.85rem' }}>{f.title}</div>
+                              <div style={{ fontSize: '0.72rem', color: '#94a3b8' }}>
+                                {(selectedCategory === 'Municipal Articles' || selectedCategory === 'Municipal Events') ? (f.external_link ? 'External Link Post' : 'Image Only') : f.file_name}
+                              </div>
                             </div>
                           </div>
                         </td>
                         {['Transparency Seal', 'Bayanihan Grant', 'Fund Utilization', 'Downloadable Forms'].includes(selectedCategory) && (
                           <td>
-                            <small className="text-muted">{f.year}</small>
-                            {f.description && <div className="small text-primary">{f.description}</div>}
+                            <div style={{ fontSize: '0.82rem', color: '#64748b' }}>{f.year}</div>
+                            {f.description && <div style={{ fontSize: '0.72rem', color: '#3b82f6' }}>{f.description}</div>}
                           </td>
                         )}
                         {(selectedCategory === 'Municipal Articles' || selectedCategory === 'Municipal Events') && (
                           <td>
-                            <small className="text-muted">{f.date_published}</small>
+                            <div style={{ fontSize: '0.82rem', color: '#64748b' }}>{f.date_published}</div>
                             {f.external_link && (
-                              <div className="small">
-                                <a href={f.external_link} target="_blank" rel="noreferrer" className="text-decoration-none d-flex align-items-center gap-1">
-                                  <FaExternalLinkAlt size={10} /> View Story
-                                </a>
-                              </div>
+                              <a href={f.external_link} target="_blank" rel="noreferrer" style={{ fontSize: '0.72rem', textDecoration: 'none', color: '#3b82f6', display: 'flex', alignItems: 'center', gap: '3px', marginTop: '2px' }}>
+                                <FaExternalLinkAlt size={9} /> View Story
+                              </a>
                             )}
                           </td>
                         )}
-                        <td className="text-end pe-4">
-                          <Button variant="link" className="text-danger" onClick={() => handleDelete(f.id, (selectedCategory === 'Municipal Articles' || selectedCategory === 'Municipal Events'))}>
-                            <FaTrash size={14} />
-                          </Button>
+                        <td style={{ textAlign: 'right', paddingRight: '1.5rem' }}>
+                          <button className="admin-btn-action delete" onClick={() => handleDelete(f.id, (selectedCategory === 'Municipal Articles' || selectedCategory === 'Municipal Events'))}>
+                            <FaTrash size={13} />
+                          </button>
                         </td>
                       </tr>
                     ))
                   ) : (
-                    <tr><td colSpan="5" className="text-center py-5 text-muted">No files found in this category.</td></tr>
+                    <tr>
+                      <td colSpan="5">
+                        <div className="admin-empty-state">
+                          <div className="icon-wrapper" style={{ background: currentCat?.bg, color: currentCat?.color }}>{currentCat?.icon}</div>
+                          <p>No files found in this category.</p>
+                        </div>
+                      </td>
+                    </tr>
                   )}
                 </tbody>
               </table>
             </div>
-          </Card>
+          </div>
         </Container>
 
-        <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-          <Modal.Header closeButton className="border-0"><Modal.Title className="fw-bold">Upload to {selectedCategory}</Modal.Title></Modal.Header>
+        {/* Upload Modal */}
+        <Modal show={showModal} onHide={() => setShowModal(false)} centered className="admin-modal">
+          <Modal.Header closeButton>
+            <Modal.Title>Upload to {selectedCategory}</Modal.Title>
+          </Modal.Header>
           <Modal.Body>
             <Form>
               <Form.Group className="mb-3">
-                <Form.Label className="small fw-bold">DOCUMENT TITLE *</Form.Label>
+                <Form.Label>Document Title *</Form.Label>
                 <Form.Control type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder="e.g., Annual Budget Report" />
               </Form.Group>
               
               {selectedCategory === 'Transparency Seal' && (
                 <Form.Group className="mb-3">
-                  <Form.Label className="small fw-bold">TYPE *</Form.Label>
+                  <Form.Label>Type *</Form.Label>
                   <Form.Select value={type} onChange={e => setType(e.target.value)}>
                     <option value="">Select type...</option>
                     <option value="Transparency Seal">Transparency Seal</option>
@@ -317,7 +329,7 @@ const ManageFiles = () => {
               {['Transparency Seal', 'Bayanihan Grant', 'Fund Utilization', 'Downloadable Forms'].includes(selectedCategory) && (
                 <>
                   <Form.Group className="mb-3">
-                    <Form.Label className="small fw-bold">YEAR *</Form.Label>
+                    <Form.Label>Year *</Form.Label>
                     <Form.Select value={year} onChange={e => setYear(e.target.value)}>
                       {availableYears.sort((a, b) => b - a).map(y => (
                         <option key={y} value={y}>{y}</option>
@@ -326,7 +338,7 @@ const ManageFiles = () => {
                   </Form.Group>
                   
                   <Form.Group className="mb-3">
-                    <Form.Label className="small fw-bold">SUB-CATEGORY (OPTIONAL)</Form.Label>
+                    <Form.Label>Sub-Category (Optional)</Form.Label>
                     <div className="d-flex gap-2">
                       <Form.Control 
                         type="text" 
@@ -357,7 +369,7 @@ const ManageFiles = () => {
               {(selectedCategory === 'Municipal Articles' || selectedCategory === 'Municipal Events') ? (
                 <>
                   <Form.Group className="mb-3">
-                    <Form.Label className="small fw-bold">DATE PUBLISHED (e.g., Dec 25, 2023)</Form.Label>
+                    <Form.Label>Date Published (e.g., Dec 25, 2023)</Form.Label>
                     <Form.Control 
                       type="text" 
                       value={year} 
@@ -366,7 +378,7 @@ const ManageFiles = () => {
                     />
                   </Form.Group>
                   <Form.Group className="mb-3">
-                    <Form.Label className="small fw-bold">FACEBOOK/EXTERNAL STORY LINK</Form.Label>
+                    <Form.Label>Facebook / External Story Link</Form.Label>
                     <Form.Control 
                       type="text" 
                       value={description} 
@@ -375,49 +387,26 @@ const ManageFiles = () => {
                     />
                   </Form.Group>
                   <Form.Group className="mb-3">
-                    <Form.Label className="small fw-bold">FEATURE IMAGE (OPTIONAL)</Form.Label>
+                    <Form.Label>Feature Image (Optional)</Form.Label>
                     <Form.Control type="file" accept="image/*" onChange={e => setFile(e.target.files[0])} />
                   </Form.Group>
                 </>
               ) : (
                 <Form.Group className="mb-3">
-                  <Form.Label className="small fw-bold">FILE (PDF, DOC, DOCX) *</Form.Label>
+                  <Form.Label>File (PDF, DOC, DOCX) *</Form.Label>
                   <Form.Control type="file" accept=".pdf,.doc,.docx" onChange={e => setFile(e.target.files[0])} />
                 </Form.Group>
               )}
             </Form>
           </Modal.Body>
-          <Modal.Footer className="border-0">
-            <Button variant="light" onClick={() => setShowModal(false)} disabled={submitting}>Cancel</Button>
-            <Button className="btn-primary-red" onClick={handleSave} disabled={submitting}>
+          <Modal.Footer>
+            <button className="admin-btn-action" style={{ width: 'auto', padding: '0.5rem 1.25rem', fontSize: '0.82rem', fontWeight: 600 }} onClick={() => setShowModal(false)} disabled={submitting}>Cancel</button>
+            <button className="admin-btn-primary" onClick={handleSave} disabled={submitting}>
               {submitting ? 'Uploading...' : 'Upload'}
-            </Button>
+            </button>
           </Modal.Footer>
         </Modal>
       </div>
-      <style>{`
-        .hover-lift {
-          transition: all 0.3s ease;
-        }
-        .hover-lift:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
-        }
-        .cursor-pointer {
-          cursor: pointer;
-        }
-        .icon-wrapper {
-          width: 64px;
-          height: 64px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 24px;
-        }
-        .transition-all {
-          transition: all 0.3s ease;
-        }
-      `}</style>
     </>
   )
 }

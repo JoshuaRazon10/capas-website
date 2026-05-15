@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Container, Row, Col, Card, Button, Modal, Form, Alert, Spinner, Badge } from 'react-bootstrap'
+import { Container, Row, Col, Button, Modal, Form, Spinner, Badge } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
-import { FaPlus, FaEdit, FaTrash, FaNewspaper, FaTimes, FaExternalLinkAlt } from 'react-icons/fa'
+import { FaPlus, FaEdit, FaTrash, FaNewspaper, FaExternalLinkAlt } from 'react-icons/fa'
 import API_BASE_URL from '../../apiConfig'
+import AdminToast from '../../components/AdminToast'
 
 const ManageNews = () => {
   const navigate = useNavigate()
@@ -138,101 +139,108 @@ const ManageNews = () => {
 
   return (
     <>
-      <div className="flex-grow-1" style={{ background: 'var(--gray-100)', minHeight: '100vh' }}>
-        <div className="bg-white px-4 py-3 d-flex justify-content-between align-items-center" style={{ boxShadow: 'var(--shadow-sm)' }}>
-          <div>
-            <h5 className="fw-bold mb-0">Manage News & Articles</h5>
-            <small className="text-muted">{newsList.length} total entries</small>
-          </div>
-          <Button onClick={openAddModal} className="btn-primary-red d-flex align-items-center gap-2" size="sm">
-            <FaPlus size={12} /> Add New Post
-          </Button>
+      {/* Top Bar */}
+      <div className="admin-topbar d-flex justify-content-between align-items-center">
+        <div>
+          <h5>News & Articles</h5>
+          <small>{newsList.length} total entries</small>
         </div>
-
-        <Container fluid className="p-4">
-          {success && <Alert variant="success" className="py-2">✅ {success}</Alert>}
-          {error && <Alert variant="danger" className="py-2">❌ {error}</Alert>}
-
-          <Card className="modern-card border-0 shadow-sm overflow-hidden rounded-4">
-            <Card.Body className="p-0">
-              {loading ? (
-                <div className="text-center py-5">
-                  <Spinner animation="border" variant="danger" />
-                  <p className="mt-2 text-muted">Loading announcements...</p>
-                </div>
-              ) : (
-                <div className="table-responsive">
-                  <table className="table table-hover mb-0">
-                    <thead className="bg-light">
-                      <tr>
-                        <th className="ps-4 py-3">Image</th>
-                        <th className="py-3">Type</th>
-                        <th className="py-3">Title / Caption</th>
-                        <th className="py-3">External Link</th>
-                        <th className="py-3 pe-4 text-end">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {newsList.map((item) => (
-                        <tr key={item.id} className="align-middle">
-                          <td className="ps-4 py-3">
-                            <div style={{ width: '60px', height: '45px', borderRadius: '8px', overflow: 'hidden', background: '#eee' }}>
-                              {item.image_path ? (
-                                <img src={getImageUrl(item.image_path)} alt="" className="w-100 h-100 object-fit-cover" />
-                              ) : (
-                                <div className="w-100 h-100 d-flex align-items-center justify-content-center text-muted">
-                                  <FaNewspaper size={18} />
-                                </div>
-                              )}
-                            </div>
-                          </td>
-                          <td className="py-3">
-                            <Badge bg={item.type === 'news' ? 'warning' : 'info'} className="text-dark">
-                              {item.type === 'news' ? 'NEWS' : 'ARTICLE'}
-                            </Badge>
-                          </td>
-                          <td className="py-3">
-                            <div className="fw-bold text-dark">{item.title}</div>
-                            <small className="text-muted">{item.date_published}</small>
-                          </td>
-                          <td className="py-3 text-truncate" style={{ maxWidth: '200px' }}>
-                            <small className="text-primary">{item.external_link || 'No link'}</small>
-                          </td>
-                          <td className="py-3 pe-4 text-end">
-                            <Button variant="link" className="text-primary p-2" onClick={() => openEditModal(item)}><FaEdit /></Button>
-                            <Button variant="link" className="text-danger p-2" onClick={() => handleDelete(item.id)}><FaTrash /></Button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-              {!loading && newsList.length === 0 && (
-                <div className="text-center py-5 text-muted">
-                  <p>No announcements found. Add one to show on the homepage.</p>
-                </div>
-              )}
-            </Card.Body>
-          </Card>
-        </Container>
+        <button onClick={openAddModal} className="admin-btn-primary">
+          <FaPlus size={12} /> Add New Post
+        </button>
       </div>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-        <Modal.Header closeButton className="border-0 pb-0">
-          <Modal.Title className="fw-bold">{editMode ? 'Edit Post' : 'New Post'}</Modal.Title>
+      <Container fluid className="p-4">
+        <AdminToast message={success} type="success" onClose={() => setSuccess('')} />
+        <AdminToast message={error} type="error" onClose={() => setError('')} />
+
+        <div className="admin-card">
+          {loading ? (
+            <div className="text-center py-5">
+              <Spinner animation="border" style={{ color: '#3b82f6' }} />
+              <p className="mt-2" style={{ color: '#94a3b8', fontSize: '0.85rem' }}>Loading articles...</p>
+            </div>
+          ) : newsList.length > 0 ? (
+            <div className="table-responsive">
+              <table className="admin-table table mb-0">
+                <thead>
+                  <tr>
+                    <th style={{ paddingLeft: '1.5rem' }}>Image</th>
+                    <th>Type</th>
+                    <th>Title / Caption</th>
+                    <th>Link</th>
+                    <th style={{ textAlign: 'right', paddingRight: '1.5rem' }}>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {newsList.map((item) => (
+                    <tr key={item.id}>
+                      <td style={{ paddingLeft: '1.5rem' }}>
+                        <div style={{ width: '56px', height: '42px', borderRadius: '10px', overflow: 'hidden', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          {item.image_path ? (
+                            <img src={getImageUrl(item.image_path)} alt="" className="w-100 h-100" style={{ objectFit: 'cover' }} />
+                          ) : (
+                            <FaNewspaper size={16} style={{ color: '#cbd5e1' }} />
+                          )}
+                        </div>
+                      </td>
+                      <td>
+                        <span className="admin-badge" style={{
+                          background: item.type === 'news' ? 'rgba(99,102,241,0.1)' : 'rgba(6,182,212,0.1)',
+                          color: item.type === 'news' ? '#6366f1' : '#0891b2'
+                        }}>
+                          {item.type === 'news' ? 'NEWS' : 'ARTICLE'}
+                        </span>
+                      </td>
+                      <td>
+                        <div style={{ fontWeight: 600, color: '#0f172a', fontSize: '0.85rem' }}>{item.title}</div>
+                        <div style={{ fontSize: '0.72rem', color: '#94a3b8', marginTop: '2px' }}>{item.date_published}</div>
+                      </td>
+                      <td>
+                        {item.external_link ? (
+                          <a href={item.external_link} target="_blank" rel="noreferrer" style={{ color: '#800000', fontSize: '0.78rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            <FaExternalLinkAlt size={10} /> View
+                          </a>
+                        ) : (
+                          <span style={{ color: '#cbd5e1', fontSize: '0.78rem' }}>No link</span>
+                        )}
+                      </td>
+                      <td style={{ textAlign: 'right', paddingRight: '1.5rem' }}>
+                        <div className="d-flex gap-2 justify-content-end">
+                          <button className="admin-btn-action edit" onClick={() => openEditModal(item)}><FaEdit size={13} /></button>
+                          <button className="admin-btn-action delete" onClick={() => handleDelete(item.id)}><FaTrash size={13} /></button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="admin-empty-state">
+              <div className="icon-wrapper"><FaNewspaper /></div>
+              <p>No articles found. Add your first post to get started.</p>
+            </div>
+          )}
+        </div>
+      </Container>
+
+      {/* Modal */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered className="admin-modal">
+        <Modal.Header closeButton>
+          <Modal.Title>{editMode ? 'Edit Post' : 'New Post'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3">
-              <Form.Label className="small fw-bold">CATEGORY *</Form.Label>
+              <Form.Label>Category *</Form.Label>
               <Form.Select value={type} onChange={e => setType(e.target.value)}>
                 <option value="news">News Article</option>
                 <option value="event">Municipal Article</option>
               </Form.Select>
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label className="small fw-bold">CAPTION / TITLE *</Form.Label>
+              <Form.Label>Caption / Title *</Form.Label>
               <Form.Control 
                 type="text" 
                 value={title} 
@@ -241,7 +249,7 @@ const ManageNews = () => {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label className="small fw-bold">DATE PUBLISHED</Form.Label>
+              <Form.Label>Date Published</Form.Label>
               <Form.Control 
                 type="date" 
                 value={datePublished} 
@@ -249,7 +257,7 @@ const ManageNews = () => {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label className="small fw-bold">FACEBOOK LINK (OPTIONAL)</Form.Label>
+              <Form.Label>Facebook Link (Optional)</Form.Label>
               <Form.Control 
                 type="text" 
                 value={externalLink} 
@@ -258,21 +266,21 @@ const ManageNews = () => {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label className="small fw-bold">UPLOAD IMAGE (OPTIONAL)</Form.Label>
+              <Form.Label>Upload Image (Optional)</Form.Label>
               <Form.Control 
                 type="file" 
                 accept="image/*" 
                 onChange={e => setImageFile(e.target.files[0])}
               />
-              {editMode && !imageFile && <small className="text-muted d-block">Leave empty to keep existing image</small>}
+              {editMode && !imageFile && <small style={{ color: '#94a3b8', display: 'block', marginTop: '4px' }}>Leave empty to keep existing image</small>}
             </Form.Group>
           </Form>
         </Modal.Body>
-        <Modal.Footer className="border-0 pt-0">
-          <Button variant="light" onClick={() => setShowModal(false)} disabled={submitting}>Cancel</Button>
-          <Button className="btn-primary-red" onClick={handleSave} disabled={submitting}>
+        <Modal.Footer>
+          <button className="admin-btn-action" style={{ width: 'auto', padding: '0.5rem 1.25rem', fontSize: '0.82rem', fontWeight: 600 }} onClick={() => setShowModal(false)} disabled={submitting}>Cancel</button>
+          <button className="admin-btn-primary" onClick={handleSave} disabled={submitting}>
             {submitting ? 'Saving...' : editMode ? 'Update' : 'Publish'}
-          </Button>
+          </button>
         </Modal.Footer>
       </Modal>
     </>
