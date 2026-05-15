@@ -5,28 +5,20 @@
  */
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-set_time_limit(120);
+set_time_limit(300);
 
 echo "<h2>Capas Website Backend Setup</h2><pre>\n";
-ob_flush(); flush();
 
-// 1. Storage access - use .htaccess redirect (symlink disabled on Hostinger)
+// 1. Storage access
 echo "--- Step 1: Storage Access ---\n";
 $linkPath = __DIR__ . '/storage';
-if (!is_dir($linkPath)) {
-    mkdir($linkPath, 0755, true);
-}
+if (!is_dir($linkPath)) { mkdir($linkPath, 0755, true); }
 file_put_contents($linkPath . '/.htaccess', 
-    "<IfModule mod_rewrite.c>\n" .
-    "  RewriteEngine On\n" .
-    "  RewriteBase /backend/public/storage/\n" .
-    "  RewriteRule ^(.*)$ /backend/storage/app/public/\$1 [L]\n" .
-    "</IfModule>\n"
+    "<IfModule mod_rewrite.c>\n  RewriteEngine On\n  RewriteBase /backend/public/storage/\n  RewriteRule ^(.*)\$ /backend/storage/app/public/\$1 [L]\n</IfModule>\n"
 );
 echo "OK: Storage redirect created.\n";
-ob_flush(); flush();
 
-// 2. Ensure storage directories exist
+// 2. Storage directories
 echo "\n--- Step 2: Storage Directories ---\n";
 $dirs = [
     __DIR__ . '/../storage/framework/cache/data',
@@ -36,67 +28,202 @@ $dirs = [
     __DIR__ . '/../storage/app/public',
     __DIR__ . '/../bootstrap/cache',
 ];
-
 foreach ($dirs as $dir) {
-    if (!is_dir($dir)) {
-        if (mkdir($dir, 0755, true)) {
-            echo "CREATED: " . str_replace(__DIR__ . '/../', '', $dir) . "\n";
-        } else {
-            echo "FAILED: " . str_replace(__DIR__ . '/../', '', $dir) . "\n";
-        }
-    } else {
-        echo "OK: " . str_replace(__DIR__ . '/../', '', $dir) . "\n";
-    }
+    if (!is_dir($dir)) { mkdir($dir, 0755, true); echo "CREATED: " . basename($dir) . "\n"; }
+    else { echo "OK: " . basename($dir) . "\n"; }
 }
-ob_flush(); flush();
 
 // 3. Check .env
 echo "\n--- Step 3: Check .env ---\n";
 $envPath = __DIR__ . '/../.env';
 if (file_exists($envPath)) {
-    echo "OK: .env file found.\n";
-    $envContent = file_get_contents($envPath);
-    if (preg_match('/DB_DATABASE=(.*)/', $envContent, $m)) echo "   DB_DATABASE=" . trim($m[1]) . "\n";
-    if (preg_match('/DB_USERNAME=(.*)/', $envContent, $m)) echo "   DB_USERNAME=" . trim($m[1]) . "\n";
-    if (preg_match('/DB_HOST=(.*)/', $envContent, $m)) echo "   DB_HOST=" . trim($m[1]) . "\n";
+    echo "OK: .env found.\n";
+    $env = file_get_contents($envPath);
+    if (preg_match('/DB_DATABASE=(.*)/', $env, $m)) echo "   DB=" . trim($m[1]) . "\n";
 } else {
-    echo "ERROR: .env file NOT FOUND!\n";
-    echo "   Create it at: public_html/backend/.env\n";
-    echo "</pre>";
-    exit;
+    echo "ERROR: .env NOT FOUND!\n</pre>"; exit;
 }
-ob_flush(); flush();
 
 // 4. Check vendor
 echo "\n--- Step 4: Check Vendor ---\n";
 $autoload = __DIR__ . '/../vendor/autoload.php';
-if (file_exists($autoload)) {
-    echo "OK: vendor/autoload.php found.\n";
-} else {
-    echo "ERROR: vendor NOT FOUND.\n";
-    echo "</pre>";
-    exit;
-}
-// 4.5 Regenerate autoloader on server
-echo "\n--- Step 4b: Regenerate Autoloader ---\n";
-$composerPhar = __DIR__ . '/../../composer.phar';
-if (file_exists($composerPhar)) {
-    $output = shell_exec("cd " . escapeshellarg(__DIR__ . '/..') . " && php " . escapeshellarg($composerPhar) . " dump-autoload --optimize 2>&1");
-    echo $output . "\n";
-    echo "OK: Autoloader regenerated.\n";
-} else {
-    // Try system composer
-    $output = shell_exec("cd " . escapeshellarg(__DIR__ . '/..') . " && composer dump-autoload --optimize 2>&1");
-    if ($output) {
-        echo $output . "\n";
-    } else {
-        echo "WARNING: composer not found. Autoloader may be stale.\n";
+if (!file_exists($autoload)) { echo "ERROR: vendor NOT FOUND.\n</pre>"; exit; }
+echo "OK: vendor found.\n";
+
+// 5. Rebuild autoloader from installed.json (pure PHP, no shell needed)
+echo "\n--- Step 5: Rebuild Autoloader ---\n";
+$installedFile = __DIR__ . '/../vendor/composer/installed.json';
+if (!file_exists($installedFile)) { echo "ERROR: installed.json not found.\n</pre>"; exit; }
+
+$installed = json_decode(file_get_contents($installedFile), true);
+$packages = isset($installed['packages']) ? $installed['packages'] : $installed;
+
+$vendorDir = realpath(__DIR__ . '/../vendor');
+$baseDir = realpath(__DIR__ . '/..');
+
+$psr4 = [];
+$classmap_dirs = [];
+
+// Add app autoload
+$psr4['App\\'] = [$baseDir . '/app'];
+$psr4['Database\\Factories\\'] = [$baseDir . '/database/factories'];
+$psr4['Database\\Seeders\\'] = [$baseDir . '/database/seeders'];
+$psr4['Tests\\'] = [$baseDir . '/tests'];
+
+foreach ($packages as $pkg) {
+    $name = $pkg['name'] ?? '';
+    $autoloadConfig = $pkg['autoload'] ?? [];
+    $installPath = $vendorDir . '/' . $name;
+    
+    if (!is_dir($installPath)) continue;
+    
+    // PSR-4
+    if (isset($autoloadConfig['psr-4'])) {
+        foreach ($autoloadConfig['psr-4'] as $ns => $paths) {
+            if (!is_array($paths)) $paths = [$paths];
+            foreach ($paths as $p) {
+                $fullPath = $installPath . '/' . $p;
+                if (!isset($psr4[$ns])) $psr4[$ns] = [];
+                $psr4[$ns][] = rtrim($fullPath, '/');
+            }
+        }
+    }
+    
+    // Classmap
+    if (isset($autoloadConfig['classmap'])) {
+        foreach ($autoloadConfig['classmap'] as $dir) {
+            $classmap_dirs[] = $installPath . '/' . $dir;
+        }
     }
 }
-ob_flush(); flush();
 
-// 5. Bootstrap Laravel
-echo "\n--- Step 5: Bootstrap Laravel ---\n";
+// Write autoload_psr4.php
+$psr4Content = "<?php\n\n// autoload_psr4.php @generated by setup.php\n\n\$vendorDir = dirname(__DIR__);\n\$baseDir = dirname(\$vendorDir);\n\nreturn array(\n";
+foreach ($psr4 as $ns => $dirs_arr) {
+    $escaped_ns = addslashes($ns);
+    $paths = [];
+    foreach ($dirs_arr as $d) {
+        // Make path relative
+        $rel = str_replace(str_replace('\\', '/', $vendorDir), '$vendorDir . \'', str_replace('\\', '/', $d));
+        $rel = str_replace(str_replace('\\', '/', $baseDir), '$baseDir . \'', $rel);
+        if (strpos($rel, '$') === 0) {
+            $paths[] = $rel . "'";
+        } else {
+            $rel2 = str_replace('\\', '/', $d);
+            // Try to make relative to vendor
+            $vendorNorm = str_replace('\\', '/', $vendorDir);
+            $baseNorm = str_replace('\\', '/', $baseDir);
+            if (strpos($rel2, $vendorNorm) === 0) {
+                $paths[] = "\$vendorDir . '" . substr($rel2, strlen($vendorNorm)) . "'";
+            } elseif (strpos($rel2, $baseNorm) === 0) {
+                $paths[] = "\$baseDir . '" . substr($rel2, strlen($baseNorm)) . "'";
+            } else {
+                $paths[] = "'" . addslashes($d) . "'";
+            }
+        }
+    }
+    $pathStr = 'array(' . implode(', ', $paths) . ')';
+    $psr4Content .= "    '{$escaped_ns}' => {$pathStr},\n";
+}
+$psr4Content .= ");\n";
+file_put_contents(__DIR__ . '/../vendor/composer/autoload_psr4.php', $psr4Content);
+echo "OK: autoload_psr4.php rebuilt with " . count($psr4) . " namespaces.\n";
+
+// Build classmap
+echo "Building classmap...\n";
+$classmap = [];
+foreach ($psr4 as $ns => $dirs_arr) {
+    foreach ($dirs_arr as $d) {
+        if (is_dir($d)) {
+            $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($d, RecursiveDirectoryIterator::SKIP_DOTS));
+            foreach ($iterator as $file) {
+                if ($file->getExtension() === 'php') {
+                    $content = file_get_contents($file->getPathname());
+                    // Extract class/interface/trait/enum names
+                    if (preg_match_all('/^(?:abstract\s+|final\s+)?(?:class|interface|trait|enum)\s+(\w+)/m', $content, $matches)) {
+                        if (preg_match('/namespace\s+([^;]+);/', $content, $nsMatch)) {
+                            foreach ($matches[1] as $className) {
+                                $fqcn = $nsMatch[1] . '\\' . $className;
+                                $classmap[$fqcn] = $file->getPathname();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Write autoload_classmap.php
+$classmapContent = "<?php\n\n// autoload_classmap.php @generated by setup.php\n\n\$vendorDir = dirname(__DIR__);\n\$baseDir = dirname(\$vendorDir);\n\nreturn array(\n";
+$vendorNorm = str_replace('\\', '/', $vendorDir);
+$baseNorm = str_replace('\\', '/', $baseDir);
+foreach ($classmap as $class => $filePath) {
+    $fileNorm = str_replace('\\', '/', $filePath);
+    if (strpos($fileNorm, $vendorNorm) === 0) {
+        $ref = "\$vendorDir . '" . substr($fileNorm, strlen($vendorNorm)) . "'";
+    } elseif (strpos($fileNorm, $baseNorm) === 0) {
+        $ref = "\$baseDir . '" . substr($fileNorm, strlen($baseNorm)) . "'";
+    } else {
+        $ref = "'" . addslashes($filePath) . "'";
+    }
+    $classmapContent .= "    '" . addslashes($class) . "' => {$ref},\n";
+}
+$classmapContent .= ");\n";
+file_put_contents(__DIR__ . '/../vendor/composer/autoload_classmap.php', $classmapContent);
+echo "OK: autoload_classmap.php rebuilt with " . count($classmap) . " classes.\n";
+
+// Write autoload_static.php
+$staticContent = "<?php\n\n// autoload_static.php @generated by setup.php\n\nnamespace Composer\\Autoload;\n\nclass ComposerStaticInit\n{\n    public static \$prefixLengthsPsr4 = array(\n";
+$prefixLengths = [];
+foreach ($psr4 as $ns => $dirs_arr) {
+    $first = $ns[0];
+    if (!isset($prefixLengths[$first])) $prefixLengths[$first] = [];
+    $prefixLengths[$first][$ns] = strlen($ns);
+}
+ksort($prefixLengths);
+foreach ($prefixLengths as $letter => $entries) {
+    $staticContent .= "        '{$letter}' => array(\n";
+    foreach ($entries as $ns => $len) {
+        $staticContent .= "            '" . addslashes($ns) . "' => {$len},\n";
+    }
+    $staticContent .= "        ),\n";
+}
+$staticContent .= "    );\n\n    public static \$prefixDirsPsr4 = array(\n";
+foreach ($psr4 as $ns => $dirs_arr) {
+    $paths = [];
+    foreach ($dirs_arr as $d) {
+        $dn = str_replace('\\', '/', $d);
+        if (strpos($dn, $vendorNorm) === 0) {
+            $paths[] = "__DIR__ . '/../.." . substr($dn, strlen($vendorNorm)) . "'";
+        } elseif (strpos($dn, $baseNorm) === 0) {
+            $paths[] = "__DIR__ . '/../../.." . substr($dn, strlen($baseNorm)) . "'";
+        }
+    }
+    $staticContent .= "        '" . addslashes($ns) . "' => array(\n";
+    foreach ($paths as $p) {
+        $staticContent .= "            0 => {$p},\n";
+    }
+    $staticContent .= "        ),\n";
+}
+$staticContent .= "    );\n\n    public static \$classMap = array(\n";
+foreach ($classmap as $class => $filePath) {
+    $fn = str_replace('\\', '/', $filePath);
+    if (strpos($fn, $vendorNorm) === 0) {
+        $ref = "__DIR__ . '/../.." . substr($fn, strlen($vendorNorm)) . "'";
+    } elseif (strpos($fn, $baseNorm) === 0) {
+        $ref = "__DIR__ . '/../../.." . substr($fn, strlen($baseNorm)) . "'";
+    } else {
+        $ref = "'" . addslashes($filePath) . "'";
+    }
+    $staticContent .= "        '" . addslashes($class) . "' => {$ref},\n";
+}
+$staticContent .= "    );\n\n    public static function getInitializer(ClassLoader \$loader)\n    {\n        return \\Closure::bind(function () use (\$loader) {\n            \$loader->prefixLengthsPsr4 = ComposerStaticInit::\$prefixLengthsPsr4;\n            \$loader->prefixDirsPsr4 = ComposerStaticInit::\$prefixDirsPsr4;\n            \$loader->classMap = ComposerStaticInit::\$classMap;\n        }, null, ClassLoader::class);\n    }\n}\n";
+file_put_contents(__DIR__ . '/../vendor/composer/autoload_static.php', $staticContent);
+echo "OK: autoload_static.php rebuilt.\n";
+
+// 6. Bootstrap Laravel
+echo "\n--- Step 6: Bootstrap Laravel ---\n";
 try {
     require $autoload;
     $app = require_once __DIR__ . '/../bootstrap/app.php';
@@ -104,36 +231,25 @@ try {
     $kernel->bootstrap();
     echo "OK: Laravel started.\n";
 } catch (Exception $e) {
-    echo "ERROR: " . $e->getMessage() . "\n";
-    echo "</pre>";
-    exit;
+    echo "ERROR: " . $e->getMessage() . "\n</pre>"; exit;
 } catch (Error $e) {
-    echo "FATAL: " . $e->getMessage() . "\n";
-    echo "</pre>";
-    exit;
+    echo "FATAL: " . $e->getMessage() . "\n</pre>"; exit;
 }
-ob_flush(); flush();
 
-// 6. Test database
-echo "\n--- Step 6: Database Test ---\n";
+// 7. Test database
+echo "\n--- Step 7: Database Test ---\n";
 try {
     $pdo = \Illuminate\Support\Facades\DB::connection()->getPdo();
-    $dbName = \Illuminate\Support\Facades\DB::connection()->getDatabaseName();
-    echo "OK: Connected to '$dbName'\n";
-    
-    $docs = \Illuminate\Support\Facades\DB::table('documents')->count();
-    $articles = \Illuminate\Support\Facades\DB::table('articles')->count();
-    $gallery = \Illuminate\Support\Facades\DB::table('gallery_images')->count();
-    echo "   Documents: $docs\n";
-    echo "   Articles: $articles\n";
-    echo "   Gallery: $gallery\n";
+    echo "OK: Connected to '" . \Illuminate\Support\Facades\DB::connection()->getDatabaseName() . "'\n";
+    echo "   Documents: " . \Illuminate\Support\Facades\DB::table('documents')->count() . "\n";
+    echo "   Articles: " . \Illuminate\Support\Facades\DB::table('articles')->count() . "\n";
+    echo "   Gallery: " . \Illuminate\Support\Facades\DB::table('gallery_images')->count() . "\n";
 } catch (Exception $e) {
     echo "ERROR: " . $e->getMessage() . "\n";
 }
-ob_flush(); flush();
 
-// 7. Clear and cache
-echo "\n--- Step 7: Build Caches ---\n";
+// 8. Clear and cache
+echo "\n--- Step 8: Build Caches ---\n";
 try {
     Illuminate\Support\Facades\Artisan::call('config:clear');
     echo "OK: Config cleared.\n";
@@ -154,5 +270,4 @@ try {
 echo "\n========================================\n";
 echo "SETUP COMPLETE!\n";
 echo "DELETE THIS FILE for security!\n";
-echo "========================================\n";
-echo "</pre>";
+echo "========================================\n</pre>";
