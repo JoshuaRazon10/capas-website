@@ -77,6 +77,22 @@ if (file_exists($autoload)) {
     echo "</pre>";
     exit;
 }
+// 4.5 Regenerate autoloader on server
+echo "\n--- Step 4b: Regenerate Autoloader ---\n";
+$composerPhar = __DIR__ . '/../../composer.phar';
+if (file_exists($composerPhar)) {
+    $output = shell_exec("cd " . escapeshellarg(__DIR__ . '/..') . " && php " . escapeshellarg($composerPhar) . " dump-autoload --optimize 2>&1");
+    echo $output . "\n";
+    echo "OK: Autoloader regenerated.\n";
+} else {
+    // Try system composer
+    $output = shell_exec("cd " . escapeshellarg(__DIR__ . '/..') . " && composer dump-autoload --optimize 2>&1");
+    if ($output) {
+        echo $output . "\n";
+    } else {
+        echo "WARNING: composer not found. Autoloader may be stale.\n";
+    }
+}
 ob_flush(); flush();
 
 // 5. Bootstrap Laravel
