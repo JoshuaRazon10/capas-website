@@ -193,7 +193,8 @@ $staticContent .= "    );\n\n";
 $staticContent .= "    public static \$prefixDirsPsr4 = array(\n";
 foreach ($psr4 as $ns => $dirs_arr) {
     $staticContent .= "        '" . addslashes($ns) . "' => array(\n";
-    foreach ($dirs_arr as $d) $staticContent .= "            0 => " . makeRelStatic($d, $vendorNorm, $baseNorm) . ",\n";
+    $idx = 0;
+    foreach ($dirs_arr as $d) { $staticContent .= "            $idx => " . makeRelStatic($d, $vendorNorm, $baseNorm) . ",\n"; $idx++; }
     $staticContent .= "        ),\n";
 }
 $staticContent .= "    );\n\n";
