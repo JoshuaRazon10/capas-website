@@ -1,6 +1,7 @@
 import React from 'react'
 import { Container, Row, Col, Card, Badge } from 'react-bootstrap'
 import { FaUserAlt, FaScroll, FaUserTie, FaFacebookF } from 'react-icons/fa'
+import { useLocation } from 'react-router-dom'
 
 // Council Images
 import julietaImg from '../assets/images/council/Cabagan Jimenez.jpg'
@@ -17,7 +18,10 @@ import arcillaImg from '../assets/images/council/Seto Arcilla.jpg'
 import marleoImg from '../assets/images/council/Marleo Delos Reyes.jpg'
 
 const MunicipalCouncil = () => {
-  const allCouncilMembers = [
+  const location = useLocation()
+  const isCouncilPage = location.pathname === '/council'
+
+  const sbMembers = [
     { name: 'Hon. Julieta C. Jimenez', position: 'Municipal Councilor', image: julietaImg },
     { name: 'Hon. Ariel G. Batican', position: 'Municipal Councilor', image: arielImg },
     { name: 'Hon. Editha M. Yumul', position: 'Municipal Councilor', image: edithaImg },
@@ -29,9 +33,14 @@ const MunicipalCouncil = () => {
     { name: 'Hon. Victor Valantin', position: 'IPMR Representative', image: valantinImg },
     { name: 'Hon. Arnold Arcilla', position: 'ABC President', image: arcillaImg },
     { name: 'Hon. Marleo Delos Reyes', position: 'SK Federation President', image: marleoImg },
+  ]
+
+  const staffMembers = [
     { name: 'Atty. Catherine Rose Diaz Cunanan', position: 'Municipal Legal Officer', image: null },
     { name: 'Mahalia C. Bertillo', position: 'Officer-in-Charge, Municipal Public Information Office', image: null },
   ]
+
+  const displayMembers = isCouncilPage ? [...sbMembers, ...staffMembers] : sbMembers
 
   return (
     <div className="municipal-council-page py-5 bg-light min-vh-100">
@@ -41,7 +50,7 @@ const MunicipalCouncil = () => {
           <Row className="align-items-center position-relative">
             <Col lg={12} className="text-center">
               <span className="badge mb-3 px-3 py-2 text-uppercase letter-spacing-1" style={{ backgroundColor: 'var(--blue-logo)', color: 'white', borderRadius: '4px' }}>Legislative Branch</span>
-              <h1 className="fw-bold text-dark mb-3" style={{ fontSize: '3rem' }}>Municipal Council</h1>
+              <h1 className="fw-bold text-dark mb-3" style={{ fontSize: '3rem' }}>{isCouncilPage ? 'Municipal Council' : 'Sangguniang Bayan'}</h1>
               <p className="text-muted lead mb-4 mx-auto" style={{ maxWidth: '700px' }}>
                 The legislative heart of Capas, enacting laws and policies that empower our community 
                 and ensure sustainable progress for all.
@@ -59,7 +68,7 @@ const MunicipalCouncil = () => {
               </div>
               <div className="d-flex gap-4 justify-content-center">
                 <div className="text-center">
-                  <div className="h4 fw-bold mb-0" style={{ color: '#800000' }}>14</div>
+                  <div className="h4 fw-bold mb-0" style={{ color: '#800000' }}>{displayMembers.length + 1}</div>
                   <small className="text-muted text-uppercase">Members</small>
                 </div>
                 <div className="border-start ps-4">
@@ -98,7 +107,7 @@ const MunicipalCouncil = () => {
             Members
           </h2>
           <Row className="g-4 mb-5 justify-content-center">
-            {allCouncilMembers.map((member, idx) => (
+            {displayMembers.map((member, idx) => (
               <Col key={idx} sm={6} lg={4} xl={3}>
                 <Card className="border-0 shadow-sm h-100 rounded-4 hover-lift transition-all">
                   <div className="bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center" style={{ height: '250px' }}>
