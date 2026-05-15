@@ -171,7 +171,7 @@ function makeRel($p, $vn, $bn) {
 
 function makeRelStatic($p, $vn, $bn) {
     $p = str_replace('\\', '/', $p);
-    if (strpos($p, $vn) === 0) return "__DIR__ . '/../..' . '" . substr($p, strlen($vn)) . "'";
+    if (strpos($p, $vn) === 0) return "__DIR__ . '/..' . '" . substr($p, strlen($vn)) . "'";
     if (strpos($p, $bn) === 0) return "__DIR__ . '/../../..' . '" . substr($p, strlen($bn)) . "'";
     return "'" . addslashes($p) . "'";
 }
