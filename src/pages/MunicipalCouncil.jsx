@@ -25,6 +25,17 @@ const MunicipalCouncil = () => {
     { name: 'Hon. Alejandro T. Dueñas', position: 'Municipal Councilor', image: alejandroImg },
   ]
 
+  const exOfficioMembers = [
+    { name: 'Hon. Victor Valantin', position: 'IPMR Representative' },
+    { name: 'Hon. Arnold Arcilla', position: 'ABC President' },
+    { name: 'Hon. Marleo Delos Reyes', position: 'SK Federation President' },
+  ]
+
+  const sbStaff = [
+    { name: 'Atty. Catherine Rose Diaz Cunanan', position: 'SB Secretary' },
+    { name: 'Mahalia C. Bertillo', position: 'SB Staff' },
+  ]
+
   return (
     <div className="municipal-council-page py-5 bg-light min-vh-100">
       {/* Hero Section */}
@@ -33,7 +44,7 @@ const MunicipalCouncil = () => {
           <Row className="align-items-center position-relative">
             <Col lg={12} className="text-center">
               <span className="badge mb-3 px-3 py-2 text-uppercase letter-spacing-1" style={{ backgroundColor: 'var(--blue-logo)', color: 'white', borderRadius: '4px' }}>Legislative Branch</span>
-              <h1 className="fw-bold text-dark mb-3" style={{ fontSize: '3rem' }}>Sangguniang Bayan</h1>
+              <h1 className="fw-bold text-dark mb-3" style={{ fontSize: '3rem' }}>Municipal Council</h1>
               <p className="text-muted lead mb-4 mx-auto" style={{ maxWidth: '700px' }}>
                 The legislative heart of Capas, enacting laws and policies that empower our community 
                 and ensure sustainable progress for all.
@@ -51,7 +62,7 @@ const MunicipalCouncil = () => {
               </div>
               <div className="d-flex gap-4 justify-content-center">
                 <div className="text-center">
-                  <div className="h4 fw-bold mb-0" style={{ color: '#800000' }}>9</div>
+                  <div className="h4 fw-bold mb-0" style={{ color: '#800000' }}>14</div>
                   <small className="text-muted text-uppercase">Members</small>
                 </div>
                 <div className="border-start ps-4">
@@ -90,7 +101,6 @@ const MunicipalCouncil = () => {
             Municipal Councilors
           </h2>
           <Row className="g-4 mb-5 justify-content-center">
-            {/* 8 Elected Councilors */}
             {electedCouncilors.map((member, idx) => (
               <Col key={idx} sm={6} lg={4} xl={3}>
                 <Card className="border-0 shadow-sm h-100 rounded-4 hover-lift transition-all">
@@ -104,7 +114,56 @@ const MunicipalCouncil = () => {
                 </Card>
               </Col>
             ))}
+          </Row>
+        </section>
 
+        {/* Ex-Officio Members */}
+        <section className="mb-5">
+          <h2 className="fw-bold text-dark mb-4 d-flex align-items-center">
+            <span className="p-2 rounded me-3 d-flex align-items-center justify-content-center text-white" style={{ backgroundColor: 'var(--blue-logo)' }}>
+              <FaUserTie size={20} />
+            </span>
+            Ex-Officio Members
+          </h2>
+          <Row className="g-4 mb-5 justify-content-center">
+            {exOfficioMembers.map((member, idx) => (
+              <Col key={idx} sm={6} lg={4}>
+                <Card className="border-0 shadow-sm h-100 rounded-4 hover-lift transition-all">
+                  <div className="bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center" style={{ height: '200px' }}>
+                    <FaUserAlt size={60} className="text-muted opacity-25" />
+                  </div>
+                  <Card.Body className="text-center p-4">
+                    <h5 className="fw-bold text-dark mb-1">{member.name}</h5>
+                    <p className="text-muted small mb-0 text-uppercase letter-spacing-1">{member.position}</p>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        </section>
+
+        {/* SB Staff */}
+        <section className="mb-5">
+          <h2 className="fw-bold text-dark mb-4 d-flex align-items-center">
+            <span className="p-2 rounded me-3 d-flex align-items-center justify-content-center text-white" style={{ backgroundColor: '#475569' }}>
+              <FaUserAlt size={20} />
+            </span>
+            SB Staff
+          </h2>
+          <Row className="g-4 mb-5 justify-content-center">
+            {sbStaff.map((member, idx) => (
+              <Col key={idx} sm={6} lg={4}>
+                <Card className="border-0 shadow-sm h-100 rounded-4 hover-lift transition-all">
+                  <div className="bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center" style={{ height: '200px' }}>
+                    <FaUserAlt size={60} className="text-muted opacity-25" />
+                  </div>
+                  <Card.Body className="text-center p-4">
+                    <h5 className="fw-bold text-dark mb-1">{member.name}</h5>
+                    <p className="text-muted small mb-0 text-uppercase letter-spacing-1">{member.position}</p>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
           </Row>
         </section>
       </Container>
