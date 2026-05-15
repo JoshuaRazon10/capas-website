@@ -1,6 +1,10 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
   
+  # API requests → Laravel backend
+  RewriteCond %{REQUEST_URI} ^/api
+  RewriteRule ^(.*)$ backend/public/index.php [QSA,L,E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
   # Redirect everything to the dist folder
   RewriteRule ^$ dist/index.html [L]
   
