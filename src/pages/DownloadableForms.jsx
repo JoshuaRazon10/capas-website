@@ -75,7 +75,7 @@ const DownloadableForms = () => {
   const getFileUrl = (path) => {
     if (!path) return '#'
     if (path.startsWith('http') || path.startsWith('/')) return path
-    return `${API_BASE_URL.replace('/api', '')}/${path}`
+    return `${API_BASE_URL.replace('/api', '/storage')}/${path}`
   }
 
   // Define the desired order matching the user's screenshot
