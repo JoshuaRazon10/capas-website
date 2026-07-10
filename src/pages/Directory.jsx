@@ -283,9 +283,9 @@ const Directory = () => {
     { no: 11, name: 'Ricky M. Datu', position: 'Barangay Chairman', department: 'Manlapig', deptEmail: [], contact: ['09387929334'], personalEmail: [] },
     { no: '', name: 'Paul Angelo T. Mallari', position: 'SK Chairman', department: 'Manlapig', deptEmail: [], contact: ['09071008893'], personalEmail: [] },
     { no: '', name: 'Rogelio S. Beltran', position: 'Barangay Secretary', department: 'Manlapig', deptEmail: [], contact: ['09107234173'], personalEmail: [] },
-    { no: 12, name: 'Lota S. Guanlao', position: 'Barangay Chairman', department: 'Maruglo', deptEmail: [], contact: ['09302884765'], personalEmail: [] },
-    { no: '', name: 'Adrian F. Sanchez', position: 'SK Chairman', department: 'Maruglo', deptEmail: [], contact: ['09488125252'], personalEmail: [] },
-    { no: '', name: 'Elvie D. Mariano', position: 'Barangay Secretary', department: 'Maruglo', deptEmail: [], contact: ['09482618055'], personalEmail: [] },
+    { no: 12, name: 'Lota S. Guanlao', position: 'Barangay Chairman', department: 'Maruglu', deptEmail: [], contact: ['09302884765'], personalEmail: [] },
+    { no: '', name: 'Adrian F. Sanchez', position: 'SK Chairman', department: 'Maruglu', deptEmail: [], contact: ['09488125252'], personalEmail: [] },
+    { no: '', name: 'Elvie D. Mariano', position: 'Barangay Secretary', department: 'Maruglu', deptEmail: [], contact: ['09482618055'], personalEmail: [] },
     { no: 13, name: 'Wendell L. Mercado', position: 'Barangay Chairman', department: "O'Donnell", deptEmail: [], contact: ['09196084313'], personalEmail: [] },
     { no: '', name: 'Benedict S. Meniolas', position: 'SK Chairman', department: "O'Donnell", deptEmail: [], contact: ['09304332019'], personalEmail: [] },
     { no: '', name: 'Rose Ann D. Cadiang', position: 'Barangay Secretary', department: "O'Donnell", deptEmail: [], contact: ['09094614941'], personalEmail: [] },
@@ -570,7 +570,7 @@ const Directory = () => {
                     <Accordion flush className="mt-4 custom-school-accordion">
                       {[
                         'Aranguren', 'Bueno', 'Cristo Rey', 'Cubcub', 'Cut-Cut I', 'Cut-Cut II', 
-                        'Dolores', 'Estrada', 'Lawy', 'Manga', 'Manlapig', 'Maruglo', 
+                        'Dolores', 'Estrada', 'Lawy', 'Manga', 'Manlapig', 'Maruglu', 
                         "O'Donnell", 'Sta. Juliana', 'Sta. Lucia', 'Sta. Rita', 
                         'Sto. Domingo I', 'Sto. Domingo II', 'Sto. Rosario', 'Talaga'
                       ].map((brgy, idx) => {
